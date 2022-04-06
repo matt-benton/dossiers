@@ -1,92 +1,35 @@
-<script setup>
-import { ref } from 'vue'
-import BreezeDropdown from '@/Components/Dropdown.vue'
-import BreezeDropdownLink from '@/Components/DropdownLink.vue'
-import BreezeNavLink from '@/Components/NavLink.vue'
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
+<template>
+  <nav>
+    <Link :href="route('dashboard')"> Home </Link>
+
+    <!-- Navigation Links -->
+    <ul>
+      <li>
+        <Link :href="route('dashboard')"> Dashboard </Link>
+        <Link :href="route('people.index')"> People </Link>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Heading -->
+  <header class="bg-white shadow" v-if="$slots.header">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <slot name="header" />
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <main>
+    <slot />
+  </main>
+</template>
+
+<script>
 import { Link } from '@inertiajs/inertia-vue3'
 
-const showingNavigationDropdown = ref(false)
+export default {
+  components: {
+    Link,
+  },
+}
 </script>
-
-<template>
-  <div>
-    <div class="min-h-screen bg-gray-100">
-      <nav class="bg-white border-b border-gray-100">
-        <!-- Primary Navigation Menu -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between h-16">
-            <div class="flex">
-              <!-- Logo -->
-              <div class="shrink-0 flex items-center">
-                <Link :href="route('dashboard')"> Home </Link>
-              </div>
-
-              <!-- Navigation Links -->
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <BreezeNavLink
-                  :href="route('dashboard')"
-                  :active="route().current('dashboard')"
-                >
-                  Dashboard
-                </BreezeNavLink>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Responsive Navigation Menu -->
-        <div
-          :class="{
-            block: showingNavigationDropdown,
-            hidden: !showingNavigationDropdown,
-          }"
-          class="sm:hidden"
-        >
-          <div class="pt-2 pb-3 space-y-1">
-            <BreezeResponsiveNavLink
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
-            >
-              Dashboard
-            </BreezeResponsiveNavLink>
-          </div>
-
-          <!-- Responsive Settings Options -->
-          <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-              <div class="font-medium text-base text-gray-800">
-                {{ $page.props.auth.user.name }}
-              </div>
-              <div class="font-medium text-sm text-gray-500">
-                {{ $page.props.auth.user.email }}
-              </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-              <BreezeResponsiveNavLink
-                :href="route('logout')"
-                method="post"
-                as="button"
-              >
-                Log Out
-              </BreezeResponsiveNavLink>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Page Heading -->
-      <header class="bg-white shadow" v-if="$slots.header">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <slot name="header" />
-        </div>
-      </header>
-
-      <!-- Page Content -->
-      <main>
-        <slot />
-      </main>
-    </div>
-  </div>
-</template>
