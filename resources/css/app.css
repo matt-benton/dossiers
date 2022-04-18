@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  --black: #1a131e;
-  --white: #f5e8d2;
+  --purple-700: #1a131e;
+  --purple-500: #27202b;
+  --grey-500: #f5e8d2;
+  --grey-300: #f7f1e7;
 
   --fontBody: 'Roboto Mono', monospace;
   --fontHeader: 'Space Mono', monospace;
@@ -18,13 +20,19 @@
 
 /* COLORS AND THEMES */
 .dark {
-  background-color: var(--black);
-  color: var(--white);
+  --bgColor: var(--purple-700);
+  --inputBg: var(--purple-500);
+  --inputBorder: var(--grey-500);
+  --buttonBg: var(--purple-500);
+  --fontColor: var(--grey-500);
 }
 
 .light {
-  background-color: var(--white);
-  color: var(--black);
+  --bgColor: var(--grey-500);
+  --inputBg: var(--grey-300);
+  --inputBorder: var(--purple-500);
+  --buttonBg: var(--grey-300);
+  --fontColor: var(--purple-700);
 }
 
 /* RESET */
@@ -56,6 +64,8 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   font-family: var(--fontBody);
+  background-color: var(--bgColor);
+  color: var(--fontColor);
 }
 
 input,
@@ -63,6 +73,7 @@ button,
 textarea,
 select {
   font: inherit;
+  color: var(--fontColor);
 }
 
 /* TEXT */
@@ -86,4 +97,32 @@ small, .text-sm { font-size: var(--text-sm); }
 .container {
   max-width: 1000px;
   margin: 0 auto;
+}
+
+/* FORMS */
+input, select, textarea {
+  border: 2px solid var(--inputBorder);
+  border-radius: 3px;
+  background-color: var(--inputBg);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* BUTTONS */
+button {
+  background-color: var(--buttonBg);
+  border: 2px solid var(--inputBorder);
+  border-radius: 3px;
+}
+
+.btn-primary {
+  background-color: var(--fontColor);
+  color: var(--bgColor);
+}
+
+.btn-row {
+  display: flex;
 }

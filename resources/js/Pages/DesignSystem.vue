@@ -16,6 +16,29 @@
       est laborum.
     </p>
     <small>Small text</small>
+    <hr />
+    <h3>Forms and Inputs</h3>
+    <div class="form-group">
+      <label for="text-input">Text</label>
+      <input type="text" id="text-input" placeholder="Placeholder text" />
+    </div>
+    <div class="form-group">
+      <label for="select">Select</label>
+      <select id="select">
+        <option disabled selected>Please choose an option</option>
+        <option>First Option</option>
+        <option>Second Option</option>
+        <option>Third Option</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="textarea">Textarea</label>
+      <textarea id="textarea" placeholder="Fill out this please"></textarea>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn-primary">Primary</button>
+      <button type="button">Default</button>
+    </div>
   </div>
 </template>
 
