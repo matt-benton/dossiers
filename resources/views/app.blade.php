@@ -6,11 +6,13 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased">
+    <body class="light">
         @inertia
 
         @env ('local')

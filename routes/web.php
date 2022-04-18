@@ -33,5 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::resource('/people', PersonController::class);
 });
 
+Route::get('/design_system', function () {
+  return Inertia::render('DesignSystem');
+});
+
 
 require __DIR__.'/auth.php';
