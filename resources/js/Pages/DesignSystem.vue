@@ -7,15 +7,16 @@
     <h5>This is the design system</h5>
     <button type="button" @click="toggle">Toggle Light/Dark</button>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Arcu cursus vitae
-      congue mauris rhoncus aenean vel. Tincidunt lobortis feugiat vivamus at
-      augue eget arcu dictum. Velit laoreet id donec ultrices tincidunt.
-      Adipiscing at in tellus integer feugiat scelerisque varius morbi. Commodo
-      odio aenean sed adipiscing diam donec adipiscing tristique risus. Mi eget
-      mauris pharetra et ultrices. Turpis egestas maecenas pharetra convallis
-      posuere morbi leo urna. Congue mauris rhoncus aenean vel elit scelerisque.
-      Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.
+      Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
+      cursus vitae congue mauris rhoncus aenean vel. Tincidunt lobortis feugiat
+      vivamus at augue eget arcu dictum. Velit laoreet id donec ultrices
+      tincidunt. Adipiscing at in tellus integer feugiat scelerisque varius
+      morbi. Commodo odio aenean sed adipiscing diam donec adipiscing tristique
+      risus. Mi eget mauris pharetra et ultrices. Turpis egestas maecenas
+      pharetra convallis posuere morbi leo urna. Congue mauris rhoncus aenean
+      vel elit scelerisque. Ut enim blandit volutpat maecenas volutpat blandit
+      aliquam etiam.
     </p>
 
     <p>
