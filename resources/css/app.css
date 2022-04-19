@@ -5,6 +5,7 @@
   --purple-500: #27202b;
   --grey-500: #f5e8d2;
   --grey-300: #f7f1e7;
+  --aqua-500: #9dedcf;
 
   --fontBody: 'Roboto Mono', monospace;
   --fontHeader: 'Space Mono', monospace;
@@ -16,6 +17,23 @@
   --text-lg: 1.414rem;
   --text-base: 1rem;
   --text-sm: 0.707rem;
+
+  --size-px: 1px;
+  --size-1: 4px;
+  --size-2: 8px;
+  --size-3: 12px;
+  --size-4: 16px;
+  --size-5: 20px;
+  --size-6: 24px;
+  --size-7: 28px;
+  --size-8: 32px;
+  --size-9: 36px;
+  --size-10: 40px;
+  --size-11: 44px;
+  --size-12: 48px;
+  --size-14: 56px;
+  --size-16: 64px;
+
 }
 
 /* COLORS AND THEMES */
@@ -66,6 +84,7 @@ body {
   font-family: var(--fontBody);
   background-color: var(--bgColor);
   color: var(--fontColor);
+  padding-bottom: var(--size-16);
 }
 
 input,
@@ -93,6 +112,10 @@ h5, .text-lg { font-size: var(--text-lg); }
 .text-base { font-size: var(--text-base); }
 small, .text-sm { font-size: var(--text-sm); }
 
+p {
+  margin-bottom: var(--size-4);
+}
+
 /* LAYOUT */
 .container {
   max-width: 1000px;
@@ -106,9 +129,35 @@ input, select, textarea {
   background-color: var(--inputBg);
 }
 
+input[type="checkbox"] {
+  border: 2px solid var(--inputBorder);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: var(--inputBg);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  margin-right: var(--size-2);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--aqua-500);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
+  padding-bottom: var(--size-3);
+}
+
+.checkbox-group {
+  padding-bottom: var(--size-3);
+  display: flex;
+  align-items: flex-end;
 }
 
 /* BUTTONS */
@@ -125,4 +174,5 @@ button {
 
 .btn-row {
   display: flex;
+  gap: var(--size-2);
 }
