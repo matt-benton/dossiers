@@ -1,4 +1,5 @@
 <template>
+  <TheNavbar />
   <div class="container">
     <h1>This is the design system</h1>
     <h2>This is the design system</h2>
@@ -79,6 +80,8 @@
 </template>
 
 <script>
+import TheNavbar from '../Components/TheNavbar.vue'
+
 export default {
   methods: {
     toggle() {
@@ -92,6 +95,9 @@ export default {
         body.classList.add('light')
       }
     },
+  },
+  components: {
+    TheNavbar,
   },
 }
 </script>

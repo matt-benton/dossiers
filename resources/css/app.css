@@ -190,3 +190,9 @@ button:hover {
   display: flex;
   gap: var(--size-2);
 }
+
+/* ICONS */
+svg {
+  height: var(--size-5);
+  width: var(--size-5);
+}
