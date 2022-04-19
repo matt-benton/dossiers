@@ -48,6 +48,7 @@
   --buttonBg: var(--purple-500);
   --fontColor: var(--grey-500);
   --linkColor: var(--aqua-500);
+  --cardBg: var(--purple-500);
 }
 
 .light {
@@ -57,6 +58,7 @@
   --buttonBg: var(--grey-300);
   --fontColor: var(--purple-700);
   --linkColor: var(--aqua-900);
+  --cardBg: var(--grey-300);
 }
 
 /* RESET */
