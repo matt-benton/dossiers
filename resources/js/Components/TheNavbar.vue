@@ -12,6 +12,9 @@
       <div class="navbar-menu-right">
         <ul>
           <li>
+            <ThemeButton />
+          </li>
+          <li>
             <div class="dropdown">
               <div
                 class="dropdown-toggle"
@@ -40,6 +43,7 @@
 </template>
 <script>
 import ChevronDown from './Icons/ChevronDown.vue'
+import ThemeButton from './ThemeButton.vue'
 
 export default {
   data() {
@@ -56,6 +60,7 @@ export default {
   },
   components: {
     ChevronDown,
+    ThemeButton,
   },
 }
 </script>

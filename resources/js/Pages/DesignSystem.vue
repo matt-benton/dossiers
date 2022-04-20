@@ -8,7 +8,6 @@
       <h3>This is the design system</h3>
       <h4>This is the design system</h4>
       <h5>This is the design system</h5>
-      <button type="button" @click="toggle">Toggle Light/Dark</button>
       <p>
         Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
@@ -105,19 +104,6 @@ export default {
         },
       ],
     }
-  },
-  methods: {
-    toggle() {
-      let body = document.querySelector('body')
-      let bodyClass = body.classList[0]
-      body.classList.remove(bodyClass)
-
-      if (bodyClass === 'light') {
-        body.classList.add('dark')
-      } else {
-        body.classList.add('light')
-      }
-    },
   },
   components: {
     TheNavbar,

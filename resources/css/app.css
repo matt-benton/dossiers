@@ -188,6 +188,13 @@ button:hover {
   color: var(--bgColor);
 }
 
+/* This is not accessible if the button has no text - use with discretion. */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  border: none;
+}
+
 .btn-row {
   display: flex;
   gap: var(--size-2);
