@@ -1,6 +1,7 @@
 <template>
   <TheNavbar />
   <div class="container">
+    <Breadcrumb :links="breadcrumbLinks" />
     <h1>This is the design system</h1>
     <h2>This is the design system</h2>
     <h3>This is the design system</h3>
@@ -81,8 +82,27 @@
 
 <script>
 import TheNavbar from '../Components/TheNavbar.vue'
+import Breadcrumb from '../Components/Breadcrumb.vue'
 
 export default {
+  data() {
+    return {
+      breadcrumbLinks: [
+        {
+          url: '#',
+          title: 'Page 1',
+        },
+        {
+          url: '#',
+          title: 'Page 2',
+        },
+        {
+          title: 'Page 3',
+          active: true,
+        },
+      ],
+    }
+  },
   methods: {
     toggle() {
       let body = document.querySelector('body')
@@ -98,6 +118,7 @@ export default {
   },
   components: {
     TheNavbar,
+    Breadcrumb,
   },
 }
 </script>
