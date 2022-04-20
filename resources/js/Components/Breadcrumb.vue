@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav aria-label="Breadcrumb">
     <ol>
       <li v-for="link in links" :class="{ active: link.active }">
         <a v-if="link.url" :href="link.url">{{ link.title }}</a>

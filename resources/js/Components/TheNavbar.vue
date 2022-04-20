@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav aria-label="Main">
     <div class="brand">
       <h1 class="text-lg"><a href="#">Dossiers</a></h1>
     </div>
