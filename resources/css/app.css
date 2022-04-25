@@ -144,6 +144,18 @@ a {
   margin: 0 auto;
 }
 
+.col-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--size-3);
+}
+
+.col-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--size-3);
+}
+
 /* FORMS */
 input, select, textarea {
   border: 2px solid var(--inputBorder);

@@ -92,13 +92,17 @@
           scelerisque varius morbi. Commodo odio aenean sed adipiscing diam
           donec adipiscing tristique risus.
         </p>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" id="email" />
-        </div>
-        <div class="btn-row">
-          <button class="btn-primary" type="button">Accept</button>
-          <button type="button">Reject</button>
+        <div class="col-3">
+          <div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" id="email" value="mattbenton@hey.com" />
+            </div>
+            <div class="btn-row">
+              <button class="btn-primary" type="button">Accept</button>
+              <button type="button">Reject</button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
