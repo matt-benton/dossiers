@@ -10,6 +10,8 @@
   --grey-700: #ebd7b4;
   --grey-500: #f5e8d2;
   --grey-300: #f7f1e7;
+  --aqua-100: #d8f7ec;
+  --aqua-300: #bdf1de;
   --aqua-500: #9dedcf;
   --aqua-700: #65b598;
   --aqua-800: #4a9076;
@@ -58,6 +60,7 @@
   --buttonBg: var(--purple-500);
   --fontColor: var(--grey-500);
   --linkColor: var(--aqua-500);
+  --linkHighlight: var(--aqua-100);
   --cardBg: var(--purple-500);
 }
 
@@ -68,6 +71,7 @@
   --buttonBg: var(--grey-300);
   --fontColor: var(--purple-700);
   --linkColor: var(--aqua-900);
+  --linkHighlight: var(--aqua-700);
   --cardBg: var(--grey-700);
 }
 
@@ -136,6 +140,10 @@ p {
 
 a {
   color: var(--linkColor);
+}
+
+a:hover {
+  color: var(--linkHighlight);
 }
 
 /* LAYOUT */
