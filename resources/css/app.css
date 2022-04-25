@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+@import './components.css';
 
 :root {
-  --purple-700: #1a131e;
-  --purple-500: #27202b;
+  --purple-900: #1a131e;
+  --purple-700: #261d2c;
+  --purple-500: #2f2634;
+  --purple-400: #3d3243;
+  --purple-300: #463c4b;
+  --grey-700: #ebd7b4;
   --grey-500: #f5e8d2;
   --grey-300: #f7f1e7;
   --aqua-500: #9dedcf;
@@ -38,12 +43,17 @@
   --size-14: 56px;
   --size-16: 64px;
 
+  /* BORDER RADIUS */
+  --rounded-none: 0;
+  --rounded-sm: 3px;
+  --rounded-md: 8px;
+  --rounded-lg: 25px;
 }
 
 /* COLORS AND THEMES */
 .dark {
-  --bgColor: var(--purple-700);
-  --inputBg: var(--purple-500);
+  --bgColor: var(--purple-900);
+  --inputBg: var(--purple-700);
   --inputBorder: var(--grey-500);
   --buttonBg: var(--purple-500);
   --fontColor: var(--grey-500);
@@ -58,7 +68,7 @@
   --buttonBg: var(--grey-300);
   --fontColor: var(--purple-700);
   --linkColor: var(--aqua-900);
-  --cardBg: var(--grey-300);
+  --cardBg: var(--grey-700);
 }
 
 /* RESET */
@@ -92,7 +102,7 @@ body {
   font-family: var(--fontBody);
   background-color: var(--bgColor);
   color: var(--fontColor);
-  padding-bottom: var(--size-16);
+  padding-bottom: 200px;
 }
 
 input,
@@ -137,7 +147,7 @@ a {
 /* FORMS */
 input, select, textarea {
   border: 2px solid var(--inputBorder);
-  border-radius: 3px;
+  border-radius: var(--rounded-sm);
   background-color: var(--inputBg);
 }
 
@@ -176,7 +186,7 @@ input[type="checkbox"]:checked {
 button {
   background-color: var(--buttonBg);
   border: 2px solid var(--inputBorder);
-  border-radius: 3px;
+  border-radius: var(--rounded-sm);
 }
 
 button:hover {

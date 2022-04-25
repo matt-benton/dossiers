@@ -78,6 +78,29 @@
         <button type="button" class="btn-primary">Primary</button>
         <button type="button">Default</button>
       </div>
+
+      <hr />
+
+      <div class="card">
+        <h3>This is a card</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
+          cursus vitae congue mauris rhoncus aenean vel. Tincidunt lobortis
+          feugiat vivamus at augue eget arcu dictum. Velit laoreet id donec
+          ultrices tincidunt. Adipiscing at in tellus integer feugiat
+          scelerisque varius morbi. Commodo odio aenean sed adipiscing diam
+          donec adipiscing tristique risus.
+        </p>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" />
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" type="button">Accept</button>
+          <button type="button">Reject</button>
+        </div>
+      </div>
     </main>
   </div>
 </template>
