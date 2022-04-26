@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
 @import './components.css';
+@import './utilities.css';
 
 :root {
   --purple-900: #1a131e;
@@ -10,6 +11,7 @@
   --grey-700: #ebd7b4;
   --grey-500: #f5e8d2;
   --grey-300: #f7f1e7;
+  --grey-100: #fcf5e8;
   --aqua-100: #d8f7ec;
   --aqua-300: #bdf1de;
   --aqua-500: #9dedcf;
@@ -17,6 +19,9 @@
   --aqua-800: #4a9076;
   --aqua-900: #156065;
   --orange-500: #db8120;
+  --red-700: #af3030;
+  --red-500: #ca3e3e;
+  --red-300: #eb5a5a;
 
   --fontBody: 'Roboto Mono', monospace;
   --fontHeader: 'Space Mono', monospace;
@@ -62,6 +67,9 @@
   --linkColor: var(--aqua-500);
   --linkHighlight: var(--aqua-100);
   --cardBg: var(--purple-500);
+
+  --colorDanger: var(--red-300);
+  --borderDanger: var(--colorDanger);
 }
 
 .light {
@@ -72,7 +80,10 @@
   --fontColor: var(--purple-700);
   --linkColor: var(--aqua-900);
   --linkHighlight: var(--aqua-700);
-  --cardBg: var(--grey-700);
+  --cardBg: var(--grey-100);
+
+  --colorDanger: var(--red-700);
+  --borderDanger: var(--colorDanger);
 }
 
 /* RESET */
@@ -146,6 +157,10 @@ a:hover {
   color: var(--linkHighlight);
 }
 
+.text-danger {
+  color: var(--colorDanger);
+}
+
 /* LAYOUT */
 .container {
   max-width: 1000px;
@@ -169,6 +184,7 @@ input, select, textarea {
   border: 2px solid var(--inputBorder);
   border-radius: var(--rounded-sm);
   background-color: var(--inputBg);
+  width: 100%;
 }
 
 input[type="checkbox"] {
@@ -202,14 +218,15 @@ input[type="checkbox"]:checked {
   align-items: flex-end;
 }
 
+.border-danger {
+  border-color: var(--borderDanger);
+}
+
 /* BUTTONS */
 button {
   background-color: var(--buttonBg);
   border: 2px solid var(--inputBorder);
   border-radius: var(--rounded-sm);
-}
-
-button:hover {
   cursor: pointer;
 }
 

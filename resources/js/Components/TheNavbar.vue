@@ -1,9 +1,9 @@
 <template>
   <nav aria-label="Main">
     <div class="brand">
-      <h1 class="text-lg"><a href="#">Dossiers</a></h1>
+      <h1 class="text-lg"><Link href="/">Dossiers</Link></h1>
     </div>
-    <div class="navbar-menu">
+    <div class="navbar-menu" v-if="user">
       <div class="navbar-menu-left">
         <ul>
           <li v-for="n in 3"><a href="#">Nav Link</a></li>
@@ -20,12 +20,13 @@
                 class="dropdown-toggle"
                 @click="accountDropDownVisible = true"
               >
-                johndoe@test.com <ChevronDown />
+                {{ $page.props.auth.user.email }} <ChevronDown />
               </div>
               <ul class="dropdown-menu" v-show="accountDropDownVisible">
                 <li><a href="#">Dropdown Link</a></li>
                 <li><a href="#">Dropdown Link</a></li>
-                <li><a href="#">Dropdown Link</a></li>
+                <li><Link href="/design_system">Design System</Link></li>
+                <li><Link href="/logout">Log out</Link></li>
               </ul>
             </div>
             <Teleport to="body">
@@ -44,6 +45,7 @@
 <script>
 import ChevronDown from './Icons/ChevronDown.vue'
 import ThemeButton from './ThemeButton.vue'
+import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
   data() {
@@ -61,6 +63,12 @@ export default {
   components: {
     ChevronDown,
     ThemeButton,
+    Link,
+  },
+  props: {
+    user: {
+      type: Object,
+    },
   },
 }
 </script>

@@ -1,12 +1,22 @@
-<script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
+<script>
+import Layout from '@/Layouts/Authenticated.vue'
 import { Head } from '@inertiajs/inertia-vue3'
+import TheNavbar from '../Components/TheNavbar.vue'
+
+export default {
+  components: {
+    TheNavbar,
+    Head,
+    Layout,
+  },
+}
 </script>
 
 <template>
   <Head title="Dashboard" />
+  <TheNavbar :user="$page.props.auth.user" />
 
-  <BreezeAuthenticatedLayout>
+  <Layout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Dashboard
@@ -22,5 +32,5 @@ import { Head } from '@inertiajs/inertia-vue3'
         </div>
       </div>
     </div>
-  </BreezeAuthenticatedLayout>
+  </Layout>
 </template>

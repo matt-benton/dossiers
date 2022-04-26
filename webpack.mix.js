@@ -16,6 +16,7 @@ mix
   .vue()
   .postCss('resources/css/app.css', 'public/css')
   .webpackConfig(require('./webpack.config'))
+  .disableSuccessNotifications()
 
 if (mix.inProduction()) {
   mix.version()

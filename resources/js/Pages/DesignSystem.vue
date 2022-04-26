@@ -1,5 +1,6 @@
 <template>
-  <TheNavbar />
+  <Head title="Design System" />
+  <TheNavbar :user="{}" />
   <div class="container">
     <main>
       <Breadcrumb :links="breadcrumbLinks" />
@@ -74,6 +75,11 @@
         <input type="checkbox" id="checkbox" />
         <label for="checkbox">Checkbox</label>
       </div>
+      <div class="form-group">
+        <label for="phone">Phone #</label>
+        <input type="text" class="border-danger" id="phone" />
+        <span class="text-danger">Uh oh! Something went wrong here.</span>
+      </div>
       <div class="btn-row">
         <button type="button" class="btn-primary">Primary</button>
         <button type="button">Default</button>
@@ -113,6 +119,7 @@
 <script>
 import TheNavbar from '../Components/TheNavbar.vue'
 import Breadcrumb from '../Components/Breadcrumb.vue'
+import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
   data() {
@@ -136,6 +143,7 @@ export default {
   components: {
     TheNavbar,
     Breadcrumb,
+    Head,
   },
 }
 </script>

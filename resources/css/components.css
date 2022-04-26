@@ -3,3 +3,13 @@
   padding: var(--size-5);
   border-radius: var(--rounded-md);
 }
+
+.center-container-xs {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.center-container-sm {
+  width: 600px;
+  margin: 0 auto;
+}
