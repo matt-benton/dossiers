@@ -6,6 +6,7 @@
     <div class="navbar-menu" v-if="user">
       <div class="navbar-menu-left">
         <ul>
+          <li><Link href="/people">People</Link></li>
           <li v-for="n in 3"><a href="#">Nav Link</a></li>
         </ul>
       </div>

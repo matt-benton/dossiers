@@ -1,15 +1,5 @@
 <template>
-  <nav>
-    <Link :href="route('dashboard')"> Home </Link>
-
-    <!-- Navigation Links -->
-    <ul>
-      <li>
-        <Link :href="route('dashboard')"> Dashboard </Link>
-        <Link :href="route('people.index')"> People </Link>
-      </li>
-    </ul>
-  </nav>
+  <TheNavbar :user="$page.props.auth.user" />
 
   <!-- Page Heading -->
   <header class="bg-white shadow" v-if="$slots.header">
@@ -26,10 +16,12 @@
 
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
+import TheNavbar from '../Components/TheNavbar.vue'
 
 export default {
   components: {
     Link,
+    TheNavbar,
   },
 }
 </script>

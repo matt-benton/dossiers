@@ -14,7 +14,6 @@ export default {
 
 <template>
   <Head title="Dashboard" />
-  <TheNavbar :user="$page.props.auth.user" />
 
   <Layout>
     <template #header>

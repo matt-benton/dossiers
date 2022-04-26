@@ -65,7 +65,7 @@
   --inputBg: var(--purple-700);
   --inputBorder: var(--grey-500);
   --buttonBg: var(--purple-500);
-  --fontColor: var(--grey-500);
+  --textColor: var(--grey-500);
   --linkColor: var(--aqua-500);
   --linkHighlight: var(--aqua-100);
   --cardBg: var(--purple-500);
@@ -80,7 +80,7 @@
   --inputBg: var(--grey-300);
   --inputBorder: var(--purple-500);
   --buttonBg: var(--grey-300);
-  --fontColor: var(--purple-700);
+  --textColor: var(--purple-700);
   --linkColor: var(--aqua-900);
   --linkHighlight: var(--aqua-700);
   --cardBg: var(--grey-100);
@@ -120,7 +120,7 @@ body {
   line-height: 1.5;
   font-family: var(--fontBody);
   background-color: var(--bgColor);
-  color: var(--fontColor);
+  color: var(--textColor);
   padding-bottom: 200px;
 }
 
@@ -129,7 +129,7 @@ button,
 textarea,
 select {
   font: inherit;
-  color: var(--fontColor);
+  color: var(--textColor);
 }
 
 /* TEXT */
@@ -235,7 +235,7 @@ button {
 }
 
 .btn-primary {
-  background-color: var(--fontColor);
+  background-color: var(--textColor);
   color: var(--bgColor);
 }
 
