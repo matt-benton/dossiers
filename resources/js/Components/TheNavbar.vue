@@ -20,7 +20,7 @@
                 class="dropdown-toggle"
                 @click="accountDropDownVisible = true"
               >
-                {{ $page.props.auth.user.email }} <ChevronDown />
+                {{ user.email }} <ChevronDown />
               </div>
               <ul class="dropdown-menu" v-show="accountDropDownVisible">
                 <li><a href="#">Dropdown Link</a></li>

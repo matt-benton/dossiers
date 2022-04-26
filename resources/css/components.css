@@ -4,6 +4,12 @@
   border-radius: var(--rounded-md);
 }
 
+.alert {
+  background-color: var(--infoBg);
+  padding: var(--size-3) var(--size-5);
+  border-radius: var(--rounded-md);
+}
+
 .center-container-xs {
   width: 400px;
   margin: 0 auto;

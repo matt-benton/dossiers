@@ -112,6 +112,10 @@
           </div>
         </div>
       </div>
+
+      <hr />
+
+      <div class="alert">Hey, you need to read this!</div>
     </main>
   </div>
 </template>

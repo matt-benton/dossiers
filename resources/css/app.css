@@ -22,6 +22,8 @@
   --red-700: #af3030;
   --red-500: #ca3e3e;
   --red-300: #eb5a5a;
+  --blue-300: #c5eded;
+  --blue-700: #184f4f;
 
   --fontBody: 'Roboto Mono', monospace;
   --fontHeader: 'Space Mono', monospace;
@@ -67,6 +69,7 @@
   --linkColor: var(--aqua-500);
   --linkHighlight: var(--aqua-100);
   --cardBg: var(--purple-500);
+  --infoBg: var(--blue-700);
 
   --colorDanger: var(--red-300);
   --borderDanger: var(--colorDanger);
@@ -81,6 +84,7 @@
   --linkColor: var(--aqua-900);
   --linkHighlight: var(--aqua-700);
   --cardBg: var(--grey-100);
+  --infoBg: var(--blue-300);
 
   --colorDanger: var(--red-700);
   --borderDanger: var(--colorDanger);
