@@ -2,7 +2,7 @@
   <nav aria-label="Breadcrumb">
     <ol>
       <li v-for="link in links" :class="{ active: link.active }">
-        <a v-if="link.url" :href="link.url">{{ link.title }}</a>
+        <Link v-if="link.url" :href="link.url">{{ link.title }}</Link>
         <span v-else>{{ link.title }}</span>
       </li>
     </ol>
@@ -10,12 +10,17 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3'
+
 export default {
   props: {
     links: {
       required: true,
       type: Array,
     },
+  },
+  components: {
+    Link,
   },
 }
 </script>

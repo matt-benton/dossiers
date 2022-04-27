@@ -10,7 +10,9 @@
 
   <!-- Page Content -->
   <main>
-    <slot />
+    <div class="container">
+      <slot />
+    </div>
   </main>
 </template>
 

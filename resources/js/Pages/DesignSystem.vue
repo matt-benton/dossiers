@@ -115,6 +115,8 @@
 
       <hr />
 
+      <h3>Alerts</h3>
+
       <div class="alert">Hey, you need to read this!</div>
     </main>
   </div>

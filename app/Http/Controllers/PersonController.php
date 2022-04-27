@@ -39,6 +39,13 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
+      $request->validate([
+        'name' => 'required|max:255',
+        'relationship' => 'max:255',
+        'birthmonth' => 'nullable|between:1,12',
+        'birthday' => 'nullable|between:1,31',
+      ]);
+
       $person = new Person;
       $person->name = $request->name;
       $person->relationship = $request->relationship;

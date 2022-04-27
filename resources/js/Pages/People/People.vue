@@ -1,4 +1,5 @@
 <template>
+  <Head title="People" />
   <Authenticated>
     <div class="center-container-sm">
       <h2 class="text-lg">People</h2>
@@ -23,7 +24,7 @@
 <script>
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Cake from '../../Components/Icons/Cake.vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link, Head } from '@inertiajs/inertia-vue3'
 
 export default {
   methods: {
@@ -35,6 +36,7 @@ export default {
     Authenticated,
     Link,
     Cake,
+    Head,
   },
   props: ['people'],
 }
