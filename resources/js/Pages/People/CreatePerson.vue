@@ -38,7 +38,7 @@
                 id="birthmonth"
                 :class="{ 'border-danger': form.errors.birthmonth }"
               >
-                <option v-for="(month, index) in months" :value="index - 1">
+                <option v-for="(month, index) in months" :value="index + 1">
                   {{ month }}
                 </option>
               </select>

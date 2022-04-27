@@ -53,7 +53,7 @@ class PersonController extends Controller
       $person->birthday = $request->birthday;
       Auth::user()->people()->save($person);
 
-      return Redirect::route('people.index');
+      return Redirect::route('people.index')->with('message', "{$person->name} added successfully.");
     }
 
     /**

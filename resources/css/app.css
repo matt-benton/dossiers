@@ -122,6 +122,7 @@ body {
   background-color: var(--bgColor);
   color: var(--textColor);
   padding-bottom: 200px;
+  overflow: hidden;
 }
 
 input,
