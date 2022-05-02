@@ -10,8 +10,8 @@
   --purple-300: #463c4b;
   --grey-700: #ebd7b4;
   --grey-500: #f5e8d2;
-  --grey-300: #f7f1e7;
-  --grey-100: #fcf5e8;
+  --grey-300: #fcf5e8;
+  --grey-100: #fcfaf7;
   --aqua-100: #d8f7ec;
   --aqua-300: #bdf1de;
   --aqua-500: #9dedcf;
@@ -59,7 +59,7 @@
   --rounded-lg: 25px;
 }
 
-/* COLORS AND THEMES */
+/* COLOR THEMES */
 .dark {
   --bgColor: var(--purple-900);
   --inputBg: var(--purple-700);
@@ -83,7 +83,7 @@
   --textColor: var(--purple-700);
   --linkColor: var(--aqua-900);
   --linkHighlight: var(--aqua-700);
-  --cardBg: var(--grey-100);
+  --cardBg: var(--grey-300);
   --infoBg: var(--blue-300);
 
   --colorDanger: var(--red-700);
@@ -122,7 +122,6 @@ body {
   background-color: var(--bgColor);
   color: var(--textColor);
   padding-bottom: 200px;
-  overflow: hidden;
 }
 
 input,
@@ -228,11 +227,16 @@ input[type="checkbox"]:checked {
 }
 
 /* BUTTONS */
-button {
+button, .btn {
   background-color: var(--buttonBg);
   border: 2px solid var(--inputBorder);
   border-radius: var(--rounded-sm);
   cursor: pointer;
+  text-decoration: none;
+  color: var(--textColor);
+  font-size: var(--text-base);
+  padding: var(--size-px) var(--size-1);
+  display: inline-block;
 }
 
 .btn-primary {
@@ -242,9 +246,12 @@ button {
 
 /* This is not accessible if the button has no text - use with discretion. */
 .btn-icon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  border: none;
+}
+
+.btn-icon > *:first-child {
+  margin-right: var(--size-2);
 }
 
 .btn-row {

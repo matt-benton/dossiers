@@ -95,7 +95,7 @@ export default {
           title: 'People',
         },
         {
-          title: 'Create Person',
+          title: 'Add Person',
         },
       ],
       months: [

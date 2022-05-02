@@ -64,7 +64,11 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-        //
+      if ($person->user_id !== Auth::user()->id) {
+        abort(404);
+      }
+
+      return inertia('People/ShowPerson')->with(['person' => $person]);
     }
 
     /**

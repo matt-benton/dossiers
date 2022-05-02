@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn-icon" @click="changeTheme">
+  <button type="button" class="btn-icon no-border" @click="changeTheme">
     <Sun v-if="theme === 'light'" />
     <Moon v-else-if="theme === 'dark'" />
     <span v-else>OS</span> Theme
@@ -79,9 +79,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-button > *:first-child {
-  margin-right: var(--size-2);
-}
-</style>
