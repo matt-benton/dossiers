@@ -14,6 +14,11 @@ export default {
   data() {
     return { alertVisible: false }
   },
+  watch: {
+    message() {
+      this.flashAlert()
+    },
+  },
   setup() {
     const message = computed(() => usePage().props.value.flash.message)
     return { message }

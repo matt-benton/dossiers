@@ -10,6 +10,16 @@ use Redirect;
 class PersonController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Person::class, 'person');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -64,10 +74,6 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-      if ($person->user_id !== Auth::user()->id) {
-        abort(404);
-      }
-
       return inertia('People/ShowPerson')->with(['person' => $person]);
     }
 
@@ -79,7 +85,7 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        //
+      return inertia('People/EditPerson')->with(['person' => $person]);
     }
 
     /**
@@ -91,7 +97,20 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
-        //
+      $request->validate([
+        'name' => 'required|max:255',
+        'relationship' => 'max:255',
+        'birthmonth' => 'nullable|between:1,12',
+        'birthday' => 'nullable|between:1,31',
+      ]);
+
+      $person->name = $request->name;
+      $person->relationship = $request->relationship;
+      $person->birthmonth = $request->birthmonth;
+      $person->birthday = $request->birthday;
+      $person->save();
+
+      return redirect()->back()->with('message', "Info for {$request->name} updated.");
     }
 
     /**
