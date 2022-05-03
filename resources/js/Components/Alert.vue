@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .alert {
-  position: absolute;
+  position: fixed;
   left: 50%;
   bottom: var(--size-6);
   transform: translate(-50%, 0);
