@@ -71,7 +71,10 @@
         </form>
       </div>
     </div>
-    <Modal :visible="deleteModalVisible">
+    <Modal
+      :visible="deleteModalVisible"
+      v-on:modal-closed="deleteModalVisible = false"
+    >
       <p>Remove {{ person.name }}?</p>
       <div class="btn-row flex justify-end">
         <button type="button" class="btn-primary" @click="confirmDelete">
