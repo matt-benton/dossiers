@@ -118,6 +118,19 @@
       <h3>Alerts</h3>
 
       <div class="alert">Hey, you need to read this!</div>
+
+      <hr />
+
+      <h3>Modal</h3>
+      <button type="button" @click="modalVisible = true">Show Modal</button>
+      <Modal :visible="modalVisible" v-on:modal-closed="modalVisible = false">
+        <h3>Modal Title</h3>
+        <p>Here is an important message that you need to know</p>
+        <div class="btn-row">
+          <button class="btn-primary">Accept</button>
+          <button @click="modalVisible = false">Close</button>
+        </div>
+      </Modal>
     </main>
   </div>
 </template>
@@ -125,6 +138,7 @@
 <script>
 import TheNavbar from '../Components/TheNavbar.vue'
 import Breadcrumb from '../Components/Breadcrumb.vue'
+import Modal from '../Components/Modal.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
@@ -144,12 +158,14 @@ export default {
           active: true,
         },
       ],
+      modalVisible: false,
     }
   },
   components: {
     TheNavbar,
     Breadcrumb,
     Head,
+    Modal,
   },
 }
 </script>

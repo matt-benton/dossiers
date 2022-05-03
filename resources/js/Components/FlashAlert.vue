@@ -1,14 +1,13 @@
 <template>
-  <Transition>
-    <div v-if="alertVisible" class="alert">
-      {{ message }}
-    </div>
-  </Transition>
+  <Alert :visible="alertVisible">
+    {{ message }}
+  </Alert>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/inertia-vue3'
+import Alert from './Alert.vue'
 
 export default {
   data() {
@@ -34,20 +33,8 @@ export default {
       setTimeout(() => (this.alertVisible = false), 4000)
     },
   },
+  components: {
+    Alert,
+  },
 }
 </script>
-
-<style scoped>
-.alert {
-  position: absolute;
-  left: 50%;
-  bottom: var(--size-6);
-  transform: translate(-50%, 0);
-  transition: transform 0.4s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  transform: translate(-50%, 150%);
-}
-</style>
