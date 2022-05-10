@@ -16,6 +16,11 @@ class Person extends Model
       return $this->belongsTo(User::class);
     }
 
+    public function occurrences()
+    {
+      return $this->morphToMany(Occurrence::class, 'occurrentable');
+    }
+
     public function getBirthmonthTextAttribute()
     {
       $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

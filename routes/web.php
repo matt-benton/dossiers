@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\OccurrenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   })->name('dashboard');
 
   Route::resource('/people', PersonController::class);
+  Route::resource('/occurrences', OccurrenceController::class)->only(['store', 'destroy']);
 });
 
 Route::get('/design_system', function () {

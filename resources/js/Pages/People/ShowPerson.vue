@@ -1,4 +1,5 @@
 <template>
+  <Head :title="person.name" />
   <Authenticated>
     <Breadcrumb :links="breadcrumbLinks" />
     <h2>{{ person.name }}</h2>
@@ -9,11 +10,14 @@
     <Link :href="`/people/${person.id}/edit`" class="btn btn-icon"
       ><Pencil /> Update</Link
     >
+    <ul v-if="person.occurrences">
+      <li v-for="occ in person.occurrences">{{ occ.description }}</li>
+    </ul>
   </Authenticated>
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link, Head } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Cake from '../../Components/Icons/Cake.vue'
@@ -45,6 +49,7 @@ export default {
     Cake,
     Pencil,
     Link,
+    Head,
   },
 }
 </script>

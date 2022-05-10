@@ -70,8 +70,6 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'

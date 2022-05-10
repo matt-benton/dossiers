@@ -74,6 +74,8 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
+      $person->load('occurrences');
+
       return inertia('People/ShowPerson')->with(['person' => $person]);
     }
 
