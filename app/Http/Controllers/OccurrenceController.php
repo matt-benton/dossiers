@@ -3,52 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Occurrence;
-use Illuminate\Http\Request;
+use App\Services\PersonService;
+use App\Http\Requests\StoreOccurrenceRequest;
 use Auth;
 
 class OccurrenceController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @param  PersonService  $personService
+     * @return void
+     */
+    public function __construct(PersonService $personService)
+    {
+        $this->personService = $personService;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOccurrenceRequest $request)
     {
-        $words = explode(' ', $request->description);
         $people = Auth::user()->people()->select(['id', 'name'])->get();
 
-        $selectedPeopleIds = [];
-        $matchingPeople = [];
-        $matchText = '';
-
-        foreach ($words as $word) {
-          if (substr($word, 0, 1) === '@') {
-            // @ tells us this is the first word for selecting a person
-            $matchText = substr($word, 1);
-          } else if (count($matchingPeople) > 0) {
-            // previous words have failed to narrow down a match
-            // so we are adding the current word to the string
-            $matchText .= " {$word}";
-          } else {
-            // we are not currently in a person search string
-            continue;
-          }
-
-          // filter people based on our string of text
-          $matchingPeople = $people->filter(function ($person) use ($matchText) {
-            return str_contains(strtoupper($person->name), strtoupper($matchText));
-          });
-
-          // if we have 1 person left then that's our match
-          if (count($matchingPeople) === 1) {
-            $matchingPerson = $matchingPeople->first();
-            array_push($selectedPeopleIds, $matchingPerson->id);
-            $matchingPeople = [];
-            $matchText = '';
-          }
-        }
+        $parsedPersonIds = $this->personService->findPeopleInString($request->description, $people);
 
         // ! (probably should add index to peoples names)
 
@@ -58,7 +40,9 @@ class OccurrenceController extends Controller
         $occurrence->save();
 
         // attach people
-        $occurrence->people()->attach($selectedPeopleIds);
+        $occurrence->people()->attach($parsedPersonIds);
+
+        return redirect()->back()->with('message', "Event added successfully.");
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiPersonController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::resource('/people', PersonController::class);
   Route::resource('/occurrences', OccurrenceController::class)->only(['store', 'destroy']);
+
+  Route::prefix('api')->group(function () {
+    Route::resource('/people', ApiPersonController::class);
+  });
 });
 
 Route::get('/design_system', function () {
