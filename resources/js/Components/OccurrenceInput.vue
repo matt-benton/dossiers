@@ -49,6 +49,12 @@ let search = reactive({
 
 const submitForm = function () {
   form.post('/occurrences')
+  resetForm()
+}
+
+const resetForm = function () {
+  form.description = ''
+  document.querySelector('#occurrence_text').value = ''
 }
 
 const onInput = function (event) {
@@ -112,6 +118,11 @@ const onKeydown = function (event) {
       event.preventDefault()
       selectPerson(event, search.results[0])
     }
+  }
+
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    submitForm()
   }
 }
 
