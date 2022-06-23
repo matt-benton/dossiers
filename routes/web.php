@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::resource('/people', PersonController::class);
   Route::resource('/occurrences', OccurrenceController::class)->only(['store', 'destroy']);
 
-  Route::prefix('api')->group(function () {
+  Route::prefix('api')->name('api.')->group(function () {
     Route::resource('/people', ApiPersonController::class);
   });
 });

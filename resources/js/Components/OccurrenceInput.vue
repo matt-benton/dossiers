@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="submitForm">
-    {{ search.text }}
     <label for="occurrence_text">What's happening?</label>
     <textarea
       id="occurrence_text"
@@ -29,8 +28,6 @@
       </li>
     </ul>
   </form>
-
-  <h2>{{ search.text }}</h2>
 </template>
 
 <script setup>
