@@ -173,6 +173,10 @@ a:hover {
   margin: 0 auto;
 }
 
+.row {
+  margin-bottom: var(--size-5);
+}
+
 .col-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
