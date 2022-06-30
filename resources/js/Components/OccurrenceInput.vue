@@ -18,12 +18,13 @@
       </span>
       <button>Save</button>
     </div>
-    <ul v-show="search.results.length > 0">
+    <ul v-show="search.results.length > 0" id="search-results-list">
       <li
         v-for="person in search.results"
         :key="person.id"
         @click="selectPerson($event, person)"
       >
+        <Person />
         {{ person.name }}
       </li>
     </ul>
@@ -33,6 +34,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3'
 import { reactive } from 'vue'
+import Person from './Icons/Person.vue'
 
 const form = useForm({
   description: '',
@@ -181,3 +183,36 @@ const getStartOfTextDifference = function (oldText, newText) {
   return oldText.length
 }
 </script>
+
+<style scoped>
+form {
+  position: relative;
+}
+
+#search-results-list {
+  position: absolute;
+  background-color: var(--cardBg);
+  top: 70px;
+  border: 2px solid var(--inputBorder);
+  border-radius: var(--rounded-md);
+  padding: var(--size-1) 0;
+  list-style-type: none;
+}
+
+#search-results-list li {
+  padding: var(--size-1) var(--size-5);
+  display: flex;
+  align-items: center;
+}
+
+#search-results-list li:hover {
+  cursor: pointer;
+  background-color: var(--bgHighlight);
+}
+
+#search-results-list svg {
+  height: var(--text-base);
+  width: var(--text-base);
+  margin-right: var(--size-2);
+}
+</style>

@@ -70,6 +70,7 @@
   --linkHighlight: var(--aqua-100);
   --cardBg: var(--purple-500);
   --infoBg: var(--blue-700);
+  --bgHighlight: var(--aqua-900);
 
   --colorDanger: var(--red-300);
   --borderDanger: var(--colorDanger);
@@ -85,6 +86,7 @@
   --linkHighlight: var(--aqua-700);
   --cardBg: var(--grey-300);
   --infoBg: var(--blue-300);
+  --bgHighlight: var(--aqua-300);
 
   --colorDanger: var(--red-700);
   --borderDanger: var(--colorDanger);

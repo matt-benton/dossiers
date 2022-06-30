@@ -28,6 +28,7 @@ class ApiPersonController extends Controller
 
       $people = Auth::user()->people()
         ->where('name', 'like', "%{$search}%")
+        ->orderBy('name')
         ->get();
 
       return response()->json(['people' => $people]);
