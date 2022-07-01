@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiPersonController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,10 +20,7 @@ use App\Http\Controllers\OccurrenceController;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-  Route::get('/', function () {
-      return Inertia::render('Dashboard');
-  })->name('dashboard');
-
+  Route::get('/', DashboardController::class)->name('dashboard');
   Route::resource('/people', PersonController::class);
   Route::resource('/occurrences', OccurrenceController::class)->only(['store', 'destroy']);
 
