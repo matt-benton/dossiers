@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn-icon no-border" @click="changeTheme">
+  <button type="button" class="btn-icon-text no-border" @click="changeTheme">
     <Sun v-if="theme === 'light'" />
     <Moon v-else-if="theme === 'dark'" />
     <span v-else>OS</span> Theme

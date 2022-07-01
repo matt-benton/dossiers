@@ -250,13 +250,12 @@ button, .btn {
   color: var(--bgColor);
 }
 
-/* This is not accessible if the button has no text - use with discretion. */
-.btn-icon {
+.btn-icon-text {
   display: inline-flex;
   align-items: center;
 }
 
-.btn-icon > *:first-child {
+.btn-icon-text > *:first-child {
   margin-right: var(--size-2);
 }
 
