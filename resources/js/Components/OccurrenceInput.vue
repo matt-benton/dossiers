@@ -20,9 +20,13 @@
     </div>
     <ul v-show="search.results.length > 0" id="search-results-list">
       <li
-        v-for="person in search.results"
-        :key="person.id"
-        @click="selectPerson($event, person)"
+        v-for="(person, index) in search.results"
+        :key="index"
+        @click="
+          selectPerson($event, search.results[search.highlightedResultIndex])
+        "
+        :class="{ highlighted: search.highlightedResultIndex === index }"
+        @mouseover="search.highlightedResultIndex = index"
       >
         <Person />
         {{ person.name }}
@@ -44,6 +48,7 @@ let search = reactive({
   text: '',
   results: [],
   keylogging: false,
+  highlightedResultIndex: null,
 })
 
 const submitForm = function () {
@@ -107,6 +112,10 @@ const onInput = function (event) {
 
     axios.get(url).then((response) => {
       search.results = response.data.people
+
+      if (search.results.length > 0) {
+        search.highlightedResultIndex = 0
+      }
     })
   }
 }
@@ -115,13 +124,37 @@ const onKeydown = function (event) {
   if (search.keylogging) {
     if (event.key === 'Tab') {
       event.preventDefault()
-      selectPerson(event, search.results[0])
+      selectPerson(event, search.results[search.highlightedResultIndex])
     }
   }
 
   if (event.key === 'Enter') {
     event.preventDefault()
     submitForm()
+  }
+
+  if (event.key === 'ArrowDown') {
+    nextResult()
+  }
+
+  if (event.key === 'ArrowUp') {
+    prevResult()
+  }
+}
+
+const nextResult = function () {
+  if (search.highlightedResultIndex + 1 === search.results.length) {
+    search.highlightedResultIndex = 0
+  } else {
+    search.highlightedResultIndex += 1
+  }
+}
+
+const prevResult = function () {
+  if (search.highlightedResultIndex === 0) {
+    search.highlightedResultIndex = search.results.length - 1
+  } else {
+    search.highlightedResultIndex -= 1
   }
 }
 
@@ -207,6 +240,9 @@ form {
 
 #search-results-list li:hover {
   cursor: pointer;
+}
+
+.highlighted {
   background-color: var(--bgHighlight);
 }
 
