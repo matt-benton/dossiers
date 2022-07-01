@@ -7,7 +7,6 @@
       <div class="navbar-menu-left">
         <ul>
           <li><Link href="/people">People</Link></li>
-          <li v-for="n in 3"><a href="#">Nav Link</a></li>
         </ul>
       </div>
       <div class="navbar-menu-right">
@@ -24,8 +23,6 @@
                 {{ user.email }} <ChevronDown />
               </div>
               <ul class="dropdown-menu" v-show="accountDropDownVisible">
-                <li><a href="#">Dropdown Link</a></li>
-                <li><a href="#">Dropdown Link</a></li>
                 <li><Link href="/design_system">Design System</Link></li>
                 <li><Link href="/logout">Log out</Link></li>
               </ul>
