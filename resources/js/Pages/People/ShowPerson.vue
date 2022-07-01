@@ -2,7 +2,7 @@
   <Head :title="person.name" />
   <Authenticated>
     <div class="row">
-      <Breadcrumb :links="breadcrumbLinks" />
+      <Breadcrumb :links="breadcrumb" />
       <h2>{{ person.name }}</h2>
       <h4>{{ person.relationship }}</h4>
       <p v-if="person.birthmonth && person.birthday">
