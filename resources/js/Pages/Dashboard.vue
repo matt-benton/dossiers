@@ -7,10 +7,7 @@
     </div>
     <div class="row">
       <div v-if="occurrences" id="occurrences-list">
-        <div class="card" v-for="occ in occurrences">
-          <p>{{ occ.description }}</p>
-          <small>{{ useFormatDate(new Date(occ.created_at)) }}</small>
-        </div>
+        <OccurrenceCard v-for="occ in occurrences" :occurrence="occ" />
       </div>
     </div>
   </Layout>
@@ -18,10 +15,10 @@
 
 <script setup>
 import { defineProps } from 'vue'
-import { useFormatDate } from '../Composables/format'
 import Layout from '@/Layouts/Authenticated.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 import OccurrenceInput from '../Components/OccurrenceInput.vue'
+import OccurrenceCard from '../Components/OccurrenceCard.vue'
 
 let props = defineProps({
   occurrences: Array,

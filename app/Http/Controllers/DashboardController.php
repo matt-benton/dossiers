@@ -21,6 +21,7 @@ class DashboardController extends Controller
           'occurrences.description',
           'occurrences.created_at',
         )
+        ->with('people:id,name')
         ->join('occurrentables', 'occurrences.id', '=', 'occurrentables.occurrence_id')
         ->join('people', 'people.id', '=', 'occurrentables.occurrentable_id')
         ->where('occurrentables.occurrentable_type', 'App\Models\Person')

@@ -13,17 +13,12 @@
       >
     </div>
     <div v-if="person.occurrences" id="occurrences-list">
-      <div class="card" v-for="occ in person.occurrences">
-        <p>{{ occ.description }}</p>
-        <small>{{ useFormatDate(new Date(occ.created_at)) }}</small>
-        <button
-          type="button"
-          class="close-button flex no-border justify-center"
-          @click="selectOccurrenceForDelete(occ)"
-        >
-          <Close />
-        </button>
-      </div>
+      <OccurrenceCard
+        v-for="occ in person.occurrences"
+        :occurrence="occ"
+        :closeable="true"
+        v-on:close-button-clicked="selectOccurrenceForDelete(occ)"
+      />
     </div>
   </Authenticated>
   <Modal :visible="modal.visible" v-on:modal-closed="resetModal">
@@ -56,6 +51,7 @@ import Pencil from '../../Components/Icons/Pencil.vue'
 import { useFormatDate } from '../../Composables/format'
 import Close from '../../Components/Icons/Close.vue'
 import Modal from '../../Components/Modal.vue'
+import OccurrenceCard from '../../Components/OccurrenceCard.vue'
 
 let breadcrumb = reactive([
   {
@@ -99,27 +95,5 @@ const confirmDelete = function (occId) {
 <style scoped>
 #occurrences-list .card {
   margin-bottom: var(--size-5);
-}
-
-.card {
-  position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: var(--size-4);
-  right: var(--size-4);
-}
-
-.close-button svg {
-  opacity: 0.5;
-  height: var(--size-4);
-  width: var(--size-4);
-  margin-top: var(--size-1);
-  margin-bottom: var(--size-1);
-}
-
-.close-button svg:hover {
-  cursor: pointer;
 }
 </style>
