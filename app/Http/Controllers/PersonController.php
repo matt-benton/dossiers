@@ -50,7 +50,7 @@ class PersonController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'name' => 'required|max:255',
+        'name' => 'required|max:75|alpha_num',
         'relationship' => 'max:255',
         'birthmonth' => 'nullable|between:1,12',
         'birthday' => 'nullable|between:1,31',
