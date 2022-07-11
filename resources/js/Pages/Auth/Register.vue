@@ -69,7 +69,7 @@
           </div>
         </form>
       </div>
-      <small><Link :href="route('login')"> Already registered? </Link></small>
+      <small><Link href="/login"> Already registered? </Link></small>
     </div>
   </Layout>
 </template>
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     submit() {
-      this.form.post(route('register'), {
+      this.form.post('/register', {
         onFinish: () => this.form.reset('password'),
       })
     },

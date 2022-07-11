@@ -11,7 +11,7 @@ const props = defineProps({
 const form = useForm()
 
 const submit = () => {
-  form.post(route('verification.send'))
+  form.post('/email/verification-notification')
 }
 
 const verificationLinkSent = computed(
@@ -47,7 +47,7 @@ const verificationLinkSent = computed(
         </BreezeButton>
 
         <Link
-          :href="route('logout')"
+          href="/logout"
           method="post"
           as="button"
           class="underline text-sm text-gray-600 hover:text-gray-900"

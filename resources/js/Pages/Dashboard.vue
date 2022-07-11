@@ -13,8 +13,7 @@
   </Layout>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
+<script setup lang="ts">
 import Layout from '@/Layouts/Authenticated.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 import OccurrenceInput from '../Components/OccurrenceInput.vue'

@@ -40,35 +40,26 @@
     </div>
   </nav>
 </template>
-<script>
+<script setup lang="ts">
 import ChevronDown from './Icons/ChevronDown.vue'
 import ThemeButton from './ThemeButton.vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import { ref } from 'vue'
 
-export default {
-  data() {
-    return {
-      accountDropDownVisible: false,
-    }
-  },
-  methods: {
-    hideAccountDropDown(event) {
-      if (!event.target.classList.contains('dropdown-menu')) {
-        this.accountDropDownVisible = false
-      }
-    },
-  },
-  components: {
-    ChevronDown,
-    ThemeButton,
-    Link,
-  },
-  props: {
-    user: {
-      type: Object,
-    },
-  },
+let accountDropDownVisible = ref(false)
+
+function hideAccountDropDown(event: Event) {
+  const target = event.target as Element
+  if (!target.classList.contains('dropdown-menu')) {
+    accountDropDownVisible.value = false
+  }
 }
+
+let props = defineProps({
+  user: {
+    type: Object,
+  },
+})
 </script>
 
 <style scoped>

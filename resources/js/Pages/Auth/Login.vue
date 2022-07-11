@@ -53,7 +53,7 @@
         </form>
       </div>
       <small
-        ><Link v-if="canResetPassword" :href="route('password.request')">
+        ><Link v-if="canResetPassword" href="/forgot-password">
           Forgot your password?
         </Link></small
       >
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     submit() {
-      this.form.post(route('login'), {
+      this.form.post('/login', {
         onFinish: () => this.form.reset('password'),
       })
     },

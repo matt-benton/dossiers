@@ -17,16 +17,7 @@
   </main>
 </template>
 
-<script>
-import { Link } from '@inertiajs/inertia-vue3'
+<script setup lang="ts">
 import TheNavbar from '../Components/TheNavbar.vue'
 import FlashAlert from '../Components/FlashAlert.vue'
-
-export default {
-  components: {
-    Link,
-    TheNavbar,
-    FlashAlert,
-  },
-}
 </script>

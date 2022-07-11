@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     submit() {
-      this.form.post(route('password.email'))
+      this.form.post('/forgot-password')
     },
   },
   props: {

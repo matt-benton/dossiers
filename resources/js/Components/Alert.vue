@@ -1,17 +1,15 @@
 <template>
   <Transition>
-    <div v-show="visible" class="alert">
+    <div v-show="props.visible" class="alert">
       <slot></slot>
     </div>
   </Transition>
 </template>
 
-<script>
-export default {
-  props: {
-    visible: Boolean,
-  },
-}
+<script setup lang="ts">
+let props = defineProps({
+  visible: Boolean,
+})
 </script>
 
 <style scoped>
