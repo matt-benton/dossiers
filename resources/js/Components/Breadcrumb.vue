@@ -9,20 +9,18 @@
   </nav>
 </template>
 
-<script>
+<script setup lang="ts">
 import { Link } from '@inertiajs/inertia-vue3'
 
-export default {
-  props: {
-    links: {
-      required: true,
-      type: Array,
-    },
-  },
-  components: {
-    Link,
-  },
+interface BreadcrumbLink {
+  url?: string
+  title: string
+  active?: boolean
 }
+
+defineProps<{
+  links: Array<BreadcrumbLink>
+}>()
 </script>
 
 <style scoped>

@@ -69,58 +69,45 @@
   </Authenticated>
 </template>
 
-<script>
+<script setup lang="ts">
+import { reactive } from 'vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 
-export default {
-  setup() {
-    const form = useForm({
-      name: null,
-      relationship: null,
-      birthmonth: null,
-      birthday: null,
-    })
+let breadCrumbLinks = reactive([
+  {
+    url: '/people',
+    title: 'People',
+  },
+  {
+    title: 'Add Person',
+  },
+])
 
-    return { form }
-  },
-  data() {
-    return {
-      breadCrumbLinks: [
-        {
-          url: '/people',
-          title: 'People',
-        },
-        {
-          title: 'Add Person',
-        },
-      ],
-      months: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ],
-    }
-  },
-  methods: {
-    submitForm() {
-      this.form.post('/people')
-    },
-  },
-  components: {
-    Authenticated,
-    Head,
-    Breadcrumb,
-  },
+const months = reactive([
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+])
+
+let form = useForm({
+  name: null,
+  relationship: null,
+  birthmonth: null,
+  birthday: null,
+})
+
+const submitForm = function () {
+  form.post('/people')
 }
 </script>

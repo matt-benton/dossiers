@@ -32,7 +32,7 @@
       <button
         type="button"
         class="btn-primary"
-        @click="confirmDelete(modal.occurrenceForDelete.id)"
+        @click="confirmDelete(modal.occurrenceForDelete)"
       >
         Delete
       </button>
@@ -41,17 +41,21 @@
   </Modal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, defineProps } from 'vue'
 import { Link, Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Cake from '../../Components/Icons/Cake.vue'
 import Pencil from '../../Components/Icons/Pencil.vue'
-import { useFormatDate } from '../../Composables/format'
-import Close from '../../Components/Icons/Close.vue'
 import Modal from '../../Components/Modal.vue'
 import OccurrenceCard from '../../Components/OccurrenceCard.vue'
+import Person from '../../Types/Person'
+import Occurrence from '../../Types/Occurrence'
+
+let props = defineProps<{
+  person: Person
+}>()
 
 let breadcrumb = reactive([
   {
@@ -63,19 +67,17 @@ let breadcrumb = reactive([
   },
 ])
 
-let props = defineProps({
-  person: {
-    required: true,
-    type: Object,
-  },
-})
+interface Modal {
+  visible: Boolean
+  occurrenceForDelete: Occurrence | null
+}
 
-let modal = reactive({
+let modal: Modal = reactive({
   visible: false,
   occurrenceForDelete: null,
 })
 
-const selectOccurrenceForDelete = function (occurrence) {
+const selectOccurrenceForDelete = function (occurrence: Occurrence) {
   modal.visible = true
   modal.occurrenceForDelete = occurrence
 }
@@ -84,10 +86,13 @@ const resetModal = function () {
   modal.visible = false
 }
 
-let deleteOccurrenceForm = useForm()
+let deleteOccurrenceForm = useForm({})
 
-const confirmDelete = function (occId) {
-  deleteOccurrenceForm.delete(`/occurrences/${occId}`)
+const confirmDelete = function (occurrence: Occurrence | null) {
+  if (occurrence) {
+    deleteOccurrenceForm.delete(`/occurrences/${occurrence.id}`)
+  }
+
   resetModal()
 }
 </script>

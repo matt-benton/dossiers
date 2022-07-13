@@ -88,74 +88,64 @@
   </Authenticated>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Modal from '../../Components/Modal.vue'
+import Person from '../../Types/Person'
 
-export default {
-  setup(props) {
-    const editForm = useForm({
-      name: props.person.name,
-      relationship: props.person.relationship,
-      birthmonth: props.person.birthmonth,
-      birthday: props.person.birthday,
-    })
+let props = defineProps<{
+  person: Person
+}>()
 
-    const deleteForm = useForm()
+const editForm = useForm({
+  name: props.person.name,
+  relationship: props.person.relationship,
+  birthmonth: props.person.birthmonth,
+  birthday: props.person.birthday,
+})
 
-    return { editForm, deleteForm }
+const deleteForm = useForm({})
+
+let deleteModalVisible = ref(false)
+
+let breadCrumbLinks = reactive([
+  {
+    url: '/people',
+    title: 'People',
   },
-  data() {
-    return {
-      deleteModalVisible: false,
-      breadCrumbLinks: [
-        {
-          url: '/people',
-          title: 'People',
-        },
-        {
-          url: `/people/${this.person.id}`,
-          title: this.person.name,
-        },
-        {
-          title: 'Edit',
-        },
-      ],
-      months: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ],
-    }
+  {
+    url: `/people/${props.person.id}`,
+    title: props.person.name,
   },
-  methods: {
-    submitEditForm() {
-      this.editForm.put(`/people/${this.person.id}`)
-    },
-    confirmDelete() {
-      this.deleteForm.delete(`/people/${this.person.id}`)
-      this.deleteModalVisible = false
-    },
+  {
+    title: 'Edit',
   },
-  components: {
-    Authenticated,
-    Head,
-    Breadcrumb,
-    Modal,
-  },
-  props: {
-    person: Object,
-  },
+])
+
+let months = reactive([
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+])
+
+function submitEditForm() {
+  editForm.put(`/people/${props.person.id}`)
+}
+
+function confirmDelete() {
+  deleteForm.delete(`/people/${props.person.id}`)
+  deleteModalVisible.value = false
 }
 </script>

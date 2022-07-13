@@ -1,6 +1,6 @@
 <template>
   <Head title="Design System" />
-  <TheNavbar :user="{}" />
+  <TheNavbar :user="testUser" />
   <div class="container">
     <main>
       <Breadcrumb :links="breadcrumbLinks" />
@@ -135,39 +135,35 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import TheNavbar from '../Components/TheNavbar.vue'
 import Breadcrumb from '../Components/Breadcrumb.vue'
 import Modal from '../Components/Modal.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 
-export default {
-  data() {
-    return {
-      breadcrumbLinks: [
-        {
-          url: '#',
-          title: 'Page 1',
-        },
-        {
-          url: '#',
-          title: 'Page 2',
-        },
-        {
-          title: 'Page 3',
-          active: true,
-        },
-      ],
-      modalVisible: false,
-    }
+let breadcrumbLinks = reactive([
+  {
+    url: '#',
+    title: 'Page 1',
   },
-  components: {
-    TheNavbar,
-    Breadcrumb,
-    Head,
-    Modal,
+  {
+    url: '#',
+    title: 'Page 2',
   },
-}
+  {
+    title: 'Page 3',
+    active: true,
+  },
+])
+
+let modalVisible = ref(false)
+
+let testUser = reactive({
+  id: 0,
+  first_name: 'Test',
+  last_name: 'User',
+})
 </script>
 
 <style></style>

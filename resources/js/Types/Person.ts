@@ -1,8 +1,12 @@
+import Occurrence from "./Occurrence";
+
 export default interface Person {
-  id: Number,
-  name: String,
-  relationship: String,
-  birthday: Number | null,
-  birthmonth: Number | null,
-  user_id: Number,
+  id: number,
+  name: string,
+  relationship: string,
+  birthday: number | null,
+  birthmonth: number | null,
+  birthmonth_text: string | null,
+  user_id: number,
+  occurrences?: [Occurrence]
 }
