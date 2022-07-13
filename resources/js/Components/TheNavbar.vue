@@ -45,6 +45,7 @@ import ChevronDown from './Icons/ChevronDown.vue'
 import ThemeButton from './ThemeButton.vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { ref } from 'vue'
+import type User from '../types/User'
 
 let accountDropDownVisible = ref(false)
 
@@ -55,11 +56,9 @@ function hideAccountDropDown(event: Event) {
   }
 }
 
-let props = defineProps({
-  user: {
-    type: Object,
-  },
-})
+let props = defineProps<{
+  user: User
+}>()
 </script>
 
 <style scoped>

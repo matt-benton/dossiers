@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-let props = defineProps({
-  visible: Boolean,
-})
+let props = defineProps<{
+  visible: Boolean
+}>()
 </script>
 
 <style scoped>

@@ -13,10 +13,11 @@
   </div>
 </template>
 
-<script setup>
-import { defineProps, defineEmits, computed } from 'vue'
+<script setup lang="ts">
+import { defineEmits, computed } from 'vue'
 import { useFormatDate } from '../Composables/format'
 import Close from '../Components/Icons/Close.vue'
+import Occurrence from '../Types/Occurrence'
 
 const occurrenceText = computed(() => {
   let insertedText = props.occurrence.description
@@ -27,8 +28,12 @@ const occurrenceText = computed(() => {
     // get the index of the start and end of this person's name in the text
     const nameLoc = findPersonNameInText(insertedText, `@${person.name}`)
 
+    if (nameLoc.start === null || nameLoc.end === null) {
+      return ''
+    }
+
     // this is a variable so we can get the length for the second insert
-    const firstInsertText = `<b>`
+    const firstInsertText = '<b>'
 
     // insert the beginning tags
     insertedText = insertIntoMidString(
@@ -48,27 +53,39 @@ const occurrenceText = computed(() => {
   return insertedText
 })
 
-const findPersonNameInText = function (text, personName) {
-  for (let i in text) {
-    if (text.slice(i, parseInt(i) + personName.length) === personName) {
-      return { start: parseInt(i), end: parseInt(i) + personName.length }
-    }
-  }
+const findPersonNameInText = function (
+  text: string,
+  personName: string
+): { start: number | null; end: number | null } {
+  const startIndex = text
+    .split('')
+    .findIndex(
+      (letter, index) =>
+        text.slice(index, index + personName.length) === personName
+    )
+
+  return startIndex >= 0
+    ? { start: startIndex, end: startIndex + personName.length }
+    : { start: null, end: null }
 }
 
-const insertIntoMidString = function (string, insertText, index) {
+const insertIntoMidString = function (
+  string: string,
+  insertText: string,
+  index: number
+) {
   return (
     string.slice(0, index) + insertText + string.slice(index, string.length)
   )
 }
 
-const props = defineProps({
-  occurrence: Object,
+const props = defineProps<{
+  occurrence: Occurrence
   closeable: {
-    type: Boolean,
-    default: false,
-  },
-})
+    type: Boolean
+    default: false
+  }
+}>()
 
 const emit = defineEmits(['close-button-clicked'])
 
