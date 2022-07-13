@@ -81,10 +81,7 @@ const insertIntoMidString = function (
 
 const props = defineProps<{
   occurrence: Occurrence
-  closeable: {
-    type: Boolean
-    default: false
-  }
+  closeable?: Boolean
 }>()
 
 const emit = defineEmits(['close-button-clicked'])
