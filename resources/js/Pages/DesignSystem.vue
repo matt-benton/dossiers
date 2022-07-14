@@ -163,6 +163,7 @@ let testUser = reactive({
   id: 0,
   first_name: 'Test',
   last_name: 'User',
+  email: 'test@demo.com',
 })
 </script>
 

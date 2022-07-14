@@ -7,12 +7,6 @@
   </main>
 </template>
 
-<script>
+<script setup lang="ts">
 import TheNavbar from '../Components/TheNavbar.vue'
-
-export default {
-  components: {
-    TheNavbar,
-  },
-}
 </script>

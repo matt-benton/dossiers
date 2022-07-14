@@ -57,7 +57,7 @@ function hideAccountDropDown(event: Event) {
 }
 
 let props = defineProps<{
-  user: User
+  user?: User
 }>()
 </script>
 
