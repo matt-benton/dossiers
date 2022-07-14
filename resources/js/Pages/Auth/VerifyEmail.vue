@@ -1,14 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 
 const props = defineProps({
   status: String,
 })
 
-const form = useForm()
+const form = useForm({})
 
 const submit = () => {
   form.post('/email/verification-notification')
