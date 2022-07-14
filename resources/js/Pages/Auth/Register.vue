@@ -73,32 +73,20 @@
     </div>
   </Layout>
 </template>
-<script>
+<script setup lang="ts">
 import Layout from '@/Layouts/Guest.vue'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 
-export default {
-  setup() {
-    const form = useForm({
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-    })
+const form = useForm({
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+})
 
-    return { form }
-  },
-  methods: {
-    submit() {
-      this.form.post('/register', {
-        onFinish: () => this.form.reset('password'),
-      })
-    },
-  },
-  components: {
-    Layout,
-    Link,
-    Head,
-  },
+function submit() {
+  form.post('/register', {
+    onFinish: () => form.reset('password'),
+  })
 }
 </script>

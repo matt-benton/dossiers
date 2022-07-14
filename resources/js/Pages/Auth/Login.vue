@@ -61,39 +61,24 @@
   </Layout>
 </template>
 
-<script>
+<script setup lang="ts">
 import Layout from '@/Layouts/Guest.vue'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 
-export default {
-  setup() {
-    const form = useForm({
-      email: '',
-      password: '',
-      remember: false,
-    })
+const form = useForm({
+  email: '',
+  password: '',
+  remember: false,
+})
 
-    return { form }
-  },
-  methods: {
-    submit() {
-      this.form.post('/login', {
-        onFinish: () => this.form.reset('password'),
-      })
-    },
-  },
-  props: {
-    canResetPassword: {
-      type: Boolean,
-    },
-    status: {
-      type: String,
-    },
-  },
-  components: {
-    Link,
-    Head,
-    Layout,
-  },
+function submit() {
+  form.post('/login', {
+    onFinish: () => form.reset('password'),
+  })
 }
+
+defineProps<{
+  canResetPassword: Boolean
+  status: String
+}>()
 </script>
