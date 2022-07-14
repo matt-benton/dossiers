@@ -21,24 +21,18 @@
   </Authenticated>
 </template>
 
-<script>
+<script setup lang="ts">
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Cake from '../../Components/Icons/Cake.vue'
 import { Link, Head } from '@inertiajs/inertia-vue3'
+import Person from '../../Types/Person'
 
-export default {
-  methods: {
-    hasBirthday(person) {
-      return person.birthmonth && person.birthday
-    },
-  },
-  components: {
-    Authenticated,
-    Link,
-    Cake,
-    Head,
-  },
-  props: ['people'],
+defineProps<{
+  people: Array<Person>
+}>()
+
+function hasBirthday(person: Person) {
+  return person.birthmonth && person.birthday
 }
 </script>
 
