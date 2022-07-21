@@ -6,11 +6,9 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
         <!-- Scripts -->
         @routes
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        @vite(['resources/css/app.css', 'resources/js/app.ts'])
     </head>
     <body class="light">
         @inertia
