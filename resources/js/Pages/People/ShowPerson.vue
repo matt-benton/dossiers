@@ -68,7 +68,7 @@ let breadcrumb = reactive([
 ])
 
 interface Modal {
-  visible: Boolean
+  visible: boolean
   occurrenceForDelete: Occurrence | null
 }
 

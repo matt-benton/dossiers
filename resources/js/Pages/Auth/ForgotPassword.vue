@@ -8,12 +8,6 @@
       new one.
     </div>
 
-    <div v-if="status">
-      {{ status }}
-    </div>
-
-    <br />
-
     <div class="center-container-xs">
       <div class="card">
         <form @submit.prevent="submit">
@@ -38,31 +32,19 @@
   </Layout>
 </template>
 
-<script>
-import Layout from '@/Layouts/Guest.vue'
+<script setup lang="ts">
+import Layout from '../../Layouts/Guest.vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 
-export default {
-  setup() {
-    const form = useForm({
-      email: '',
-    })
+const form = useForm({
+  email: '',
+})
 
-    return { form }
-  },
-  methods: {
-    submit() {
-      this.form.post('/forgot-password')
-    },
-  },
-  props: {
-    status: {
-      type: String,
-    },
-  },
-  components: {
-    Layout,
-    Head,
-  },
+function submit() {
+  form.post('/forgot-password')
 }
+
+defineProps({
+  type: String,
+})
 </script>

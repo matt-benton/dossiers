@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import Layout from '@/Layouts/Guest.vue'
+import Layout from '../../Layouts/Guest.vue'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 
 const form = useForm({

@@ -14,20 +14,20 @@
   </Teleport>
 </template>
 
-<script>
-export default {
-  methods: {
-    onBackdropClicked(event) {
-      if (event.target.classList.contains('backdrop')) {
-        this.$emit('modal-closed')
-      }
-    },
-  },
-  props: {
-    visible: Boolean,
-  },
-  emits: ['modal-closed'],
+<script setup lang="ts">
+function onBackdropClicked(event: Event) {
+  const target = event.target as Element
+
+  if (target.classList.contains('backdrop')) {
+    emit('modal-closed')
+  }
 }
+
+defineProps({
+  visible: Boolean,
+})
+
+const emit = defineEmits(['modal-closed'])
 </script>
 
 <style scoped>

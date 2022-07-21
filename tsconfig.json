@@ -4,10 +4,10 @@
     "target": "es6",
     "module": "ESNext",
     "moduleResolution": "node",
-    "baseUrl": "./",
     "strict": true,
     "skipLibCheck": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "baseUrl": "/resources/js"
   },
-  "include": ["resources/js/**/*", "resources/js/**/*.vue"]  // Frontend paths pattern
+  "include": ["resources/js/**/*.vue"]  // Frontend paths pattern
 }

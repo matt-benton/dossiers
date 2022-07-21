@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
+import BreezeGuestLayout from '../../Layouts/Guest.vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 
 const form = useForm({
