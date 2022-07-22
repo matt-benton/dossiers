@@ -24,12 +24,20 @@ class ApiPersonController extends Controller
      */
     public function index(Request $request)
     {
-      $search = $request->query('search', '');
+      $name = $request->query('name', '');
+      $relationship = $request->query('relationship', '');
 
-      $people = Auth::user()->people()
-        ->where('name', 'like', "%{$search}%")
-        ->orderBy('name')
-        ->get();
+      $query = Auth::user()->people();
+
+      if ($name) {
+        $query->where('name', 'like', "%{$name}%");
+      }
+
+      if ($relationship) {
+        $query->orWhere('relationship', 'like', "%{$relationship}%");
+      }
+
+      $people = $query->orderBy('name')->get();
 
       return response()->json(['people' => $people]);
     }

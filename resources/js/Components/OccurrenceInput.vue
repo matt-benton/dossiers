@@ -122,7 +122,7 @@ const onInput = function (event: Event) {
   form.description = newText
 
   if (search.text.length > 0) {
-    let url = `/api/people?search=${search.text}`
+    let url = `/api/people?name=${search.text}`
 
     axios.get(url).then((response) => {
       search.results = response.data.people
