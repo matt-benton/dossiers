@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="submitForm">
-    <label for="occurrence_text">What's happening?</label>
+    <label for="development_text">What's happening?</label>
     <textarea
-      id="occurrence_text"
+      id="development_text"
       @input="onInput"
       @keydown="onKeydown"
     ></textarea>
@@ -59,7 +59,7 @@ let search: Search = reactive({
 })
 
 const submitForm = function () {
-  form.post('/occurrences')
+  form.post('/developments')
   resetForm()
 }
 
@@ -67,7 +67,7 @@ const resetForm = function () {
   form.description = ''
 
   const occurrenceText: HTMLTextAreaElement | null =
-    document.querySelector('#occurrence_text')
+    document.querySelector('#development_text')
 
   if (occurrenceText) {
     occurrenceText.value = ''
@@ -237,7 +237,7 @@ const selectPerson = function (person: Person) {
   form.description = form.description.replace(search.text, person.name)
   resetSearch()
   const occurrenceTextArea = document.querySelector(
-    '#occurrence_text'
+    '#development_text'
   ) as HTMLTextAreaElement
   occurrenceTextArea.value = form.description
   occurrenceTextArea.focus()

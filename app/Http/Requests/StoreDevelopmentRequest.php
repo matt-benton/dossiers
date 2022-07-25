@@ -6,7 +6,7 @@ use App\Services\PersonService;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\HasPerson;
 
-class StoreOccurrenceRequest extends FormRequest
+class StoreDevelopmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,7 @@ class StoreOccurrenceRequest extends FormRequest
     public function rules(PersonService $personService)
     {
         return [
+            'thread_id' => 'exists:threads,id',
             'description' => ['required', 'max:255', 'string', new HasPerson($personService)],
         ];
     }

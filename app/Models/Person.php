@@ -16,9 +16,9 @@ class Person extends Model
       return $this->belongsTo(User::class);
     }
 
-    public function occurrences()
+    public function threads()
     {
-      return $this->morphToMany(Occurrence::class, 'occurrentable');
+      return $this->morphToMany(Thread::class, 'threadable');
     }
 
     public function getBirthmonthTextAttribute()

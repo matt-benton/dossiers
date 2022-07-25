@@ -3,11 +3,17 @@
 
   <Layout>
     <div class="row">
-      <OccurrenceInput />
+      <DevelopmentInput />
     </div>
     <div class="row">
-      <div v-if="occurrences" id="occurrences-list">
-        <OccurrenceCard v-for="occ in occurrences" :occurrence="occ" />
+      <div v-if="threads" id="threads-list">
+        <div v-for="thread in threads">
+          <DevelopmentCard
+            v-for="dev in thread.developments"
+            :development="dev"
+            :people-in-thread="thread.people"
+          />
+        </div>
       </div>
     </div>
   </Layout>
@@ -16,17 +22,17 @@
 <script setup lang="ts">
 import Layout from '../Layouts/Authenticated.vue'
 import { Head } from '@inertiajs/inertia-vue3'
-import OccurrenceInput from '../Components/OccurrenceInput.vue'
-import OccurrenceCard from '../Components/OccurrenceCard.vue'
-import type Occurrence from '../Types/Occurrence'
+import DevelopmentInput from '../Components/DevelopmentInput.vue'
+import DevelopmentCard from '../Components/DevelopmentCard.vue'
+import Thread from '../Types/Thread'
 
-let props = defineProps<{
-  occurrences: Array<Occurrence>
+defineProps<{
+  threads: Array<Thread>
 }>()
 </script>
 
 <style scoped>
-#occurrences-list .card {
+#threads-list .card {
   margin-bottom: var(--size-5);
 }
 </style>

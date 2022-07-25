@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Occurrence;
+use App\Models\Development;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OccurrencePolicy
+class DevelopmentPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class OccurrencePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Occurrence  $occurrence
+     * @param  \App\Models\Development  $development
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Occurrence $occurrence)
+    public function delete(User $user, Development $development)
     {
-      $person = $occurrence->people->first();
+      $person = $development->thread->people->first();
 
       return $person->user_id === $user->id;
     }

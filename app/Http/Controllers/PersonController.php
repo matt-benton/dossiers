@@ -74,8 +74,8 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-      $person->load(['occurrences' => function ($query) {
-        $query->with('people:id,name')->orderBy('created_at', 'desc');
+      $person->load(['threads' => function ($query) {
+        $query->with(['developments', 'people:id,name']);
       }]);
 
       return inertia('People/ShowPerson')->with(['person' => $person]);

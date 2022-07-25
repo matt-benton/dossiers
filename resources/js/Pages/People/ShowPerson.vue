@@ -12,27 +12,30 @@
         ><Pencil /> Update</Link
       >
     </div>
-    <div v-if="person.occurrences" id="occurrences-list">
-      <OccurrenceCard
-        v-for="occ in person.occurrences"
-        :occurrence="occ"
-        :closeable="true"
-        v-on:close-button-clicked="selectOccurrenceForDelete(occ)"
-      />
+    <div v-if="person.threads && person.threads.length > 0" id="threads-list">
+      <div v-for="thread in person.threads">
+        <DevelopmentCard
+          v-for="dev in thread.developments"
+          :development="dev"
+          :closeable="true"
+          :people-in-thread="thread.people"
+          v-on:close-button-clicked="selectDevelopmentForDelete(dev)"
+        />
+      </div>
     </div>
   </Authenticated>
   <Modal :visible="modal.visible" v-on:modal-closed="resetModal">
     <p>Delete this event?</p>
     <p class="alert">
       {{
-        modal.occurrenceForDelete ? modal.occurrenceForDelete.description : ''
+        modal.developmentForDelete ? modal.developmentForDelete.description : ''
       }}
     </p>
     <div class="btn-row flex justify-end">
       <button
         type="button"
         class="btn-primary"
-        @click="confirmDelete(modal.occurrenceForDelete)"
+        @click="confirmDelete(modal.developmentForDelete)"
       >
         Delete
       </button>
@@ -49,9 +52,9 @@ import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Cake from '../../Components/Icons/Cake.vue'
 import Pencil from '../../Components/Icons/Pencil.vue'
 import Modal from '../../Components/Modal.vue'
-import OccurrenceCard from '../../Components/OccurrenceCard.vue'
+import DevelopmentCard from '../../Components/DevelopmentCard.vue'
 import Person from '../../Types/Person'
-import Occurrence from '../../Types/Occurrence'
+import Development from '../../Types/Development'
 
 let props = defineProps<{
   person: Person
@@ -69,28 +72,28 @@ let breadcrumb = reactive([
 
 interface Modal {
   visible: boolean
-  occurrenceForDelete: Occurrence | null
+  developmentForDelete: Development | null
 }
 
 let modal: Modal = reactive({
   visible: false,
-  occurrenceForDelete: null,
+  developmentForDelete: null,
 })
 
-const selectOccurrenceForDelete = function (occurrence: Occurrence) {
+const selectDevelopmentForDelete = function (development: Development) {
   modal.visible = true
-  modal.occurrenceForDelete = occurrence
+  modal.developmentForDelete = development
 }
 
 const resetModal = function () {
   modal.visible = false
 }
 
-let deleteOccurrenceForm = useForm({})
+let deleteDevelopmentForm = useForm({})
 
-const confirmDelete = function (occurrence: Occurrence | null) {
-  if (occurrence) {
-    deleteOccurrenceForm.delete(`/occurrences/${occurrence.id}`)
+const confirmDelete = function (development: Development | null) {
+  if (development) {
+    deleteDevelopmentForm.delete(`/developments/${development.id}`)
   }
 
   resetModal()
@@ -98,7 +101,7 @@ const confirmDelete = function (occurrence: Occurrence | null) {
 </script>
 
 <style scoped>
-#occurrences-list .card {
+#threads-list .card {
   margin-bottom: var(--size-5);
 }
 </style>

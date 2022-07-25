@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOccurrentablesTable extends Migration
+class CreateThreadablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateOccurrentablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('occurrentables', function (Blueprint $table) {
+        Schema::create('threadables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('occurrence_id');
-            $table->morphs('occurrentable');
+            $table->foreignId('thread_id');
+            $table->morphs('threadable');
         });
     }
 
@@ -27,6 +27,6 @@ class CreateOccurrentablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occurrentables');
+        Schema::dropIfExists('threadables');
     }
 }

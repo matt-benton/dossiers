@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
-use App\Http\Controllers\OccurrenceController;
+use App\Http\Controllers\DevelopmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ use App\Http\Controllers\OccurrenceController;
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('/', DashboardController::class)->name('dashboard');
   Route::resource('/people', PersonController::class);
-  Route::resource('/occurrences', OccurrenceController::class)->only(['store', 'destroy']);
+  Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
 
   Route::prefix('api')->name('api.')->group(function () {
     Route::resource('/people', ApiPersonController::class);

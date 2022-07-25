@@ -1,4 +1,4 @@
-import Occurrence from "./Occurrence";
+import Thread from "./Thread"
 
 export default interface Person {
   id: number,
@@ -8,5 +8,5 @@ export default interface Person {
   birthmonth: number | null,
   birthmonth_text: string | null,
   user_id: number,
-  occurrences?: [Occurrence]
+  threads?: Thread[],
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
-    <p v-html="occurrenceText" />
-    <small>{{ useFormatDate(new Date(occurrence.created_at)) }}</small>
+    <p v-html="developmentText" />
+    <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
     <button
       v-if="closeable"
       type="button"
@@ -16,15 +16,16 @@
 <script setup lang="ts">
 import { defineEmits, computed } from 'vue'
 import { useFormatDate } from '../Composables/format'
-import Close from '../Components/Icons/Close.vue'
-import Occurrence from '../Types/Occurrence'
+import Close from './Icons/Close.vue'
+import Development from '../Types/Development'
+import Person from '../Types/Person'
 
-const occurrenceText = computed(() => {
-  let insertedText = props.occurrence.description
+const developmentText = computed(() => {
+  let insertedText = props.development.description
 
-  // loop through all the people tagged in this occurrence
+  // loop through all the people tagged in this development
   // and insert tags to highlight their names
-  props.occurrence.people.forEach((person) => {
+  props.peopleInThread.forEach((person) => {
     // get the index of the start and end of this person's name in the text
     const nameLoc = findPersonNameInText(insertedText, `@${person.name}`)
 
@@ -80,7 +81,8 @@ const insertIntoMidString = function (
 }
 
 const props = defineProps<{
-  occurrence: Occurrence
+  development: Development
+  peopleInThread: Person[]
   closeable?: Boolean
 }>()
 

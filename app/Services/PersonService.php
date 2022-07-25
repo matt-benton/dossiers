@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class PersonService
 {
-  public function findPeopleInString(string $str, Collection $people)
+  public function findPeopleInString(string $str, Collection $people): SupportCollection
   {
     $words = explode(' ', $str);
 
@@ -41,6 +42,6 @@ class PersonService
       }
     }
 
-    return $selectedPeopleIds;
+    return collect($selectedPeopleIds);
   }
 }

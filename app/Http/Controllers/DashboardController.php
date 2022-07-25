@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\Occurrence;
+use App\Models\Thread;
 
 class DashboardController extends Controller
 {
@@ -16,20 +16,19 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-      $occurrences = Occurrence::select(
-          'occurrences.id',
-          'occurrences.description',
-          'occurrences.created_at',
-        )
-        ->with('people:id,name')
-        ->join('occurrentables', 'occurrences.id', '=', 'occurrentables.occurrence_id')
-        ->join('people', 'people.id', '=', 'occurrentables.occurrentable_id')
-        ->where('occurrentables.occurrentable_type', 'App\Models\Person')
+      $threads = Thread::with(['developments', 'people:id,name'])
+        ->select(
+          'threads.id',
+          'threads.created_at',
+          'threads.updated_at'
+          )
+        ->join('threadables', 'threadables.thread_id', '=', 'threads.id')
+        ->join('people', 'people.id', '=', 'threadables.threadable_id')
+        ->where('threadables.threadable_type', 'App\Models\Person')
         ->where('people.user_id', Auth::user()->id)
         ->distinct()
-        ->orderBy('occurrences.created_at', 'desc')
         ->get();
 
-      return inertia('Dashboard')->with(['occurrences' => $occurrences]);
+      return inertia('Dashboard')->with(['threads' => $threads]);
     }
 }

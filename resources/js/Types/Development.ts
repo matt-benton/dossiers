@@ -1,6 +1,6 @@
 import type Person from './Person'
 
-export default interface Occurrence {
+export default interface Development {
   id: number,
   description: string,
   created_at: string,
