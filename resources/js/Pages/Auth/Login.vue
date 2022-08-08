@@ -52,11 +52,17 @@
           </div>
         </form>
       </div>
-      <small
-        ><Link v-if="canResetPassword" href="/forgot-password">
-          Forgot your password?
-        </Link></small
-      >
+      <div class="form-sub-row">
+        <small>
+          <Link href="/register">Sign Up</Link>
+        </small>
+        &bullet;
+        <small
+          ><Link v-if="canResetPassword" href="/forgot-password">
+            Forgot your password?
+          </Link></small
+        >
+      </div>
     </div>
   </Layout>
 </template>
@@ -82,3 +88,12 @@ defineProps<{
   status: String
 }>()
 </script>
+
+<style scoped>
+.form-sub-row {
+  display: flex;
+  gap: var(--size-3);
+  align-items: center;
+  justify-content: center;
+}
+</style>
