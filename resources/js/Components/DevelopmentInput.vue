@@ -5,6 +5,7 @@
       id="development_text"
       @input="onInput"
       @keydown="onKeydown"
+      ref="textarea"
     ></textarea>
     <div
       class="flex"
@@ -36,13 +37,21 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { useForm } from '@inertiajs/inertia-vue3'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import PersonIcon from './Icons/Person.vue'
 import Person from '../Types/Person'
+import Thread from '../Types/Thread'
+
+const props = defineProps<{
+  thread?: Thread
+}>()
 
 const form = useForm({
   description: '',
+  thread_id: props.thread?.id,
 })
+
+const textarea = ref<HTMLInputElement | null>(null)
 
 interface Search {
   text: string
@@ -59,18 +68,22 @@ let search: Search = reactive({
 })
 
 const submitForm = function () {
-  form.post('/developments')
+  form.post('/developments', {
+    preserveScroll: true,
+    onSuccess: () => onSuccessfulFormSubmit(),
+  })
+}
+
+function onSuccessfulFormSubmit() {
   resetForm()
+  emit('development-created')
 }
 
 const resetForm = function () {
   form.description = ''
 
-  const occurrenceText: HTMLTextAreaElement | null =
-    document.querySelector('#development_text')
-
-  if (occurrenceText) {
-    occurrenceText.value = ''
+  if (textarea.value) {
+    textarea.value.value = ''
   }
 }
 
@@ -236,11 +249,11 @@ function onSearchResultClick() {
 const selectPerson = function (person: Person) {
   form.description = form.description.replace(search.text, person.name)
   resetSearch()
-  const occurrenceTextArea = document.querySelector(
-    '#development_text'
-  ) as HTMLTextAreaElement
-  occurrenceTextArea.value = form.description
-  occurrenceTextArea.focus()
+
+  if (textarea.value) {
+    textarea.value.value = form.description
+  }
+  textarea.value?.focus()
 }
 
 const resetSearch = function () {
@@ -262,6 +275,8 @@ const getStartOfTextDifference = function (
   // if we get through all of oldText without finding a match then the difference is at the end
   return nonMatchingIndex >= 0 ? nonMatchingIndex : oldText.length
 }
+
+const emit = defineEmits(['development-created'])
 </script>
 
 <style scoped>

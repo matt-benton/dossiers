@@ -155,6 +155,11 @@ p {
   margin-bottom: var(--size-4);
 }
 
+hr {
+	border: 0.5px solid var(--inputBorder);
+  margin: var(--size-4) 0;
+}
+
 a {
   color: var(--linkColor);
 }

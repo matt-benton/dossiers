@@ -1,7 +1,17 @@
 <template>
-  <div class="card">
+  <div>
     <p v-html="developmentText" />
-    <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
+    <p>
+      <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
+    </p>
+    <button
+      type="button"
+      class="flex justify-center no-border"
+      v-if="replyable"
+      @click="onReplyButtonClicked"
+    >
+      <Reply />
+    </button>
     <button
       v-if="closeable"
       type="button"
@@ -17,6 +27,7 @@
 import { defineEmits, computed } from 'vue'
 import { useFormatDate } from '../Composables/format'
 import Close from './Icons/Close.vue'
+import Reply from './Icons/Reply.vue'
 import Development from '../Types/Development'
 import Person from '../Types/Person'
 
@@ -84,12 +95,17 @@ const props = defineProps<{
   development: Development
   peopleInThread: Person[]
   closeable?: Boolean
+  replyable?: Boolean
 }>()
 
-const emit = defineEmits(['close-button-clicked'])
+const emit = defineEmits(['close-button-clicked', 'reply-button-clicked'])
 
 function onCloseButtonClicked() {
   emit('close-button-clicked')
+}
+
+function onReplyButtonClicked() {
+  emit('reply-button-clicked')
 }
 </script>
 
