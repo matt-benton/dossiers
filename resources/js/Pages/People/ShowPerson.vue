@@ -19,15 +19,6 @@
         :removable-developments="true"
         @development-removed="selectDevelopmentForDelete"
       />
-      <div v-for="thread in person.threads">
-        <DevelopmentCard
-          v-for="dev in thread.developments"
-          :development="dev"
-          :closeable="true"
-          :people-in-thread="thread.people"
-          v-on:close-button-clicked="selectDevelopmentForDelete(dev)"
-        />
-      </div>
     </div>
   </Authenticated>
   <Modal :visible="modal.visible" v-on:modal-closed="resetModal">
@@ -58,7 +49,6 @@ import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Cake from '../../Components/Icons/Cake.vue'
 import Pencil from '../../Components/Icons/Pencil.vue'
 import Modal from '../../Components/Modal.vue'
-import DevelopmentCard from '../../Components/DevelopmentCard.vue'
 import Person from '../../Types/Person'
 import Development from '../../Types/Development'
 import ThreadList from '../../Components/ThreadList.vue'

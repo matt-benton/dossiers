@@ -6,6 +6,7 @@ use App\Models\Person;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
+use DB;
 
 class PersonController extends Controller
 {
@@ -75,7 +76,13 @@ class PersonController extends Controller
     public function show(Person $person)
     {
       $person->load(['threads' => function ($query) {
+        $query->select(
+          'threads.id',
+          'threads.created_at',
+          'threads.updated_at',
+          DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"));
         $query->with(['developments', 'people:id,name']);
+        $query->orderBy('last_development_at', 'desc');
       }]);
 
       return inertia('People/ShowPerson')->with(['person' => $person]);
