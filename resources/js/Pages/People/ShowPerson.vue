@@ -13,6 +13,12 @@
       >
     </div>
     <div v-if="person.threads && person.threads.length > 0" id="threads-list">
+      <ThreadList
+        v-for="thread in person.threads"
+        :thread="thread"
+        :removable-developments="true"
+        @development-removed="selectDevelopmentForDelete"
+      />
       <div v-for="thread in person.threads">
         <DevelopmentCard
           v-for="dev in thread.developments"
@@ -55,6 +61,7 @@ import Modal from '../../Components/Modal.vue'
 import DevelopmentCard from '../../Components/DevelopmentCard.vue'
 import Person from '../../Types/Person'
 import Development from '../../Types/Development'
+import ThreadList from '../../Components/ThreadList.vue'
 
 let props = defineProps<{
   person: Person
@@ -93,7 +100,9 @@ let deleteDevelopmentForm = useForm({})
 
 const confirmDelete = function (development: Development | null) {
   if (development) {
-    deleteDevelopmentForm.delete(`/developments/${development.id}`)
+    deleteDevelopmentForm.delete(`/developments/${development.id}`, {
+      preserveScroll: true,
+    })
   }
 
   resetModal()

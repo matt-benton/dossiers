@@ -66,7 +66,15 @@ class DevelopmentController extends Controller
      */
     public function destroy(Development $development)
     {
-      $development->delete();
+      /**
+       * If this is the only development in the thread
+       * then delete the thread.
+       */
+      if (count($development->thread->developments) > 1) {
+        $development->delete();
+      } else {
+        $development->thread->delete();
+      }
 
       return redirect()->back()->with('message', 'Event deleted.');
     }

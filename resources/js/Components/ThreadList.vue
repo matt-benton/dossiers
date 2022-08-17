@@ -5,7 +5,9 @@
         :development="dev"
         :people-in-thread="thread.people"
         :replyable="index + 1 === thread.developments.length"
+        :closeable="removableDevelopments"
         @reply-button-clicked="showModal(thread)"
+        @close-button-clicked="forwardDevelopmentRemovedEvent(dev)"
       />
       <hr v-if="index + 1 !== thread.developments.length" />
     </div>
@@ -22,6 +24,7 @@
 import { reactive } from 'vue'
 import DevelopmentCard from '../Components/DevelopmentCard.vue'
 import Modal from '../Components/Modal.vue'
+import Development from '../Types/Development'
 import Thread from '../Types/Thread'
 import DevelopmentInput from './DevelopmentInput.vue'
 
@@ -42,7 +45,16 @@ function showModal(thread: Thread) {
 
 defineProps<{
   thread: Thread
+  removableDevelopments?: boolean
 }>()
+
+const emit = defineEmits<{
+  (e: 'development-removed', developmentId: Development): void
+}>()
+
+function forwardDevelopmentRemovedEvent(development: Development) {
+  emit('development-removed', development)
+}
 </script>
 
 <style scoped>

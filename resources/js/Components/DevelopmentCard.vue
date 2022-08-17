@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <p v-html="developmentText" />
     <p>
       <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
@@ -110,14 +110,14 @@ function onReplyButtonClicked() {
 </script>
 
 <style scoped>
-.card {
+.relative {
   position: relative;
 }
 
 .close-button {
   position: absolute;
-  top: var(--size-4);
-  right: var(--size-4);
+  top: 0;
+  right: 0;
 }
 
 .close-button svg {
