@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submitForm">
-    <label for="development_text">What's happening?</label>
+    <label for="development_text">{{ props.label }}</label>
     <textarea
       id="development_text"
       @input="onInput"
@@ -42,9 +42,14 @@ import PersonIcon from './Icons/Person.vue'
 import Person from '../Types/Person'
 import Thread from '../Types/Thread'
 
-const props = defineProps<{
+interface Props {
   thread?: Thread
-}>()
+  label?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  label: "What's happening?",
+})
 
 const form = useForm({
   description: '',

@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition>
-      <div class="backdrop" v-show="visible" @click="onBackdropClicked">
+      <div class="backdrop" v-if="visible" @click="onBackdropClicked">
         <div class="modal">
           <div class="center-container-sm">
             <div class="card">
@@ -44,7 +44,7 @@ const emit = defineEmits(['modal-closed'])
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -165%);
+  transform: translate(-50%, -70%);
 }
 
 .v-enter-active,

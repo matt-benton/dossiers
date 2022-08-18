@@ -13,9 +13,15 @@
     </div>
   </div>
   <Modal :visible="modal.visible" @modal-closed="modal.visible = false">
+    <ul>
+      <li v-for="dev in thread.developments">
+        <DevelopmentText :development="dev" :people-in-thread="thread.people" />
+      </li>
+    </ul>
     <DevelopmentInput
       :thread="thread"
       @development-created="modal.visible = false"
+      label="What happened next?"
     />
   </Modal>
 </template>
@@ -27,6 +33,7 @@ import Modal from '../Components/Modal.vue'
 import Development from '../Types/Development'
 import Thread from '../Types/Thread'
 import DevelopmentInput from './DevelopmentInput.vue'
+import DevelopmentText from './DevelopmentText.vue'
 
 interface Modal {
   visible: boolean
@@ -60,5 +67,14 @@ function forwardDevelopmentRemovedEvent(development: Development) {
 <style scoped>
 .thread {
   margin-bottom: var(--size-5);
+}
+
+ul {
+  margin-top: 0;
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
 }
 </style>
