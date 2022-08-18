@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Person;
+use App\Rules\AlphaNumSpace;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
@@ -51,7 +52,7 @@ class PersonController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'name' => 'required|max:75|alpha_num',
+        'name' => ['required', 'max:75', new AlphaNumSpace],
         'relationship' => 'max:255',
         'birthmonth' => 'nullable|between:1,12',
         'birthday' => 'nullable|between:1,31',
