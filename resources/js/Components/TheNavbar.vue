@@ -15,25 +15,24 @@
             <ThemeButton />
           </li>
           <li>
-            <div class="dropdown">
+            <div class="dropdown-container">
               <div
                 class="dropdown-toggle"
                 @click="accountDropDownVisible = true"
               >
                 {{ user.email }} <ChevronDown />
               </div>
-              <ul class="dropdown-menu" v-show="accountDropDownVisible">
-                <li><Link href="/design_system">Design System</Link></li>
-                <li><Link href="/logout">Log out</Link></li>
-              </ul>
+              <Dropdown
+                :visible="accountDropDownVisible"
+                @dropdown-close="hideAccountDropDown"
+                direction="right"
+              >
+                <ul class="dropdown-menu" v-show="accountDropDownVisible">
+                  <li><Link href="/design_system">Design System</Link></li>
+                  <li><Link href="/logout">Log out</Link></li>
+                </ul>
+              </Dropdown>
             </div>
-            <Teleport to="body">
-              <div
-                class="dropdown-cover"
-                v-show="accountDropDownVisible"
-                @click="hideAccountDropDown"
-              ></div>
-            </Teleport>
           </li>
         </ul>
       </div>
@@ -46,6 +45,7 @@ import ThemeButton from './ThemeButton.vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { ref } from 'vue'
 import type User from '../types/User'
+import Dropdown from './Dropdown.vue'
 
 let accountDropDownVisible = ref(false)
 
@@ -56,7 +56,7 @@ function hideAccountDropDown(event: Event) {
   }
 }
 
-let props = defineProps<{
+defineProps<{
   user?: User
 }>()
 </script>
@@ -98,7 +98,7 @@ li {
   margin-left: var(--size-5);
 }
 
-.dropdown {
+.dropdown-container {
   position: relative;
 }
 
@@ -113,28 +113,15 @@ li {
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: var(--size-8);
-  right: 0;
   display: flex;
   flex-direction: column;
   gap: var(--size-2);
   background-color: var(--cardBg);
   border-radius: 5px;
   padding: var(--size-4) var(--size-5);
-  z-index: 9999;
 }
 
 .dropdown-menu li a {
   white-space: nowrap;
-}
-
-.dropdown-cover {
-  background: transparent;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 </style>

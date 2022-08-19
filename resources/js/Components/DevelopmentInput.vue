@@ -7,6 +7,23 @@
       @keydown="onKeydown"
       ref="textarea"
     ></textarea>
+    <Dropdown
+      :visible="search.results.length > 0"
+      @dropdown-close="resetSearch"
+    >
+      <ul id="search-results-list">
+        <li
+          v-for="(person, index) in search.results"
+          :key="index"
+          @click="onSearchResultClick"
+          :class="{ highlighted: search.highlightedResultIndex === index }"
+          @mouseover="search.highlightedResultIndex = index"
+        >
+          <PersonIcon />
+          {{ person.name }}
+        </li>
+      </ul>
+    </Dropdown>
     <div
       class="flex"
       :class="{
@@ -19,18 +36,6 @@
       </span>
       <button>Save</button>
     </div>
-    <ul v-show="search.results.length > 0" id="search-results-list">
-      <li
-        v-for="(person, index) in search.results"
-        :key="index"
-        @click="onSearchResultClick"
-        :class="{ highlighted: search.highlightedResultIndex === index }"
-        @mouseover="search.highlightedResultIndex = index"
-      >
-        <PersonIcon />
-        {{ person.name }}
-      </li>
-    </ul>
   </form>
 </template>
 
@@ -41,6 +46,7 @@ import { reactive, ref } from 'vue'
 import PersonIcon from './Icons/Person.vue'
 import Person from '../Types/Person'
 import Thread from '../Types/Thread'
+import Dropdown from './Dropdown.vue'
 
 interface Props {
   thread?: Thread
@@ -296,6 +302,7 @@ form {
   border: 2px solid var(--inputBorder);
   border-radius: var(--rounded-md);
   padding: var(--size-1) 0;
+  margin-top: 0;
   list-style-type: none;
   z-index: 50;
 }
@@ -318,5 +325,9 @@ form {
   height: var(--text-base);
   width: var(--text-base);
   margin-right: var(--size-2);
+}
+
+.dropdown-container {
+  position: relative;
 }
 </style>
