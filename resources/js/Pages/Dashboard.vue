@@ -3,7 +3,7 @@
 
   <Layout>
     <div class="row">
-      <DevelopmentInput />
+      <DevelopmentInput unique-id="dash" />
     </div>
     <div class="row">
       <div v-if="threads">

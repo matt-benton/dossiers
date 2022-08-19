@@ -22,6 +22,7 @@
       :thread="thread"
       @development-created="modal.visible = false"
       label="What happened next?"
+      :unique-id="thread.id"
     />
   </Modal>
 </template>

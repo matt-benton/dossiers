@@ -1,17 +1,17 @@
 <template>
   <form @submit.prevent="submitForm">
-    <label for="development_text">{{ props.label }}</label>
+    <label :for="`development-textarea-${uniqueId}`">{{ props.label }}</label>
     <textarea
-      id="development_text"
       @input="onInput"
       @keydown="onKeydown"
       ref="textarea"
+      :id="`development-textarea-${uniqueId}`"
     ></textarea>
     <Dropdown
       :visible="search.results.length > 0"
       @dropdown-close="resetSearch"
     >
-      <ul id="search-results-list">
+      <ul class="search-results-list">
         <li
           v-for="(person, index) in search.results"
           :key="index"
@@ -51,6 +51,7 @@ import Dropdown from './Dropdown.vue'
 interface Props {
   thread?: Thread
   label?: string
+  uniqueId: string | number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -295,7 +296,7 @@ form {
   position: relative;
 }
 
-#search-results-list {
+.search-results-list {
   position: absolute;
   background-color: var(--cardBg);
   top: 70px;
@@ -307,13 +308,13 @@ form {
   z-index: 50;
 }
 
-#search-results-list li {
+.search-results-list li {
   padding: var(--size-1) var(--size-5);
   display: flex;
   align-items: center;
 }
 
-#search-results-list li:hover {
+.search-results-list li:hover {
   cursor: pointer;
 }
 
@@ -321,7 +322,7 @@ form {
   background-color: var(--bgHighlight);
 }
 
-#search-results-list svg {
+.search-results-list svg {
   height: var(--text-base);
   width: var(--text-base);
   margin-right: var(--size-2);

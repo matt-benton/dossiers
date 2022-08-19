@@ -1,7 +1,13 @@
 <template>
-  <Teleport to="main">
+  <Teleport to="body">
     <Transition>
-      <div class="backdrop" v-if="visible" @click="onBackdropClicked">
+      <div
+        class="backdrop"
+        v-if="visible"
+        @click="onBackdropClicked"
+        role="dialog"
+        aria-label="Dialog"
+      >
         <div class="modal">
           <div class="center-container-sm">
             <div class="card">
