@@ -116,11 +116,23 @@ class PersonController extends Controller
         'birthday' => 'nullable|between:1,31',
       ]);
 
-      $person->name = $request->name;
-      $person->relationship = $request->relationship;
-      $person->birthmonth = $request->birthmonth;
-      $person->birthday = $request->birthday;
-      $person->save();
+      DB::transaction(function () use ($person, $request) {
+        $developments = $person->threads->flatMap(function ($thread) {
+          return $thread->developments;
+        });
+
+        foreach ($developments as $dev) {
+          $dev->description = str_replace("@{$person->name}", "@{$request->name}", $dev->description);
+          $dev->save();
+        }
+
+        $person->name = $request->name;
+        $person->relationship = $request->relationship;
+        $person->birthmonth = $request->birthmonth;
+        $person->birthday = $request->birthday;
+        $person->save();
+      });
+
 
       return redirect()->back()->with('message', "Info for {$request->name} updated.");
     }
