@@ -4,7 +4,7 @@
     <div class="row">
       <Breadcrumb :links="breadcrumb" />
       <h2>{{ person.name }}</h2>
-      <h4>{{ person.relationship }}</h4>
+      <h3 class="text-xl">{{ person.relationship }}</h3>
       <p v-if="person.birthmonth && person.birthday">
         <Cake /> {{ person.birthmonth_text }} {{ person.birthday }}
       </p>

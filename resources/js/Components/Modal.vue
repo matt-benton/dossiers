@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport to="main">
     <Transition>
       <div class="backdrop" v-if="visible" @click="onBackdropClicked">
         <div class="modal">

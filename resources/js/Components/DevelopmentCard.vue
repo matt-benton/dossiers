@@ -9,17 +9,19 @@
     </p>
     <button
       type="button"
-      class="flex justify-center no-border"
+      class="btn-icon-text no-border"
       v-if="replyable"
       @click="onReplyButtonClicked"
     >
       <Reply />
+      Next
     </button>
     <button
       v-if="closeable"
       type="button"
       class="close-button flex no-border justify-center"
       @click="onCloseButtonClicked"
+      aria-label="Close"
     >
       <Close />
     </button>
