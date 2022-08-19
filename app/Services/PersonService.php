@@ -17,7 +17,7 @@ class PersonService
 
     foreach ($words as $word) {
       if (substr($word, 0, 1) === '@') {
-        // @ tells us this is the first word for selecting a person
+        // @ tells us this is the first letter for selecting a person
         $matchText = substr($word, 1);
       } else if (count($matchingPeople) > 0) {
         // previous words have failed to narrow down a match
@@ -30,7 +30,13 @@ class PersonService
 
       // filter people based on our string of text
       $matchingPeople = $people->filter(function ($person) use ($matchText) {
-        return str_contains(strtoupper($person->name), strtoupper($matchText));
+        $possibleNames = $person->getPossibleNames();
+
+        $possibleMatches = array_filter($possibleNames, function ($pName) use ($matchText) {
+          return str_contains(strtoupper($pName), strtoupper($matchText));
+        });
+
+        return count($possibleMatches) > 0;
       });
 
       // if we have 1 person left then that's our match
