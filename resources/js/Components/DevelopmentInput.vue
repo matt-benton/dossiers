@@ -16,6 +16,7 @@
           v-for="(person, index) in search.results"
           :key="index"
           @click="onSearchResultClick"
+          class="search-results-list-item"
           :class="{ highlighted: search.highlightedResultIndex === index }"
           @mouseover="search.highlightedResultIndex = index"
         >
@@ -326,6 +327,10 @@ form {
   height: var(--text-base);
   width: var(--text-base);
   margin-right: var(--size-2);
+}
+
+.search-results-list-item {
+  white-space: nowrap;
 }
 
 .dropdown-container {
