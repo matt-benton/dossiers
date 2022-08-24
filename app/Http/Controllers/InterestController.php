@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Interest;
-use App\Rules\AlphaNumSpace;
 use Illuminate\Http\Request;
-use Auth;
 use Redirect;
+use Auth;
+use App\Rules\AlphaNumSpace;
 
 class InterestController extends Controller
 {
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(Interest::class, 'interest');
-    }
+  /**
+   * Create the controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+      $this->authorizeResource(Interest::class, 'interest');
+  }
 
     /**
      * Display a listing of the resource.
@@ -39,7 +39,7 @@ class InterestController extends Controller
      */
     public function create()
     {
-        return inertia('Interests/CreateInterest');
+      return inertia('Interests/CreateInterest');
     }
 
     /**
@@ -51,7 +51,7 @@ class InterestController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'name' => ['required', 'max:75', new AlphaNumSpace],
+        'name' => ['required', 'max:50', new AlphaNumSpace],
       ]);
 
       $interest = new Interest;
@@ -80,7 +80,7 @@ class InterestController extends Controller
      */
     public function edit(Interest $interest)
     {
-        //
+      return inertia('Interests/EditInterest')->with(['interest' => $interest]);
     }
 
     /**
@@ -92,7 +92,14 @@ class InterestController extends Controller
      */
     public function update(Request $request, Interest $interest)
     {
-        //
+      $request->validate([
+        'name' => 'required|max:50',
+      ]);
+
+      $interest->name = $request->name;
+      $interest->save();
+
+      return redirect()->back()->with('message', "Info for {$request->name} updated.");
     }
 
     /**
@@ -101,8 +108,10 @@ class InterestController extends Controller
      * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
-    public function destroy($interest)
+    public function destroy(Interest $interest)
     {
-        //
+      $interest->delete();
+
+      return redirect()->route('interests.index')->with('message', "{$interest->name} was removed.");
     }
 }
