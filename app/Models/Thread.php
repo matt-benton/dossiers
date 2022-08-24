@@ -20,6 +20,11 @@ class Thread extends Model
       return $this->morphedByMany(Person::class, 'threadable');
     }
 
+    public function interests()
+    {
+      return $this->morphedByMany(Interest::class, 'threadable');
+    }
+
     public function developments()
     {
       return $this->hasMany(Development::class);

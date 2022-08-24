@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\DevelopmentController;
+use App\Http\Controllers\InterestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ use App\Http\Controllers\DevelopmentController;
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('/', DashboardController::class)->name('dashboard');
   Route::resource('/people', PersonController::class);
+  Route::resource('/interests', InterestController::class);
   Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
 
   Route::prefix('api')->name('api.')->group(function () {

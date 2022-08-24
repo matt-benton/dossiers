@@ -7,6 +7,7 @@
       <div class="navbar-menu-left">
         <ul>
           <li><Link href="/people">People</Link></li>
+          <li><Link href="/interests">Interests</Link></li>
         </ul>
       </div>
       <div class="navbar-menu-right">

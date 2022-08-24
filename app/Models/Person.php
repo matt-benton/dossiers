@@ -16,6 +16,11 @@ class Person extends Model
       return $this->belongsTo(User::class);
     }
 
+    public function interests()
+    {
+      return $this->belongsToMany(Interest::class);
+    }
+
     public function threads()
     {
       return $this->morphToMany(Thread::class, 'threadable');
