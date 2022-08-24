@@ -11,6 +11,16 @@ use Redirect;
 class InterestController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Interest::class, 'interest');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -54,7 +64,7 @@ class InterestController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Interest  $person
+     * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
     public function show(Interest $interest)
@@ -65,10 +75,10 @@ class InterestController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Interest $interest)
     {
         //
     }
@@ -77,10 +87,10 @@ class InterestController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Interest $interest)
     {
         //
     }
@@ -88,10 +98,10 @@ class InterestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($interest)
     {
         //
     }
