@@ -68,7 +68,7 @@ function onSearchKeydown() {
 
 async function getPeople() {
   await axios
-    .get(`/api/people?name=${search.text}&relationship=${search.text}`)
+    .get(`/search/people?name=${search.text}&relationship=${search.text}`)
     .then((response) => {
       search.results = response.data.people
     })

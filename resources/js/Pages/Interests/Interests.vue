@@ -60,7 +60,7 @@ function onSearchKeydown() {
 }
 
 async function getInterests() {
-  await axios.get(`/api/interests?name=${search.text}`).then((response) => {
+  await axios.get(`/search/interests?name=${search.text}`).then((response) => {
     search.results = response.data.interests
   })
 }
