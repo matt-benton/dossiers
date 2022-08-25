@@ -23,4 +23,58 @@ class Interest extends Model
     {
       return $this->morphToMany(Thread::class, 'threadable');
     }
+
+    public function getPossibleNames()
+    {
+      return [
+        $this->attributes['name'],
+        $this->possessiveName(),
+        $this->endOfSentenceName(),
+        $this->nameWithComma(),
+        $this->nameWithBeginningDoubleQuote(),
+        $this->nameWithEndingDoubleQuote(),
+        $this->nameWithBeginningSingleQuote(),
+        $this->nameWithEndingSingleQuote(),
+      ];
+    }
+
+    public function possessiveName()
+    {
+      return $this->attributes['name'] . "'s";
+    }
+
+    public function endOfSentenceName()
+    {
+      return $this->attributes['name'] . ".";
+    }
+
+    public function nameWithComma()
+    {
+      return $this->attributes['name'] . ",";
+    }
+
+    public function nameWithSemicolon()
+    {
+      return $this->attributes['name'] . ";";
+    }
+
+    public function nameWithBeginningDoubleQuote()
+    {
+      return '"' . $this->attributes['name'];
+    }
+
+    public function nameWithEndingDoubleQuote()
+    {
+      return $this->attributes['name'] . '"';
+    }
+
+    public function nameWithBeginningSingleQuote()
+    {
+      return "'" . $this->attributes['name'];
+    }
+
+    public function nameWithEndingSingleQuote()
+    {
+      return $this->attributes['name'] . "'";
+    }
 }

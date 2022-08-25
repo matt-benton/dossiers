@@ -3,6 +3,7 @@
     <DevelopmentText
       :development="development"
       :people-in-thread="peopleInThread"
+      :interests-in-thread="interestsInThread"
     />
     <p>
       <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
@@ -35,11 +36,13 @@ import Close from './Icons/Close.vue'
 import Reply from './Icons/Reply.vue'
 import Development from '../Types/Development'
 import Person from '../Types/Person'
+import Interest from '../Types/Interest'
 import DevelopmentText from './DevelopmentText.vue'
 
 defineProps<{
   development: Development
   peopleInThread: Person[]
+  interestsInThread: Interest[]
   closeable?: Boolean
   replyable?: Boolean
 }>()

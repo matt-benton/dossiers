@@ -13,15 +13,16 @@
     >
       <ul class="search-results-list">
         <li
-          v-for="(person, index) in search.results"
+          v-for="(result, index) in search.results"
           :key="index"
           @click="onSearchResultClick"
           class="search-results-list-item"
           :class="{ highlighted: search.highlightedResultIndex === index }"
           @mouseover="search.highlightedResultIndex = index"
         >
-          <PersonIcon />
-          {{ person.name }}
+          <PersonIcon v-if="result.hasOwnProperty('relationship')" />
+          <ChatBubble v-else />
+          {{ result.name }}
         </li>
       </ul>
     </Dropdown>
@@ -46,8 +47,10 @@ import { useForm } from '@inertiajs/inertia-vue3'
 import { reactive, ref } from 'vue'
 import PersonIcon from './Icons/Person.vue'
 import Person from '../Types/Person'
+import Interest from '../Types/Interest'
 import Thread from '../Types/Thread'
 import Dropdown from './Dropdown.vue'
+import ChatBubble from './Icons/ChatBubble.vue'
 
 interface Props {
   thread?: Thread
@@ -68,7 +71,7 @@ const textarea = ref<HTMLInputElement | null>(null)
 
 interface Search {
   text: string
-  results: Array<Person>
+  results: Array<Person | Interest>
   keylogging: boolean
   highlightedResultIndex: number | null
 }
@@ -148,15 +151,20 @@ const onInput = function (event: Event) {
   form.description = newText
 
   if (search.text.length > 0) {
-    let url = `/api/people?name=${search.text}`
+    let peopleUrl = `/search/people?name=${search.text}`
+    let interestUrl = `/search/interests?name=${search.text}`
 
-    axios.get(url).then((response) => {
-      search.results = response.data.people
+    axios
+      .all([axios.get(peopleUrl), axios.get(interestUrl)])
+      .then((response) => {
+        search.results = response[0].data.people.concat(
+          response[1].data.interests
+        )
 
-      if (search.results.length > 0) {
-        search.highlightedResultIndex = 0
-      }
-    })
+        if (search.results.length > 0) {
+          search.highlightedResultIndex = 0
+        }
+      })
   }
 }
 
@@ -167,10 +175,10 @@ const onKeydown = function (event: KeyboardEvent) {
 
       if (!search.highlightedResultIndex) {
         if (search.results.length > 0) {
-          selectPerson(search.results[0])
+          selectResult(search.results[0])
         }
       } else {
-        selectPerson(search.results[search.highlightedResultIndex])
+        selectResult(search.results[search.highlightedResultIndex])
       }
     }
   }
@@ -255,12 +263,12 @@ const getDeletedText = function (
 
 function onSearchResultClick() {
   if (search.highlightedResultIndex) {
-    selectPerson(search.results[search.highlightedResultIndex])
+    selectResult(search.results[search.highlightedResultIndex])
   }
 }
 
-const selectPerson = function (person: Person) {
-  form.description = form.description.replace(search.text, person.name)
+const selectResult = function (result: Person | Interest) {
+  form.description = form.description.replace(search.text, result.name)
   resetSearch()
 
   if (textarea.value) {

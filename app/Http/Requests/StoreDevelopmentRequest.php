@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Services\PersonService;
+use App\Services\SearchStringService;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\HasPerson;
+use App\Rules\HasPersonOrInterest;
 
 class StoreDevelopmentRequest extends FormRequest
 {
@@ -23,11 +23,11 @@ class StoreDevelopmentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(PersonService $personService)
+    public function rules(SearchStringService $searchStringService)
     {
         return [
             'thread_id' => 'exists:threads,id',
-            'description' => ['required', 'max:255', 'string', new HasPerson($personService)],
+            'description' => ['required', 'max:255', 'string', new HasPersonOrInterest($searchStringService)],
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Development;
-use App\Services\PersonService;
+use App\Services\SearchStringService;
 use App\Http\Requests\StoreDevelopmentRequest;
 use App\Models\Thread;
 use Auth;
@@ -13,12 +13,12 @@ class DevelopmentController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  PersonService  $personService
+     * @param  SearchStringService  $searchStringService
      * @return void
      */
-    public function __construct(PersonService $personService)
+    public function __construct(SearchStringService $searchStringService)
     {
-        $this->personService = $personService;
+        $this->searchStringService = $searchStringService;
         $this->authorizeResource(Development::class);
     }
 
@@ -31,14 +31,16 @@ class DevelopmentController extends Controller
     public function store(StoreDevelopmentRequest $request)
     {
         $people = Auth::user()->people()->select(['id', 'name'])->get();
+        $interests = Auth::user()->interests()->select(['id', 'name'])->get();
 
-        $parsedPersonIds = $this->personService->findPeopleInString($request->description, $people);
+        $parsedPersonIds = $this->searchStringService->findPeopleInString($request->description, $people);
+        $parsedInterestIds = $this->searchStringService->findInterestsInString($request->description, $interests);
 
         if ($request->filled('thread_id')) {
           $thread = Thread::findOrFail($request->thread_id);
         } else {
           $thread = new Thread;
-          $thread->save();
+          Auth::user()->threads()->save($thread);
         }
 
         $development = new Development;
@@ -46,14 +48,17 @@ class DevelopmentController extends Controller
         $thread->developments()->save($development);
 
         /**
-         * Since threads relate to people instead of
-         * developments, we have to add only people
+         * Since threads relate to people/interests instead of
+         * developments, we have to add only people/interests
          * who aren't already related to this thread.
          */
         $existingThreadPersonIds = $thread->people->pluck('id');
+        $existingInterestIds = $thread->interests->pluck('id');
         $newThreadPersonIds = $parsedPersonIds->diff($existingThreadPersonIds);
+        $newThreadInterestIds = $parsedInterestIds->diff($existingInterestIds);
 
         $thread->people()->attach($newThreadPersonIds->all());
+        $thread->interests()->attach($newThreadInterestIds->all());
 
         return redirect()->back()->with('message', "Event added successfully.");
     }

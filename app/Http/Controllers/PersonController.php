@@ -82,7 +82,7 @@ class PersonController extends Controller
           'threads.created_at',
           'threads.updated_at',
           DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"));
-        $query->with(['developments', 'people:id,name']);
+        $query->with(['developments', 'people:id,name', 'interests:id,name']);
         $query->orderBy('last_development_at', 'desc');
       }]);
 

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
       return $this->hasMany(Interest::class);
     }
+
+    public function threads()
+    {
+      return $this->hasMany(Thread::class);
+    }
 }

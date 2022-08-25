@@ -6,10 +6,12 @@
 import { computed } from 'vue'
 import Development from '../Types/Development'
 import Person from '../Types/Person'
+import Interest from '../Types/Interest'
 
 const props = defineProps<{
   development: Development
   peopleInThread: Person[]
+  interestsInThread: Interest[]
 }>()
 
 const developmentText = computed(() => {
@@ -18,35 +20,17 @@ const developmentText = computed(() => {
   // loop through all the people tagged in this development
   // and insert tags to highlight their names
   props.peopleInThread.forEach((person) => {
-    // get the index of the start and end of this person's name in the text
-    const nameLoc = findPersonNameInText(insertedText, `@${person.name}`)
+    insertedText = highlightStringInText(insertedText, person.name)
+  })
 
-    if (nameLoc.start === null || nameLoc.end === null) {
-      return ''
-    }
-
-    // this is a variable so we can get the length for the second insert
-    const firstInsertText = '<b>'
-
-    // insert the beginning tags
-    insertedText = insertIntoMidString(
-      insertedText,
-      firstInsertText,
-      nameLoc.start
-    )
-
-    // insert the end tags
-    insertedText = insertIntoMidString(
-      insertedText,
-      '</b>',
-      nameLoc.end + firstInsertText.length
-    )
+  props.interestsInThread.forEach((interest) => {
+    insertedText = highlightStringInText(insertedText, interest.name)
   })
 
   return insertedText
 })
 
-const findPersonNameInText = function (
+const findNameInText = function (
   text: string,
   personName: string
 ): { start: number | null; end: number | null } {
@@ -70,5 +54,25 @@ const insertIntoMidString = function (
   return (
     string.slice(0, index) + insertText + string.slice(index, string.length)
   )
+}
+
+function highlightStringInText(text: string, str: string): string {
+  // get the index of the start and end of this person's name in the text
+  const nameLoc = findNameInText(text, `@${str}`)
+
+  if (nameLoc.start === null || nameLoc.end === null) {
+    return ''
+  }
+
+  // this is a variable so we can get the length for the second insert
+  const firstInsertText = '<b>'
+
+  // insert the beginning tags
+  text = insertIntoMidString(text, firstInsertText, nameLoc.start)
+
+  // insert the end tags
+  text = insertIntoMidString(text, '</b>', nameLoc.end + firstInsertText.length)
+
+  return text
 }
 </script>

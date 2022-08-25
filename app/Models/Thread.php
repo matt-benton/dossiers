@@ -29,4 +29,9 @@ class Thread extends Model
     {
       return $this->hasMany(Development::class);
     }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class);
+    }
 }

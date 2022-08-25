@@ -4,6 +4,7 @@
       <DevelopmentCard
         :development="dev"
         :people-in-thread="thread.people"
+        :interests-in-thread="thread.interests"
         :replyable="index + 1 === thread.developments.length"
         :closeable="removableDevelopments"
         @reply-button-clicked="showModal(thread)"
@@ -15,7 +16,11 @@
   <Modal :visible="modal.visible" @modal-closed="modal.visible = false">
     <ul>
       <li v-for="dev in thread.developments">
-        <DevelopmentText :development="dev" :people-in-thread="thread.people" />
+        <DevelopmentText
+          :development="dev"
+          :people-in-thread="thread.people"
+          :interests-in-thread="thread.interests"
+        />
       </li>
     </ul>
     <DevelopmentInput

@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\InterestController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::resource('/interests', InterestController::class);
   Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
 
-  Route::prefix('api')->name('api.')->group(function () {
-    Route::resource('/people', ApiPersonController::class);
+  Route::prefix('search')->name('search.')->group(function () {
+    Route::get('/people', [SearchController::class, 'people']);
+    Route::get('/interests', [SearchController::class, 'interests']);
   });
 });
 
