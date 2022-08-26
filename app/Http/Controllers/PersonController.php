@@ -82,20 +82,44 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-      $person->load(['threads' => function ($query) {
-        $query->select(
-          'threads.id',
-          'threads.created_at',
-          'threads.updated_at',
-          DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"));
-        $query->with(['developments', 'people:id,name', 'interests:id,name']);
-        $query->orderBy('last_development_at', 'desc');
-      },
-      'interests' => function ($query) {
+      // get the person's interests
+      $person->load(['interests' => function ($query) {
         $query->orderBy('name');
       }]);
 
-      return inertia('People/ShowPerson')->with(['person' => $person]);
+      // get threads about this person
+      $personThreads = $person->threads()->select(
+          'threads.id',
+          'threads.created_at',
+          'threads.updated_at',
+          DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+        )
+        ->with(['developments', 'people:id,name', 'interests:id,name'])
+        ->get();
+
+      // get threads for things this person is interested in
+      $interestThreads = $person->interests()->with(['threads' => function ($query) {
+          $query->select(
+            'threads.id',
+            'threads.created_at',
+            'threads.updated_at',
+            DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+          );
+          $query->with(['developments', 'people:id,name', 'interests:id,name']);
+        }])
+        ->get()
+        ->flatMap(function ($interest) {
+          return $interest->threads;
+        });
+
+      // combine threads about the person with threads the person is interested in
+      $combinedThreads = $personThreads->concat($interestThreads)->sortByDesc('last_development_at')->unique('id');
+      $threads = $combinedThreads->values()->all();
+
+      return inertia('People/ShowPerson')->with([
+        'person' => $person,
+        'threads' => $threads,
+      ]);
     }
 
     /**

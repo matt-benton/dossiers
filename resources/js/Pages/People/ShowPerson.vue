@@ -18,10 +18,10 @@
         <li v-for="int in person.interests">{{ int.name }}</li>
       </ul>
     </div>
-    <div v-if="person.threads && person.threads.length > 0" id="threads-list">
+    <div v-if="threads.length > 0" id="threads-list">
       <h3 class="text-lg">Events</h3>
       <ThreadList
-        v-for="thread in person.threads"
+        v-for="thread in threads"
         :thread="thread"
         :removable-developments="true"
         @development-removed="selectDevelopmentForDelete"
@@ -58,10 +58,12 @@ import Pencil from '../../Components/Icons/Pencil.vue'
 import Modal from '../../Components/Modal.vue'
 import Person from '../../Types/Person'
 import Development from '../../Types/Development'
+import Thread from '../../Types/Thread'
 import ThreadList from '../../Components/ThreadList.vue'
 
 let props = defineProps<{
   person: Person
+  threads: Thread[]
 }>()
 
 let breadcrumb = reactive([
