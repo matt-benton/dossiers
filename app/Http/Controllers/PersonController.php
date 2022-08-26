@@ -40,7 +40,9 @@ class PersonController extends Controller
      */
     public function create()
     {
-      return inertia('People/CreatePerson');
+      return inertia('People/CreatePerson')->with([
+        'interests' => Auth::user()->interests()->orderBy('name')->get(),
+      ]);
     }
 
     /**
@@ -56,6 +58,8 @@ class PersonController extends Controller
         'relationship' => 'max:255',
         'birthmonth' => 'nullable|between:1,12',
         'birthday' => 'nullable|between:1,31',
+        'interest_ids' => 'array',
+        'interest_ids.*' => 'integer',
       ]);
 
       $person = new Person;
@@ -64,6 +68,8 @@ class PersonController extends Controller
       $person->birthmonth = $request->birthmonth;
       $person->birthday = $request->birthday;
       Auth::user()->people()->save($person);
+
+      $person->interests()->sync($request->interest_ids);
 
       return Redirect::route('people.index')->with('message', "{$person->name} added successfully.");
     }
@@ -84,6 +90,9 @@ class PersonController extends Controller
           DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"));
         $query->with(['developments', 'people:id,name', 'interests:id,name']);
         $query->orderBy('last_development_at', 'desc');
+      },
+      'interests' => function ($query) {
+        $query->orderBy('name');
       }]);
 
       return inertia('People/ShowPerson')->with(['person' => $person]);
@@ -97,7 +106,10 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-      return inertia('People/EditPerson')->with(['person' => $person]);
+      return inertia('People/EditPerson')->with([
+        'person' => $person->load('interests'),
+        'interests' => Auth::user()->interests()->orderBy('name')->get(),
+      ]);
     }
 
     /**
@@ -114,6 +126,8 @@ class PersonController extends Controller
         'relationship' => 'max:255',
         'birthmonth' => 'nullable|between:1,12',
         'birthday' => 'nullable|between:1,31',
+        'interest_ids' => 'array',
+        'interest_ids.*' => 'integer',
       ]);
 
       DB::transaction(function () use ($person, $request) {
@@ -131,6 +145,8 @@ class PersonController extends Controller
         $person->birthmonth = $request->birthmonth;
         $person->birthday = $request->birthday;
         $person->save();
+
+        $person->interests()->sync($request->interest_ids);
       });
 
 

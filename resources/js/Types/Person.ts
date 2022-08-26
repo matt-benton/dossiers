@@ -1,4 +1,5 @@
 import Thread from "./Thread"
+import Interest from "./Interest"
 
 export default interface Person {
   id: number,
@@ -9,4 +10,5 @@ export default interface Person {
   birthmonth_text: string | null,
   user_id: number,
   threads?: Thread[],
+  interests?: Interest[],
 }

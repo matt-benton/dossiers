@@ -65,6 +65,19 @@
           </div>
         </form>
       </div>
+      <div class="card">
+        <h3 class="interests-header">Interests</h3>
+        <div v-for="int in interests" class="checkbox-group">
+          <input
+            type="checkbox"
+            :value="int.id"
+            name="interests"
+            :id="`interest-${int.id}`"
+            v-model="form.interest_ids"
+          />
+          <label :for="`interest-${int.id}`">{{ int.name }}</label>
+        </div>
+      </div>
     </div>
   </Authenticated>
 </template>
@@ -74,6 +87,11 @@ import { reactive } from 'vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
+import Interest from '../../Types/Interest'
+
+defineProps<{
+  interests: Interest[]
+}>()
 
 let breadCrumbLinks = reactive([
   {
@@ -105,9 +123,17 @@ let form = useForm({
   relationship: null,
   birthmonth: null,
   birthday: null,
+  interest_ids: [],
 })
 
 const submitForm = function () {
   form.post('/people')
 }
 </script>
+
+<style scoped>
+.interests-header {
+  font-size: var(--text-lg);
+  margin-bottom: var(--size-3);
+}
+</style>

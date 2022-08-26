@@ -12,7 +12,14 @@
         ><Pencil /> Update</Link
       >
     </div>
+    <div class="row" v-if="person.interests && person.interests.length > 0">
+      <h3 class="text-lg">Interests</h3>
+      <ul class="interests-list">
+        <li v-for="int in person.interests">{{ int.name }}</li>
+      </ul>
+    </div>
     <div v-if="person.threads && person.threads.length > 0" id="threads-list">
+      <h3 class="text-lg">Events</h3>
       <ThreadList
         v-for="thread in person.threads"
         :thread="thread"
@@ -102,5 +109,18 @@ const confirmDelete = function (development: Development | null) {
 <style scoped>
 #threads-list .card {
   margin-bottom: var(--size-5);
+}
+
+.interests-list {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  gap: var(--size-2);
+}
+
+.interests-list li {
+  background-color: var(--cardBg);
+  padding: var(--size-1) var(--size-3);
+  border-radius: var(--rounded-md);
 }
 </style>

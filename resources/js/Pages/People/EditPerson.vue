@@ -70,6 +70,19 @@
           </div>
         </form>
       </div>
+      <div class="card">
+        <h3 class="interests-header">Interests</h3>
+        <div v-for="int in interests" class="checkbox-group">
+          <input
+            type="checkbox"
+            :value="int.id"
+            name="interests"
+            :id="`interest-${int.id}`"
+            v-model="editForm.interest_ids"
+          />
+          <label :for="`interest-${int.id}`">{{ int.name }}</label>
+        </div>
+      </div>
     </div>
     <Modal
       :visible="deleteModalVisible"
@@ -95,9 +108,11 @@ import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Modal from '../../Components/Modal.vue'
 import Person from '../../Types/Person'
+import Interest from '../../Types/Interest'
 
 let props = defineProps<{
   person: Person
+  interests: Interest[]
 }>()
 
 const editForm = useForm({
@@ -105,6 +120,7 @@ const editForm = useForm({
   relationship: props.person.relationship,
   birthmonth: props.person.birthmonth,
   birthday: props.person.birthday,
+  interest_ids: props.person.interests?.map((int) => int.id),
 })
 
 const deleteForm = useForm({})
@@ -149,3 +165,10 @@ function confirmDelete() {
   deleteModalVisible.value = false
 }
 </script>
+
+<style scoped>
+.interests-header {
+  font-size: var(--text-lg);
+  margin-bottom: var(--size-3);
+}
+</style>
