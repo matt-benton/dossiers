@@ -6,6 +6,7 @@ use App\Models\Interest;
 use Illuminate\Http\Request;
 use Redirect;
 use Auth;
+use DB;
 use App\Rules\AlphaNumSpace;
 
 class InterestController extends Controller
@@ -69,6 +70,17 @@ class InterestController extends Controller
      */
     public function show(Interest $interest)
     {
+      $interest->load(['threads' => function ($query) {
+        $query->select(
+          'threads.id',
+          'threads.created_at',
+          'threads.updated_at',
+          DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'")
+        );
+        $query->with(['developments', 'people:id,name', 'interests:id,name']);
+        $query->orderBy('last_development_at', 'desc');
+      }]);
+
       return inertia('Interests/ShowInterest')->with(['interest' => $interest]);
     }
 

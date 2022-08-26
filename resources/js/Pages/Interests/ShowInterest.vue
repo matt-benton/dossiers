@@ -12,6 +12,7 @@
       v-if="interest.threads && interest.threads.length > 0"
       id="threads-list"
     >
+      <h3 class="text-lg">Events</h3>
       <ThreadList
         v-for="thread in interest.threads"
         :thread="thread"
