@@ -146,7 +146,7 @@ class PersonController extends Controller
     public function update(Request $request, Person $person)
     {
       $request->validate([
-        'name' => 'required|max:75',
+        'name' => ['required', 'max:75', new AlphaNumSpace],
         'relationship' => 'max:255',
         'birthmonth' => 'nullable|between:1,12',
         'birthday' => 'nullable|between:1,31',
