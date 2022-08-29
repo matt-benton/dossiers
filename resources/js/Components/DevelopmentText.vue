@@ -61,7 +61,7 @@ function highlightStringInText(text: string, str: string): string {
   const nameLoc = findNameInText(text, `@${str}`)
 
   if (nameLoc.start === null || nameLoc.end === null) {
-    return ''
+    return text
   }
 
   // this is a variable so we can get the length for the second insert
