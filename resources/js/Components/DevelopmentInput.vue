@@ -268,7 +268,8 @@ function onSearchResultClick() {
 }
 
 const selectResult = function (result: Person | Interest) {
-  form.description = form.description.replace(search.text, result.name)
+  const regex = new RegExp('@' + search.text)
+  form.description = form.description.replace(regex, `@${result.name}`)
   resetSearch()
 
   if (textarea.value) {
