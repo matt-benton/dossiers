@@ -32,7 +32,7 @@ class StoreDevelopmentRequest extends FormRequest
               'max:255',
               'string',
               new HasPersonOrInterest($searchStringService),
-              'regex:/^[^<>*^{}|[]]+$/'
+              'regex:/^[^<>*^{}|[\]]+$/'
             ],
         ];
     }
