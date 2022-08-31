@@ -118,11 +118,13 @@ const confirmDelete = function (development: Development | null) {
   padding-left: 0;
   display: flex;
   gap: var(--size-2);
+  flex-wrap: wrap;
 }
 
 .interests-list li {
   background-color: var(--cardBg);
   padding: var(--size-1) var(--size-3);
   border-radius: var(--rounded-md);
+  white-space: nowrap;
 }
 </style>
