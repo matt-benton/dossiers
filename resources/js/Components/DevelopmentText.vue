@@ -1,38 +1,63 @@
-<template>
-  <p v-html="developmentText" />
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
+<script lang="ts">
+import { computed, h, defineComponent } from 'vue'
+import { Link } from '@inertiajs/inertia-vue3'
 import Development from '../Types/Development'
 import Person from '../Types/Person'
 import Interest from '../Types/Interest'
+import type { PropType } from 'vue'
 
-const props = defineProps<{
-  development: Development
-  peopleInThread: Person[]
-  interestsInThread: Interest[]
-}>()
+export default defineComponent({
+  props: {
+    development: { type: Object as PropType<Development>, required: true },
+    peopleInThread: { type: Array as PropType<Person[]>, required: true },
+    interestsInThread: { type: Array as PropType<Interest[]>, required: true },
+  },
+  setup(props) {
+    const peopleAndInterests = computed(() => [
+      ...props.peopleInThread,
+      ...props.interestsInThread,
+    ])
 
-const developmentText = computed(() => {
-  let insertedText = props.development.description
+    const regex = computed(() => {
+      const pattern = peopleAndInterests.value
+        .map((personOrInterest) => '@' + personOrInterest.name)
+        .join('|')
 
-  // loop through all the people tagged in this development
-  // and insert tags to highlight their names
-  props.peopleInThread.forEach((person) => {
-    insertedText = insertedText.replaceAll(
-      `@${person.name}`,
-      `<b>@${person.name}</b>`
-    )
-  })
+      return new RegExp(`(${pattern})`)
+    })
 
-  props.interestsInThread.forEach((interest) => {
-    insertedText = insertedText.replaceAll(
-      `@${interest.name}`,
-      `<b>@${interest.name}</b>`
-    )
-  })
+    const parsed = props.development.description
+      .split(regex.value)
+      .map((str) => {
+        const matchingPerson = props.peopleInThread.find(
+          (person) => '@' + person.name === str
+        )
+        const matchingInterest = props.interestsInThread.find(
+          (interest) => '@' + interest.name === str
+        )
 
-  return insertedText
+        if (matchingPerson) {
+          return [
+            h(
+              Link,
+              { href: `/people/${matchingPerson.id}`, class: 'tag-link' },
+              () => str
+            ),
+          ]
+        } else if (matchingInterest) {
+          return [
+            h(
+              Link,
+              { href: `/interests/${matchingInterest.id}`, class: 'tag-link' },
+              () => str
+            ),
+          ]
+        }
+
+        return str
+      })
+
+    return () => h('p', parsed)
+  },
 })
 </script>

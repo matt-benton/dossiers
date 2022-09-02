@@ -162,10 +162,15 @@ hr {
 
 a {
   color: var(--linkColor);
+  text-decoration: none;
 }
 
 a:hover {
   color: var(--linkHighlight);
+}
+
+.tag-link {
+  font-weight: bold;
 }
 
 .text-danger {
