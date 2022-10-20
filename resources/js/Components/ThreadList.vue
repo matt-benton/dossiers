@@ -1,6 +1,6 @@
 <template>
   <div class="card thread">
-    <div v-for="(dev, index) in thread.developments">
+    <div v-for="(dev, index) in thread.developments" :key="dev.id">
       <DevelopmentCard
         :development="dev"
         :people-in-thread="thread.people"
