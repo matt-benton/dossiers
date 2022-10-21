@@ -8,17 +8,34 @@
         ><Pencil /> Update</Link
       >
     </div>
-    <div
-      v-if="interest.threads && interest.threads.length > 0"
-      id="threads-list"
-    >
-      <h3 class="text-lg">Events</h3>
-      <ThreadList
-        v-for="thread in interest.threads"
-        :thread="thread"
-        :removable-developments="true"
-        @development-removed="selectDevelopmentForDelete"
-      />
+    <div class="layout-2-col">
+      <div
+        v-if="interest.threads && interest.threads.length > 0"
+        id="threads-list"
+      >
+        <h3 class="text-lg">Events</h3>
+        <ThreadList
+          v-for="thread in interest.threads"
+          :thread="thread"
+          :removable-developments="true"
+          @development-removed="selectDevelopmentForDelete"
+        />
+      </div>
+      <div v-else>
+        <h3 class="text-lg">Events</h3>
+        <div class="card">No events have been added yet.</div>
+      </div>
+      <div>
+        <h5>Interested</h5>
+        <div class="card">
+          <span v-if="nobodyInterested()">No one is interested</span>
+          <ul v-else>
+            <li v-for="person in interest.people">
+              <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </Authenticated>
   <Modal :visible="modal.visible" v-on:modal-closed="resetModal">
@@ -96,10 +113,30 @@ const confirmDelete = function (development: Development | null) {
 
   resetModal()
 }
+
+function nobodyInterested() {
+  return props.interest.people && props.interest.people.length === 0
+}
 </script>
 
 <style scoped>
+.layout-2-col {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  gap: var(--size-5);
+}
+
 #threads-list .card {
   margin-bottom: var(--size-5);
+}
+
+ul {
+  padding-left: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+  margin-bottom: var(--size-1);
 }
 </style>
