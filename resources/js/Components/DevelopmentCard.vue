@@ -1,31 +1,35 @@
 <template>
-  <div class="relative">
-    <DevelopmentText
-      :development="development"
-      :people-in-thread="peopleInThread"
-      :interests-in-thread="interestsInThread"
-    />
-    <p>
-      <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
-    </p>
-    <button
-      type="button"
-      class="btn-icon-text no-border"
-      v-if="replyable"
-      @click="onReplyButtonClicked"
-    >
-      <Reply />
-      Next
-    </button>
-    <button
-      v-if="closeable"
-      type="button"
-      class="close-button flex no-border justify-center"
-      @click="onCloseButtonClicked"
-      aria-label="Close"
-    >
-      <Close />
-    </button>
+  <div class="layout-2-col">
+    <div>
+      <DevelopmentText
+        :development="development"
+        :people-in-thread="peopleInThread"
+        :interests-in-thread="interestsInThread"
+      />
+      <p>
+        <small>{{ useFormatDate(new Date(development.created_at)) }}</small>
+      </p>
+      <button
+        type="button"
+        class="btn-icon-text no-border"
+        v-if="replyable"
+        @click="onReplyButtonClicked"
+      >
+        <Reply />
+        Next
+      </button>
+    </div>
+    <div>
+      <button
+        v-if="closeable"
+        type="button"
+        class="close-button flex no-border justify-center"
+        @click="onCloseButtonClicked"
+        aria-label="Close"
+      >
+        <Close />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -59,16 +63,10 @@ function onReplyButtonClicked() {
 </script>
 
 <style scoped>
-.relative {
-  position: relative;
+.layout-2-col {
+  display: grid;
+  grid-template-columns: 1fr min-content;
 }
-
-.close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
 .close-button svg {
   opacity: 0.5;
   height: var(--size-4);
