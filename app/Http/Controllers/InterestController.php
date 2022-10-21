@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveInterestRequest;
 use App\Models\Interest;
 use Illuminate\Http\Request;
 use Redirect;
@@ -46,15 +47,10 @@ class InterestController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveInterestRequest $request)
     {
-      $request->validate([
-        'name' => ['required', 'max:50', new AlphaNumSpace],
-      ]);
-
       $interest = new Interest;
       $interest->name = $request->name;
       Auth::user()->people()->save($interest);
@@ -127,12 +123,8 @@ class InterestController extends Controller
      * @param  \App\Models\Interest  $interest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Interest $interest)
+    public function update(SaveInterestRequest $request, Interest $interest)
     {
-      $request->validate([
-        'name' => 'required|max:50',
-      ]);
-
       $interest->name = $request->name;
       $interest->save();
 

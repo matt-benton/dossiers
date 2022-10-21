@@ -12,6 +12,7 @@
               :class="{ 'border-danger': editForm.errors.name }"
               id="name"
               v-model="editForm.name"
+              autocomplete="off"
             />
             <span v-if="editForm.errors.name" class="text-danger">{{
               editForm.errors.name
