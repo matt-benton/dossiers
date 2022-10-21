@@ -19,7 +19,7 @@ class CreatePeopleTable extends Migration
             $table->string('relationship')->nullable();
             $table->unsignedTinyInteger('birthday')->nullable();
             $table->unsignedTinyInteger('birthmonth')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

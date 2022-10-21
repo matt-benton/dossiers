@@ -15,7 +15,7 @@ class CreateThreadablesTable extends Migration
     {
         Schema::create('threadables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('thread_id');
+            $table->foreignId('thread_id')->constrained()->onDelete('cascade');
             $table->morphs('threadable');
         });
     }
