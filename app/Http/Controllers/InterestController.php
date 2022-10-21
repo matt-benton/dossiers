@@ -59,7 +59,7 @@ class InterestController extends Controller
       $interest->name = $request->name;
       Auth::user()->people()->save($interest);
 
-      return Redirect::route('interests.index')->with('message', "{$interest->name} added successfully.");
+      return Redirect::route('interests.edit', [$interest])->with('message', "{$interest->name} added successfully.");
     }
 
     /**
@@ -92,7 +92,32 @@ class InterestController extends Controller
      */
     public function edit(Interest $interest)
     {
-      return inertia('Interests/EditInterest')->with(['interest' => $interest]);
+      $interest->load(['people' => function ($query) {
+        $query->orderBy('name');
+      }]);
+
+      // get people who do not have this interest
+      $uninterested = Auth::user()
+        ->people()
+        ->with('interests')
+        ->orderBy('name')
+        ->get()
+        ->filter(function ($person) use ($interest) {
+          return $person->interests->doesntContain(function ($personInterests) use ($interest) {
+            return $personInterests->id === $interest->id;
+          });
+        });
+
+      return inertia('Interests/EditInterest', [
+          'interest' => $interest,
+          /**
+           * Filter makes the collection an associative array
+           * which becomes an object in the Vue component. We
+           * have to use array_values to convert it to a
+           * normal array.
+           */
+        'uninterested' => array_values($uninterested->all()),
+      ]);
     }
 
     /**
@@ -125,5 +150,29 @@ class InterestController extends Controller
       $interest->delete();
 
       return redirect()->route('interests.index')->with('message', "{$interest->name} was removed.");
+    }
+
+    /**
+     * Attach a person to the interest
+     */
+    public function addPerson(Request $request, Interest $interest)
+    {
+      $person = Auth::user()->people()->where('id', $request->personId)->first();
+
+      $interest->people()->attach($person->id);
+
+      return redirect()->back()->with('message', "{$person->name} is now interested in {$interest->name}");
+    }
+
+    /**
+     * Remove a person from the interest
+     */
+    public function removePerson(Request $request, Interest $interest)
+    {
+      $person = Auth::user()->people()->where('id', $request->personId)->first();
+
+      $interest->people()->detach($person->id);
+
+      return redirect()->back()->with('message', "{$person->name} is no longer interested in {$interest->name}");
     }
 }

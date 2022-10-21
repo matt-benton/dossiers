@@ -24,6 +24,12 @@ use App\Http\Controllers\SearchController;
 Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('/', DashboardController::class)->name('dashboard');
   Route::resource('/people', PersonController::class);
+  Route::post('/interests/{interest}/add_person', [InterestController::class, 'addPerson'])
+    ->name('interests.add.person')
+    ->middleware('can:update,interest');
+  Route::post('/interests/{interest}/remove_person', [InterestController::class, 'removePerson'])
+    ->name('interests.remove.person')
+    ->middleware('can:update,interest');
   Route::resource('/interests', InterestController::class);
   Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
 

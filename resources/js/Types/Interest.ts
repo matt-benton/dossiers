@@ -1,3 +1,4 @@
+import Person from "./Person"
 import Thread from "./Thread"
 
 export default interface Interest {
@@ -6,4 +7,5 @@ export default interface Interest {
   relationship: string,
   user_id: number,
   threads?: Thread[],
+  people?: Person[],
 }
