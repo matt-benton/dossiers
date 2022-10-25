@@ -25,6 +25,7 @@
               v-model="editForm.relationship"
               placeholder="e.g. Mother, Best Friend, Manager"
               :class="{ 'border-danger': editForm.errors.relationship }"
+              autocomplete="off"
             />
             <span v-if="editForm.errors.relationship" class="text-danger">{{
               editForm.errors.relationship
