@@ -70,6 +70,7 @@
           </div>
         </form>
       </div>
+      <br />
       <div class="card">
         <h3 class="interests-header">Interests</h3>
         <div v-for="int in interests" class="checkbox-group">
