@@ -5,11 +5,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { usePage } from '@inertiajs/inertia-vue3'
 import Alert from './Alert.vue'
 
 let alertVisible = ref(false)
+
+onMounted(() => {
+  if (message.value) {
+    flashAlert()
+  }
+})
 
 const message = computed<string>(() => {
   /**
