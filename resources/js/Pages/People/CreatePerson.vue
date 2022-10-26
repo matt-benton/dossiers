@@ -70,15 +70,26 @@
       <br />
       <div class="card">
         <h3 class="interests-header">Interests</h3>
-        <div v-for="int in interests" class="checkbox-group">
-          <input
-            type="checkbox"
-            :value="int.id"
-            name="interests"
-            :id="`interest-${int.id}`"
-            v-model="form.interest_ids"
-          />
-          <label :for="`interest-${int.id}`">{{ int.name }}</label>
+        <div v-if="interests.length > 0">
+          <div v-for="int in interests" class="checkbox-group" :key="int.id">
+            <input
+              type="checkbox"
+              :value="int.id"
+              name="interests"
+              :id="`interest-${int.id}`"
+              v-model="form.interest_ids"
+            />
+            <label :for="`interest-${int.id}`">{{ int.name }}</label>
+          </div>
+        </div>
+        <div v-else class="alert info">
+          <p>No interests have been added yet. Interests allow you to:</p>
+          <ul>
+            <li>Keep up with peoples' interests</li>
+            <li>Tag interests in events</li>
+            <li>See events for a person's interests without tagging them</li>
+          </ul>
+          <Link :href="'/interests/create'">Add an Interest</Link>
         </div>
       </div>
     </div>
@@ -87,7 +98,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, ref } from 'vue'
-import { Head, useForm } from '@inertiajs/inertia-vue3'
+import { Head, useForm, Link } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Interest from '../../Types/Interest'
@@ -142,5 +153,9 @@ const submitForm = function () {
 .interests-header {
   font-size: var(--text-lg);
   margin-bottom: var(--size-3);
+}
+
+p {
+  margin-bottom: 0;
 }
 </style>
