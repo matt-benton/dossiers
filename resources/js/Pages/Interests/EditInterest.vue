@@ -34,9 +34,7 @@
       <ul v-else>
         <li v-for="person in interest.people">
           <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
-          <button type="button" @click="removeUninterested(person)">
-            Remove
-          </button>
+          <button type="button" @click="removePerson(person)">Remove</button>
         </li>
       </ul>
       <br />
@@ -120,17 +118,21 @@ const addPersonForm = useForm({
 function addPerson(person: Person) {
   addPersonForm.personId = person.id
 
-  addPersonForm.post(`/interests/${props.interest.id}/add_person`)
+  addPersonForm.post(`/interests/${props.interest.id}/add_person`, {
+    preserveScroll: true,
+  })
 }
 
 const removePersonForm = useForm({
   personId: 0,
 })
 
-function removeUninterested(person: Person) {
+function removePerson(person: Person) {
   removePersonForm.personId = person.id
 
-  removePersonForm.post(`/interests/${props.interest.id}/remove_person`)
+  removePersonForm.post(`/interests/${props.interest.id}/remove_person`, {
+    preserveScroll: true,
+  })
 }
 
 function nobodyInterested() {
