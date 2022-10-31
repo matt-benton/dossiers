@@ -18,14 +18,48 @@
         <li v-for="int in person.interests">{{ int.name }}</li>
       </ul>
     </div>
-    <div v-if="threads.length > 0" id="threads-list">
-      <h3 class="text-lg">Events</h3>
-      <ThreadList
-        v-for="thread in threads"
-        :thread="thread"
-        :removable-developments="true"
-        @development-removed="selectDevelopmentForDelete"
-      />
+    <div class="layout-2-col">
+      <div v-if="shownThreads.length > 0" id="threads-list">
+        <h3 class="text-lg">Events</h3>
+        <ThreadList
+          v-for="thread in shownThreads"
+          :key="thread.id"
+          :thread="thread"
+          :removable-developments="true"
+          @development-removed="selectDevelopmentForDelete"
+        />
+      </div>
+      <div v-else>
+        <h3 class="text-lg">Events</h3>
+        <div class="card">
+          <p>No events to show for {{ person.name }}.</p>
+        </div>
+      </div>
+      <div>
+        <h5>Toggle</h5>
+        <div class="card">
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="interests-checkbox"
+              v-model="toggles.interests"
+              :true-value="true"
+              :false-value="false"
+            />
+            <label for="interests-checkbox">Interests</label>
+          </div>
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="personal-checkbox"
+              v-model="toggles.personal"
+              :true-value="true"
+              :false-value="false"
+            />
+            <label for="personal-checkbox">Personal</label>
+          </div>
+        </div>
+      </div>
     </div>
   </Authenticated>
   <Modal :visible="modal.visible" v-on:modal-closed="resetModal">
@@ -49,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, defineProps } from 'vue'
+import { reactive, defineProps, computed } from 'vue'
 import { Link, Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
@@ -76,6 +110,10 @@ let breadcrumb = reactive([
   },
 ])
 
+const shownThreads = computed<Thread[]>(() =>
+  props.threads.filter((thread) => showThread(thread, props.person))
+)
+
 interface Modal {
   visible: boolean
   developmentForDelete: Development | null
@@ -84,6 +122,11 @@ interface Modal {
 let modal: Modal = reactive({
   visible: false,
   developmentForDelete: null,
+})
+
+const toggles = reactive({
+  personal: true,
+  interests: true,
 })
 
 const selectDevelopmentForDelete = function (development: Development) {
@@ -106,9 +149,37 @@ const confirmDelete = function (development: Development | null) {
 
   resetModal()
 }
+
+const showThread = function (thread: Thread, person: Person) {
+  if (toggles.interests && toggles.personal) {
+    return hasInterests(thread) || hasPerson(thread, person)
+  } else if (toggles.interests) {
+    return hasInterests(thread)
+  } else if (toggles.personal) {
+    return hasPerson(thread, person)
+  }
+
+  return false
+}
+
+const hasInterests = function (thread: Thread) {
+  return thread.interests.length > 0
+}
+
+const hasPerson = function (thread: Thread, person: Person) {
+  const foundPerson = thread.people.find((per) => per.id === person.id)
+
+  return foundPerson ? true : false
+}
 </script>
 
 <style scoped>
+.layout-2-col {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  gap: var(--size-5);
+}
+
 #threads-list .card {
   margin-bottom: var(--size-5);
 }
