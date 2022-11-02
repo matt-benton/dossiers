@@ -13,6 +13,7 @@
               id="name"
               v-model="form.name"
               autocomplete="off"
+              ref="nameInput"
             />
             <span v-if="form.errors.name" class="text-danger">{{
               form.errors.name
@@ -28,10 +29,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 import { Head, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
+
+// autofocus name input
+const nameInput = ref<HTMLInputElement | null>(null)
+onMounted(() => nameInput.value?.focus())
 
 let breadCrumbLinks = reactive([
   {
