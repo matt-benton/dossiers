@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { useForm } from '@inertiajs/inertia-vue3'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import PersonIcon from './Icons/Person.vue'
 import Person from '../Types/Person'
 import Interest from '../Types/Interest'
@@ -56,10 +56,17 @@ interface Props {
   thread?: Thread
   label?: string
   uniqueId: string | number
+  text?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   label: "What's happening?",
+})
+
+onMounted(() => {
+  if (props.text && textarea.value) {
+    textarea.value.value = props.text
+  }
 })
 
 const form = useForm({

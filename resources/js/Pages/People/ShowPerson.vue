@@ -19,20 +19,26 @@
       </ul>
     </div>
     <div class="layout-2-col">
-      <div v-if="shownThreads.length > 0" id="threads-list">
+      <div class="events-col">
         <h3 class="text-lg">Events</h3>
-        <ThreadList
-          v-for="thread in shownThreads"
-          :key="thread.id"
-          :thread="thread"
-          :removable-developments="true"
-          @development-removed="selectDevelopmentForDelete"
+        <DevelopmentInput
+          unique-id="show-person"
+          :label="`What's happening with ${person.name}?`"
+          :text="`@${person.name}`"
         />
-      </div>
-      <div v-else>
-        <h3 class="text-lg">Events</h3>
-        <div class="card">
-          <p>No events to show for {{ person.name }}.</p>
+        <div v-if="shownThreads.length > 0" id="threads-list">
+          <ThreadList
+            v-for="thread in shownThreads"
+            :key="thread.id"
+            :thread="thread"
+            :removable-developments="true"
+            @development-removed="selectDevelopmentForDelete"
+          />
+        </div>
+        <div v-else>
+          <div class="card">
+            <p>No events to show for {{ person.name }}.</p>
+          </div>
         </div>
       </div>
       <div>
@@ -94,6 +100,7 @@ import Person from '../../Types/Person'
 import Development from '../../Types/Development'
 import Thread from '../../Types/Thread'
 import ThreadList from '../../Components/ThreadList.vue'
+import DevelopmentInput from '../../Components/DevelopmentInput.vue'
 
 let props = defineProps<{
   person: Person
@@ -178,6 +185,12 @@ const hasPerson = function (thread: Thread, person: Person) {
   display: grid;
   grid-template-columns: 75% 25%;
   gap: var(--size-5);
+}
+
+.events-col {
+  display: grid;
+  grid-template-rows: min-content min-content 1fr;
+  grid-gap: var(--size-3);
 }
 
 #threads-list .card {
