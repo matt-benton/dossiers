@@ -15,7 +15,7 @@
   </div>
   <Modal :visible="modal.visible" @modal-closed="modal.visible = false">
     <ul>
-      <li v-for="dev in thread.developments">
+      <li v-for="dev in thread.developments" key="thread.id">
         <DevelopmentText
           :development="dev"
           :people-in-thread="thread.people"
@@ -28,6 +28,7 @@
       @development-created="modal.visible = false"
       label="What happened next?"
       :unique-id="thread.id"
+      :focus="true"
     />
   </Modal>
 </template>

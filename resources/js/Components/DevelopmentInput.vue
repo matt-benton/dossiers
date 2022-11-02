@@ -57,6 +57,7 @@ interface Props {
   label?: string
   uniqueId: string | number
   text?: string
+  focus?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -66,6 +67,10 @@ const props = withDefaults(defineProps<Props>(), {
 onMounted(() => {
   if (props.text && textarea.value) {
     textarea.value.value = props.text
+  }
+
+  if (props.focus && textarea.value) {
+    textarea.value.focus()
   }
 })
 
