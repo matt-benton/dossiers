@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Interest;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -40,5 +41,28 @@ class SearchController extends Controller
       $interests = $query->orderBy('name')->get();
 
       return response()->json(['interests' => $interests]);
+    }
+
+    public function uninterested(Request $request, Interest $interest) {
+      $name = $request->query('name', '');
+
+      $query = Auth::user()
+        ->people()
+        ->with('interests')
+        ->orderBy('name');
+
+      if ($name) {
+        $query->where('name', 'like', "%{$name}%");
+      }
+
+      $uninterested = $query
+        ->get()
+        ->filter(function ($person) use ($interest) {
+          return $person->interests->doesntContain(function ($personInterests) use ($interest) {
+            return $personInterests->id === $interest->id;
+          });
+        });
+
+      return response()->json(['uninterested' => array_values($uninterested->all())]);
     }
 }

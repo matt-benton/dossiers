@@ -54,7 +54,7 @@ interface Search {
   timeout: number
 }
 
-let search = reactive({
+let search: Search = reactive({
   text: '',
   results: [],
   timeout: 0,

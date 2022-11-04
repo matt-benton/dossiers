@@ -27,7 +27,7 @@
         </form>
       </div>
       <br />
-      <h5>Interested in {{ interest.name }}</h5>
+      <h5 class="interested-header">Interested in {{ interest.name }}</h5>
       <div class="card" v-if="nobodyInterested()">
         <span>No one is interested</span>
       </div>
@@ -38,12 +38,28 @@
         </li>
       </ul>
       <br />
-      <h5>Not Interested in {{ interest.name }}</h5>
-      <div class="card" v-if="everybodyInterested()">
+      <h5 class="interested-header">Not Interested in {{ interest.name }}</h5>
+      <div v-if="!everybodyInterested()">
+        <div id="search-row">
+          <label for="search">Search</label>
+          <input
+            type="text"
+            v-model="search.text"
+            id="search"
+            @keydown="onSearchKeydown"
+            placeholder="Name"
+          />
+          <button type="button" @click="resetSearch">Reset</button>
+        </div>
+      </div>
+      <div class="card" v-if="searchResultsEmpty()">
+        <span>No results found</span>
+      </div>
+      <div class="card" v-else-if="everybodyInterested()">
         <span>Everyone is interested</span>
       </div>
       <ul v-else>
-        <li v-for="person in uninterested">
+        <li v-for="person in shownUninterested">
           <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
           <button type="button" @click="addPerson(person)">Interested</button>
         </li>
@@ -67,18 +83,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Modal from '../../Components/Modal.vue'
 import Interest from '../../Types/Interest'
 import Person from '../../Types/Person'
+import axios from 'axios'
 
 let props = defineProps<{
   interest: Interest
   uninterested: Person[]
 }>()
+
+const shownUninterested = computed(() =>
+  search.text.length > 0 ? search.results : props.uninterested
+)
 
 const editForm = useForm({
   name: props.interest.name,
@@ -115,12 +136,14 @@ const addPersonForm = useForm({
   personId: 0,
 })
 
-function addPerson(person: Person) {
+async function addPerson(person: Person) {
   addPersonForm.personId = person.id
 
-  addPersonForm.post(`/interests/${props.interest.id}/add_person`, {
+  await addPersonForm.post(`/interests/${props.interest.id}/add_person`, {
     preserveScroll: true,
   })
+
+  removeSearchResult(person)
 }
 
 const removePersonForm = useForm({
@@ -142,9 +165,57 @@ function nobodyInterested() {
 function everybodyInterested() {
   return props.uninterested.length === 0
 }
+
+interface Search {
+  text: string
+  results: Person[]
+  timeout: number
+}
+
+let search: Search = reactive({
+  text: '',
+  results: [],
+  timeout: 0,
+})
+
+function resetSearch() {
+  search.text = ''
+  search.results = []
+  search.timeout = 0
+}
+
+function onSearchKeydown() {
+  clearTimeout(search.timeout)
+
+  search.timeout = window.setTimeout(searchUninterested, 500)
+}
+
+async function searchUninterested() {
+  axios
+    .get(`/search/uninterested/${props.interest.id}?name=${search.text}`)
+    .then((response) => {
+      search.results = response.data.uninterested
+    })
+}
+
+function removeSearchResult(person: Person) {
+  const index = search.results.findIndex((result) => result.id === person.id)
+  search.results.splice(index, 1)
+}
+
+function searchResultsEmpty() {
+  return search.text.length > 0 && search.results.length === 0
+}
 </script>
 
 <style scoped>
+#search-row {
+  display: flex;
+  gap: var(--size-1);
+  align-items: center;
+  margin-bottom: var(--size-2);
+}
+
 ul {
   margin-top: 0;
   margin-bottom: 0;
@@ -164,5 +235,9 @@ li {
 
 li:last-of-type {
   border-bottom: none;
+}
+
+.interested-header {
+  margin-bottom: var(--size-2);
 }
 </style>
