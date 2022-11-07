@@ -19,11 +19,9 @@
           <Link href="/interests/create">Add Interest</Link>
         </div>
       </div>
-      <ul>
+      <ul class="resource-list">
         <li v-for="interest in displayedInterests" :key="interest.id">
-          <p>
-            <Link :href="`/interests/${interest.id}`">{{ interest.name }}</Link>
-          </p>
+          <Link :href="`/interests/${interest.id}`">{{ interest.name }}</Link>
         </li>
       </ul>
     </div>
@@ -96,36 +94,6 @@ const props = defineProps<{
 
 #search {
   width: 250px;
-}
-
-ul {
-  margin-top: 0;
-  padding-left: 0;
-  background-color: var(--cardBg);
-  border-radius: var(--rounded-sm);
-}
-
-li {
-  list-style-type: none;
-  padding: var(--size-2);
-  border-bottom: 1px solid var(--textColor);
-}
-
-li:last-of-type {
-  border-bottom: none;
-}
-
-li p {
-  margin-bottom: var(--size-1);
-}
-
-li a {
-  text-decoration: none;
-}
-
-li > div:last-of-type {
-  display: flex;
-  justify-content: space-between;
 }
 
 li svg {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\DevelopmentController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\SearchController;
 
@@ -32,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->middleware('can:update,interest');
   Route::resource('/interests', InterestController::class);
   Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
+  Route::resource('/groups', GroupController::class);
 
   Route::prefix('search')->name('search.')->group(function () {
     Route::get('/people', [SearchController::class, 'people']);

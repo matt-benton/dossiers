@@ -21,6 +21,11 @@ class Person extends Model
       return $this->belongsToMany(Interest::class);
     }
 
+    public function groups()
+    {
+      return $this->belongsToMany(Group::class)->withPivot('role');
+    }
+
     public function threads()
     {
       return $this->morphToMany(Thread::class, 'threadable');

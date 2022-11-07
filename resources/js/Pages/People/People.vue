@@ -19,7 +19,7 @@
           <Link href="/people/create">Add Person</Link>
         </div>
       </div>
-      <ul>
+      <ul class="resource-list">
         <li v-for="person in displayedPeople" :key="person.id">
           <p>
             <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
@@ -111,29 +111,8 @@ function hasBirthday(person: Person) {
   width: 250px;
 }
 
-ul {
-  margin-top: 0;
-  padding-left: 0;
-  background-color: var(--cardBg);
-  border-radius: var(--rounded-sm);
-}
-
-li {
-  list-style-type: none;
-  padding: var(--size-2);
-  border-bottom: 1px solid var(--textColor);
-}
-
-li:last-of-type {
-  border-bottom: none;
-}
-
 li p {
   margin-bottom: var(--size-1);
-}
-
-li a {
-  text-decoration: none;
 }
 
 li > div:last-of-type {

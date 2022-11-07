@@ -53,6 +53,11 @@ class User extends Authenticatable
       return $this->hasMany(Interest::class);
     }
 
+    public function groups()
+    {
+      return $this->hasMany(Group::class);
+    }
+
     public function threads()
     {
       return $this->hasMany(Thread::class);
