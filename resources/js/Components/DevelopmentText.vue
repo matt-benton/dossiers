@@ -1,6 +1,5 @@
 <script lang="ts">
-import { computed, h, defineComponent } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import { computed, h, defineComponent, resolveComponent } from 'vue'
 import Development from '../Types/Development'
 import Person from '../Types/Person'
 import Interest from '../Types/Interest'
@@ -13,6 +12,8 @@ export default defineComponent({
     interestsInThread: { type: Array as PropType<Interest[]>, required: true },
   },
   setup(props) {
+    const link = resolveComponent('Link')
+
     const peopleAndInterests = computed(() => [
       ...props.peopleInThread,
       ...props.interestsInThread,
@@ -39,7 +40,7 @@ export default defineComponent({
         if (matchingPerson) {
           return [
             h(
-              Link,
+              link,
               { href: `/people/${matchingPerson.id}`, class: 'tag-link' },
               () => str
             ),
@@ -47,7 +48,7 @@ export default defineComponent({
         } else if (matchingInterest) {
           return [
             h(
-              Link,
+              link,
               { href: `/interests/${matchingInterest.id}`, class: 'tag-link' },
               () => str
             ),

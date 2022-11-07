@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
 import Person from '../../Types/Person'
 import Interest from '../../Types/Interest'
 import axios from 'axios'

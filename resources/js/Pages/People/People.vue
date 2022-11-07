@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Cake from '../../Components/Icons/Cake.vue'
-import { Link, Head } from '@inertiajs/inertia-vue3'
 import Person from '../../Types/Person'
 import { reactive, computed } from 'vue'
 import axios from 'axios'

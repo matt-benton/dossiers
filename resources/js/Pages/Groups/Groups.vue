@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'
 

@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, ref } from 'vue'
-import { Head, useForm, Link } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Interest from '../../Types/Interest'

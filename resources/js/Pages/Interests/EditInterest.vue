@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/inertia-vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Modal from '../../Components/Modal.vue'

@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { Link, Head } from '@inertiajs/inertia-vue3'
 import { reactive } from 'vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Authenticated from '../../Layouts/Authenticated.vue'

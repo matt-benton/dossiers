@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { Head, useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/inertia-vue3'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'

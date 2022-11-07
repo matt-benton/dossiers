@@ -44,7 +44,6 @@
 <script setup lang="ts">
 import ChevronDown from './Icons/ChevronDown.vue'
 import ThemeButton from './ThemeButton.vue'
-import { Link } from '@inertiajs/inertia-vue3'
 import { ref } from 'vue'
 import type User from '../types/User'
 import Dropdown from './Dropdown.vue'

@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { Link } from '@inertiajs/inertia-vue3'
-
 interface BreadcrumbLink {
   url?: string
   title: string

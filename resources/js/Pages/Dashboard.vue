@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import Layout from '../Layouts/Authenticated.vue'
-import { Head } from '@inertiajs/inertia-vue3'
 import DevelopmentInput from '../Components/DevelopmentInput.vue'
 import ThreadList from '../Components/ThreadList.vue'
 import Thread from '../Types/Thread'
