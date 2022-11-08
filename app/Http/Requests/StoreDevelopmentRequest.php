@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\HasPersonOrInterest;
 use App\Services\SearchStringService;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\HasPersonOrInterest;
 
 class StoreDevelopmentRequest extends FormRequest
 {
@@ -28,11 +28,11 @@ class StoreDevelopmentRequest extends FormRequest
         return [
             'thread_id' => 'exists:threads,id',
             'description' => [
-              'required',
-              'max:255',
-              'string',
-              new HasPersonOrInterest($searchStringService),
-              'regex:/^[^<>*^{}|[\]]+$/'
+                'required',
+                'max:255',
+                'string',
+                new HasPersonOrInterest($searchStringService),
+                'regex:/^[^<>*^{}|[\]]+$/',
             ],
         ];
     }

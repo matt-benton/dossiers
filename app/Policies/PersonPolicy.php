@@ -18,7 +18,7 @@ class PersonPolicy
      */
     public function viewAny(User $user)
     {
-      return true;
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class PersonPolicy
      */
     public function view(User $user, Person $person)
     {
-      return $person->user_id === $user->id;
+        return $person->user_id === $user->id;
     }
 
     /**
@@ -41,7 +41,7 @@ class PersonPolicy
      */
     public function create(User $user)
     {
-      return true;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class PersonPolicy
      */
     public function update(User $user, Person $person)
     {
-      return $person->user_id === $user->id;
+        return $person->user_id === $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class PersonPolicy
      */
     public function delete(User $user, Person $person)
     {
-      return $person->user_id === $user->id;
+        return $person->user_id === $user->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class PersonPolicy
      */
     public function restore(User $user, Person $person)
     {
-      return $person->user_id === $user->id;
+        return $person->user_id === $user->id;
     }
 
     /**
@@ -89,6 +89,6 @@ class PersonPolicy
      */
     public function forceDelete(User $user, Person $person)
     {
-      return $person->user_id === $user->id;
+        return $person->user_id === $user->id;
     }
 }

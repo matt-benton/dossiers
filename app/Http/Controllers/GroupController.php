@@ -17,7 +17,7 @@ class GroupController extends Controller
     public function index()
     {
         return inertia('Groups/Groups', [
-          'groups' => Auth::user()->groups,
+            'groups' => Auth::user()->groups,
         ]);
     }
 
@@ -55,11 +55,11 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-      $group->load('people');
+        $group->load('people');
 
-      return inertia('Groups/ShowGroup', [
-        'group' => $group,
-      ]);
+        return inertia('Groups/ShowGroup', [
+            'group' => $group,
+        ]);
     }
 
     /**
@@ -71,7 +71,7 @@ class GroupController extends Controller
     public function edit(Group $group)
     {
         return inertia('Groups/EditGroup', [
-          'group' => $group,
+            'group' => $group,
         ]);
     }
 
@@ -98,8 +98,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-      $group->delete();
+        $group->delete();
 
-      return redirect()->route('groups.index')->with('message', "{$group->name} was removed.");
+        return redirect()->route('groups.index')->with('message', "{$group->name} was removed.");
     }
 }

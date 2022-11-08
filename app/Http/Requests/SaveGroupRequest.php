@@ -16,9 +16,9 @@ class SaveGroupRequest extends FormRequest
     {
         return [
             'name' => [
-              'required',
-              'max:255',
-              new AlphaNumSpace,
+                'required',
+                'max:255',
+                new AlphaNumSpace,
             ],
         ];
     }

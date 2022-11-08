@@ -77,7 +77,6 @@ class GroupPolicy
      */
     public function restore(User $user, Group $group)
     {
-        false;
     }
 
     /**
@@ -89,6 +88,5 @@ class GroupPolicy
      */
     public function forceDelete(User $user, Group $group)
     {
-        false;
     }
 }

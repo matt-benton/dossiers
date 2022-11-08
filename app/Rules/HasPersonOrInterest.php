@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Services\SearchStringService;
 use Auth;
+use Illuminate\Contracts\Validation\Rule;
 
 class HasPersonOrInterest implements Rule
 {
@@ -15,7 +15,7 @@ class HasPersonOrInterest implements Rule
      */
     public function __construct(SearchStringService $searchStringService)
     {
-      $this->searchStringService = $searchStringService;
+        $this->searchStringService = $searchStringService;
     }
 
     /**

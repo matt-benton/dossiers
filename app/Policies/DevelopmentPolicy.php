@@ -30,6 +30,6 @@ class DevelopmentPolicy
      */
     public function delete(User $user, Development $development)
     {
-      return $development->thread->user_id === $user->id;
+        return $development->thread->user_id === $user->id;
     }
 }

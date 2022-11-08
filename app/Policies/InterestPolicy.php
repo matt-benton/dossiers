@@ -65,7 +65,7 @@ class InterestPolicy
      */
     public function delete(User $user, Interest $interest)
     {
-      return $interest->user_id === $user->id;
+        return $interest->user_id === $user->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class InterestPolicy
      */
     public function restore(User $user, Interest $interest)
     {
-      return $interest->user_id === $user->id;
+        return $interest->user_id === $user->id;
     }
 
     /**
@@ -89,6 +89,6 @@ class InterestPolicy
      */
     public function forceDelete(User $user, Interest $interest)
     {
-      return $interest->user_id === $user->id;
+        return $interest->user_id === $user->id;
     }
 }

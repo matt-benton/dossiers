@@ -16,8 +16,8 @@ class AlphaNumSpace implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
-        if (!preg_match('/^[\w ]*$/', $value)) {
-          $fail('The :attribute can only contain letters, numbers, or spaces.');
+        if (! preg_match('/^[\w ]*$/', $value)) {
+            $fail('The :attribute can only contain letters, numbers, or spaces.');
         }
     }
 }

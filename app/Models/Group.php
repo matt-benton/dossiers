@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Person;
 
 class Group extends Model
 {
@@ -12,6 +11,6 @@ class Group extends Model
 
     public function people()
     {
-      return $this->belongsToMany(Person::class)->withPivot('role');
+        return $this->belongsToMany(Person::class)->withPivot('role');
     }
 }

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Person;
 use App\Rules\AlphaNumSpace;
-use Illuminate\Http\Request;
 use Auth;
-use Redirect;
 use DB;
+use Illuminate\Http\Request;
+use Redirect;
 
 class PersonController extends Controller
 {
@@ -28,9 +28,9 @@ class PersonController extends Controller
      */
     public function index()
     {
-      return inertia('People/People')->with([
-        'people' => Auth::user()->people()->orderBy('name')->get()
-      ]);
+        return inertia('People/People')->with([
+            'people' => Auth::user()->people()->orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -40,9 +40,9 @@ class PersonController extends Controller
      */
     public function create()
     {
-      return inertia('People/CreatePerson')->with([
-        'interests' => Auth::user()->interests()->orderBy('name')->get(),
-      ]);
+        return inertia('People/CreatePerson')->with([
+            'interests' => Auth::user()->interests()->orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -53,25 +53,25 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-      $request->validate([
-        'name' => ['required', 'max:75', new AlphaNumSpace],
-        'relationship' => 'max:255',
-        'birthmonth' => 'nullable|between:1,12',
-        'birthday' => 'nullable|between:1,31',
-        'interest_ids' => 'array',
-        'interest_ids.*' => 'integer',
-      ]);
+        $request->validate([
+            'name' => ['required', 'max:75', new AlphaNumSpace],
+            'relationship' => 'max:255',
+            'birthmonth' => 'nullable|between:1,12',
+            'birthday' => 'nullable|between:1,31',
+            'interest_ids' => 'array',
+            'interest_ids.*' => 'integer',
+        ]);
 
-      $person = new Person;
-      $person->name = $request->name;
-      $person->relationship = $request->relationship;
-      $person->birthmonth = $request->birthmonth;
-      $person->birthday = $request->birthday;
-      Auth::user()->people()->save($person);
+        $person = new Person;
+        $person->name = $request->name;
+        $person->relationship = $request->relationship;
+        $person->birthmonth = $request->birthmonth;
+        $person->birthday = $request->birthday;
+        Auth::user()->people()->save($person);
 
-      $person->interests()->sync($request->interest_ids);
+        $person->interests()->sync($request->interest_ids);
 
-      return Redirect::route('people.index')->with('message', "{$person->name} added successfully.");
+        return Redirect::route('people.index')->with('message', "{$person->name} added successfully.");
     }
 
     /**
@@ -82,44 +82,44 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-      // get the person's interests
-      $person->load(['interests' => function ($query) {
-        $query->orderBy('name');
-      }]);
+        // get the person's interests
+        $person->load(['interests' => function ($query) {
+            $query->orderBy('name');
+        }]);
 
-      // get threads about this person
-      $personThreads = $person->threads()->select(
-          'threads.id',
-          'threads.created_at',
-          'threads.updated_at',
-          DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
-        )
-        ->with(['developments', 'people:id,name', 'interests:id,name'])
-        ->get();
-
-      // get threads for things this person is interested in
-      $interestThreads = $person->interests()->with(['threads' => function ($query) {
-          $query->select(
+        // get threads about this person
+        $personThreads = $person->threads()->select(
             'threads.id',
             'threads.created_at',
             'threads.updated_at',
             DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
-          );
-          $query->with(['developments', 'people:id,name', 'interests:id,name']);
+        )
+          ->with(['developments', 'people:id,name', 'interests:id,name'])
+          ->get();
+
+        // get threads for things this person is interested in
+        $interestThreads = $person->interests()->with(['threads' => function ($query) {
+            $query->select(
+                'threads.id',
+                'threads.created_at',
+                'threads.updated_at',
+                DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+            );
+            $query->with(['developments', 'people:id,name', 'interests:id,name']);
         }])
-        ->get()
-        ->flatMap(function ($interest) {
-          return $interest->threads;
-        });
+          ->get()
+          ->flatMap(function ($interest) {
+              return $interest->threads;
+          });
 
-      // combine threads about the person with threads the person is interested in
-      $combinedThreads = $personThreads->concat($interestThreads)->sortByDesc('last_development_at')->unique('id');
-      $threads = $combinedThreads->values()->all();
+        // combine threads about the person with threads the person is interested in
+        $combinedThreads = $personThreads->concat($interestThreads)->sortByDesc('last_development_at')->unique('id');
+        $threads = $combinedThreads->values()->all();
 
-      return inertia('People/ShowPerson')->with([
-        'person' => $person,
-        'threads' => $threads,
-      ]);
+        return inertia('People/ShowPerson')->with([
+            'person' => $person,
+            'threads' => $threads,
+        ]);
     }
 
     /**
@@ -130,10 +130,10 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-      return inertia('People/EditPerson')->with([
-        'person' => $person->load('interests'),
-        'interests' => Auth::user()->interests()->orderBy('name')->get(),
-      ]);
+        return inertia('People/EditPerson')->with([
+            'person' => $person->load('interests'),
+            'interests' => Auth::user()->interests()->orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -145,36 +145,35 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
-      $request->validate([
-        'name' => ['required', 'max:75', new AlphaNumSpace],
-        'relationship' => 'max:255',
-        'birthmonth' => 'nullable|between:1,12',
-        'birthday' => 'nullable|between:1,31',
-        'interest_ids' => 'array',
-        'interest_ids.*' => 'integer',
-      ]);
+        $request->validate([
+            'name' => ['required', 'max:75', new AlphaNumSpace],
+            'relationship' => 'max:255',
+            'birthmonth' => 'nullable|between:1,12',
+            'birthday' => 'nullable|between:1,31',
+            'interest_ids' => 'array',
+            'interest_ids.*' => 'integer',
+        ]);
 
-      DB::transaction(function () use ($person, $request) {
-        $developments = $person->threads->flatMap(function ($thread) {
-          return $thread->developments;
+        DB::transaction(function () use ($person, $request) {
+            $developments = $person->threads->flatMap(function ($thread) {
+                return $thread->developments;
+            });
+
+            foreach ($developments as $dev) {
+                $dev->description = str_replace("@{$person->name}", "@{$request->name}", $dev->description);
+                $dev->save();
+            }
+
+            $person->name = $request->name;
+            $person->relationship = $request->relationship;
+            $person->birthmonth = $request->birthmonth;
+            $person->birthday = $request->birthday;
+            $person->save();
+
+            $person->interests()->sync($request->interest_ids);
         });
 
-        foreach ($developments as $dev) {
-          $dev->description = str_replace("@{$person->name}", "@{$request->name}", $dev->description);
-          $dev->save();
-        }
-
-        $person->name = $request->name;
-        $person->relationship = $request->relationship;
-        $person->birthmonth = $request->birthmonth;
-        $person->birthday = $request->birthday;
-        $person->save();
-
-        $person->interests()->sync($request->interest_ids);
-      });
-
-
-      return redirect()->back()->with('message', "Info for {$request->name} updated.");
+        return redirect()->back()->with('message', "Info for {$request->name} updated.");
     }
 
     /**
@@ -185,8 +184,8 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-      $person->delete();
+        $person->delete();
 
-      return redirect()->route('people.index')->with('message', "{$person->name} was removed.");
+        return redirect()->route('people.index')->with('message', "{$person->name} was removed.");
     }
 }

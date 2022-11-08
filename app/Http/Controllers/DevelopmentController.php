@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Development;
-use App\Services\SearchStringService;
 use App\Http\Requests\StoreDevelopmentRequest;
+use App\Models\Development;
 use App\Models\Thread;
+use App\Services\SearchStringService;
 use Auth;
 
 class DevelopmentController extends Controller
@@ -37,10 +37,10 @@ class DevelopmentController extends Controller
         $parsedInterestIds = $this->searchStringService->findInterestsInString($request->description, $interests);
 
         if ($request->filled('thread_id')) {
-          $thread = Thread::findOrFail($request->thread_id);
+            $thread = Thread::findOrFail($request->thread_id);
         } else {
-          $thread = new Thread;
-          Auth::user()->threads()->save($thread);
+            $thread = new Thread;
+            Auth::user()->threads()->save($thread);
         }
 
         $development = new Development;
@@ -60,7 +60,7 @@ class DevelopmentController extends Controller
         $thread->people()->attach($newThreadPersonIds->all());
         $thread->interests()->attach($newThreadInterestIds->all());
 
-        return redirect()->back()->with('message', "Event added successfully.");
+        return redirect()->back()->with('message', 'Event added successfully.');
     }
 
     /**
@@ -71,16 +71,16 @@ class DevelopmentController extends Controller
      */
     public function destroy(Development $development)
     {
-      /**
-       * If this is the only development in the thread
-       * then delete the thread.
-       */
-      if (count($development->thread->developments) > 1) {
-        $development->delete();
-      } else {
-        $development->thread->delete();
-      }
+        /**
+         * If this is the only development in the thread
+         * then delete the thread.
+         */
+        if (count($development->thread->developments) > 1) {
+            $development->delete();
+        } else {
+            $development->thread->delete();
+        }
 
-      return redirect()->back()->with('message', 'Event deleted.');
+        return redirect()->back()->with('message', 'Event deleted.');
     }
 }

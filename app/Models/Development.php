@@ -8,6 +8,6 @@ class Development extends Model
 {
     public function thread()
     {
-      return $this->belongsTo(Thread::class);
+        return $this->belongsTo(Thread::class);
     }
 }
