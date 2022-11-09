@@ -33,8 +33,11 @@
       </div>
       <ul v-else>
         <li v-for="person in group.people" :key="person.id">
-          <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
-          {{ person.pivot?.role }}
+          <div>
+            <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+            <br />
+            <small>{{ person.pivot?.role }}</small>
+          </div>
           <button type="button" @click="showRemovePersonModal(person)">
             Remove
           </button>
