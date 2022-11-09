@@ -19,7 +19,7 @@ class GroupController extends Controller
     public function index()
     {
         return inertia('Groups/Groups', [
-            'groups' => Auth::user()->groups,
+            'groups' => Auth::user()->groups()->orderBy('name')->get(),
         ]);
     }
 
