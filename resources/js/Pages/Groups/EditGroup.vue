@@ -42,13 +42,11 @@
       </ul>
       <br />
       <h5>Not In Group</h5>
-      <div class="card" v-if="everybodyInGroup">Everyone is in this group</div>
-      <ul v-else>
-        <li v-for="person in ungrouped" :key="person.id">
-          <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
-          <button type="button" @click="showRoleModal(person)">Add</button>
-        </li>
-      </ul>
+      <UngroupedList
+        :group="group"
+        :ungrouped="ungrouped"
+        @addPerson="showRoleModal"
+      />
     </div>
   </Authenticated>
   <Modal
@@ -110,6 +108,7 @@ import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'
 import Person from '../../Types/Person'
 import Modal from '../../Components/Modal.vue'
+import UngroupedList from './UngroupedList.vue'
 
 const props = defineProps<{
   group: Group
@@ -140,8 +139,6 @@ function showRoleModal(person: Person) {
 }
 
 const nobodyInGroup = computed(() => props.group.people.length === 0)
-
-const everybodyInGroup = computed(() => props.ungrouped.length === 0)
 
 function confirmDelete() {
   deleteForm.delete(`/groups/${props.group.id}`)

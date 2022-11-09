@@ -44,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/people', [SearchController::class, 'people']);
         Route::get('/interests', [SearchController::class, 'interests']);
         Route::get('/uninterested/{interest}', [SearchController::class, 'uninterested']);
+        Route::get('/ungrouped/{group}', [SearchController::class, 'ungrouped']);
     });
 });
 
