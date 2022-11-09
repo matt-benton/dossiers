@@ -6,7 +6,7 @@ use App\Services\SearchStringService;
 use Auth;
 use Illuminate\Contracts\Validation\Rule;
 
-class HasPersonOrInterest implements Rule
+class HasPersonOrInterestOrGroup implements Rule
 {
     /**
      * Create a new rule instance.
@@ -30,8 +30,9 @@ class HasPersonOrInterest implements Rule
         // value must contain a name matching a person or interest this user has added
         $parsedPersonIds = $this->searchStringService->findPeopleInString($value, Auth::user()->people);
         $parsedInterestIds = $this->searchStringService->findInterestsInString($value, Auth::user()->interests);
+        $parsedGroupIds = $this->searchStringService->findGroupsInString($value, Auth::user()->groups);
 
-        return (count($parsedPersonIds) + count($parsedInterestIds)) > 0;
+        return (count($parsedPersonIds) + count($parsedInterestIds) + count($parsedGroupIds)) > 0;
     }
 
     /**
@@ -41,6 +42,6 @@ class HasPersonOrInterest implements Rule
      */
     public function message()
     {
-        return 'A person or interest must be tagged in the text.';
+        return 'A person, interest, or group must be tagged in the text.';
     }
 }

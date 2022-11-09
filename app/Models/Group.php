@@ -13,4 +13,9 @@ class Group extends Model
     {
         return $this->belongsToMany(Person::class)->withPivot('role');
     }
+
+    public function threads()
+    {
+        return $this->morphToMany(Thread::class, 'threadable');
+    }
 }

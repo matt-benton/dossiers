@@ -17,7 +17,7 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
         $threads = Auth::user()->threads()->with([
-            'developments', 'people:id,name', 'interests:id,name',
+            'developments', 'people:id,name', 'interests:id,name', 'groups:id,name',
         ])
         ->select(
             'threads.id',

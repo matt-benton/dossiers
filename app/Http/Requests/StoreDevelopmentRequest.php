@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\HasPersonOrInterest;
+use App\Rules\HasPersonOrInterestOrGroup;
 use App\Services\SearchStringService;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,7 +31,7 @@ class StoreDevelopmentRequest extends FormRequest
                 'required',
                 'max:255',
                 'string',
-                new HasPersonOrInterest($searchStringService),
+                new HasPersonOrInterestOrGroup($searchStringService),
                 'regex:/^[^<>*^{}|[\]]+$/',
             ],
         ];

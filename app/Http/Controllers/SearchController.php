@@ -44,6 +44,21 @@ class SearchController extends Controller
         return response()->json(['interests' => $interests]);
     }
 
+    public function groups(Request $request)
+    {
+        $name = $request->query('name', '');
+
+        $query = Auth::user()->groups();
+
+        if ($name) {
+            $query->where('name', 'like', "%{$name}%");
+        }
+
+        $groups = $query->orderBy('name')->get();
+
+        return response()->json(['groups' => $groups]);
+    }
+
     public function uninterested(Request $request, Interest $interest)
     {
         $name = $request->query('name', '');

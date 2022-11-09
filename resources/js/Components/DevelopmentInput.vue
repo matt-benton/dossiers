@@ -21,6 +21,7 @@
           @mouseover="search.highlightedResultIndex = index"
         >
           <PersonIcon v-if="result.hasOwnProperty('relationship')" />
+          <GroupIcon v-else-if="result.hasOwnProperty('isGroup')" />
           <ChatBubble v-else />
           {{ result.name }}
         </li>
@@ -46,11 +47,13 @@ import axios from 'axios'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { reactive, ref, onMounted } from 'vue'
 import PersonIcon from './Icons/Person.vue'
+import GroupIcon from './Icons/Group.vue'
 import Person from '../Types/Person'
 import Interest from '../Types/Interest'
 import Thread from '../Types/Thread'
 import Dropdown from './Dropdown.vue'
 import ChatBubble from './Icons/ChatBubble.vue'
+import Group from '../Types/Group'
 
 interface Props {
   thread?: Thread
@@ -81,9 +84,13 @@ const form = useForm({
 
 const textarea = ref<HTMLInputElement | null>(null)
 
+interface GroupResult extends Group {
+  isGroup: true
+}
+
 interface Search {
   text: string
-  results: Array<Person | Interest>
+  results: Array<Person | Interest | GroupResult>
   keylogging: boolean
   highlightedResultIndex: number | null
 }
@@ -165,12 +172,22 @@ const onInput = function (event: Event) {
   if (search.text.length > 0) {
     let peopleUrl = `/search/people?name=${search.text}`
     let interestUrl = `/search/interests?name=${search.text}`
+    let groupsUrl = `/search/groups?name=${search.text}`
 
     axios
-      .all([axios.get(peopleUrl), axios.get(interestUrl)])
+      .all([axios.get(peopleUrl), axios.get(interestUrl), axios.get(groupsUrl)])
       .then((response) => {
+        const groupsWithType: GroupResult[] = response[2].data.groups.map(
+          (group: GroupResult) => {
+            group.isGroup = true
+
+            return group
+          }
+        )
+
         search.results = response[0].data.people.concat(
-          response[1].data.interests
+          response[1].data.interests,
+          groupsWithType
         )
 
         if (search.results.length > 0) {
@@ -279,7 +296,7 @@ function onSearchResultClick() {
   }
 }
 
-const selectResult = function (result: Person | Interest) {
+const selectResult = function (result: Person | Interest | GroupResult) {
   const regex = new RegExp('@' + search.text)
   form.description = form.description.replace(regex, `@${result.name}`)
   resetSearch()

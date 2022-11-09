@@ -5,6 +5,7 @@
         :development="dev"
         :people-in-thread="thread.people"
         :interests-in-thread="thread.interests"
+        :groups-in-thread="thread.groups"
         :replyable="index + 1 === thread.developments.length"
         :closeable="removableDevelopments"
         @reply-button-clicked="showModal(thread)"
@@ -20,6 +21,7 @@
           :development="dev"
           :people-in-thread="thread.people"
           :interests-in-thread="thread.interests"
+          :groups-in-thread="thread.groups"
         />
       </li>
     </ul>

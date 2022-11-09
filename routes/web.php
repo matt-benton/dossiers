@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('search')->name('search.')->group(function () {
         Route::get('/people', [SearchController::class, 'people']);
         Route::get('/interests', [SearchController::class, 'interests']);
+        Route::get('/groups', [SearchController::class, 'groups']);
         Route::get('/uninterested/{interest}', [SearchController::class, 'uninterested']);
         Route::get('/ungrouped/{group}', [SearchController::class, 'ungrouped']);
     });

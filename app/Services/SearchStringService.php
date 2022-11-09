@@ -28,4 +28,15 @@ class SearchStringService
 
         return collect($selectedInterestIds);
     }
+
+    public function findGroupsInString(string $str, Collection $groups): SupportCollection
+    {
+        $selectedGroupIds = $groups->filter(function ($group) use ($str) {
+            return preg_match("/@{$group->name}/", $str);
+        })->map(function ($filtered) {
+            return $filtered->id;
+        });
+
+        return collect($selectedGroupIds);
+    }
 }
