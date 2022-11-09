@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddPersonToGroupRequest;
 use App\Http\Requests\SaveGroupRequest;
 use App\Models\Group;
 use Auth;
@@ -55,7 +56,9 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        $group->load('people');
+        $group->load(['people' => function ($query) {
+            $query->orderBy('name');
+        }]);
 
         return inertia('Groups/ShowGroup', [
             'group' => $group,
@@ -70,8 +73,17 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        $group->load(['people' => function ($query) {
+            $query->orderBy('name');
+        }]);
+
+        $groupedPeopleIds = $group->people->pluck('id');
+
+        $ungrouped = Auth::user()->people()->whereNotIn('id', $groupedPeopleIds)->orderBy('name')->get();
+
         return inertia('Groups/EditGroup', [
             'group' => $group,
+            'ungrouped' => $ungrouped,
         ]);
     }
 
@@ -102,4 +114,18 @@ class GroupController extends Controller
 
         return redirect()->route('groups.index')->with('message', "{$group->name} was removed.");
     }
+
+      /**
+       * Add a person to the group
+       */
+      public function addPerson(AddPersonToGroupRequest $request, Group $group)
+      {
+          $person = Auth::user()->people()->where('id', $request->safe()->personId)->first();
+
+          $role = $request->safe()->role;
+
+          $group->people()->attach($person->id, ['role' => $role]);
+
+          return back()->with('message', "{$person->name} added to {$group->name}");
+      }
 }

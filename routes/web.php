@@ -32,6 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
       ->middleware('can:update,interest');
     Route::resource('/interests', InterestController::class);
     Route::resource('/developments', DevelopmentController::class)->only(['store', 'destroy']);
+    Route::post('/groups/{group}/add_person', [GroupController::class, 'addPerson'])
+      ->name('groups.add.person')
+      ->middleware('can:update,group');
+    Route::post('/groups/{group}/remove_person', [GroupController::class, 'removePerson'])
+      ->name('groups.remove.person')
+      ->middleware('can:update,group');
     Route::resource('/groups', GroupController::class);
 
     Route::prefix('search')->name('search.')->group(function () {

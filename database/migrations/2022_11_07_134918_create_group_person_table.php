@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Group::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Person::class)->constrained()->cascadeOnDelete();
-            $table->string('role', 30);
+            $table->string('role', 30)->nullable();
         });
     }
 

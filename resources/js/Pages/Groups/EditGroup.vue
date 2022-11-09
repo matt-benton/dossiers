@@ -26,6 +26,27 @@
           </div>
         </form>
       </div>
+      <br />
+      <h5>In Group</h5>
+      <div class="card" v-if="nobodyInGroup">
+        <span>No one is in this group yet</span>
+      </div>
+      <ul v-else>
+        <li v-for="person in group.people" :key="person.id">
+          <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+          {{ person.pivot?.role }}
+          <button type="button" @click="removePerson(person)">Remove</button>
+        </li>
+      </ul>
+      <br />
+      <h5>Not In Group</h5>
+      <div class="card" v-if="everybodyInGroup">Everyone is in this group</div>
+      <ul v-else>
+        <li v-for="person in ungrouped" :key="person.id">
+          <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+          <button type="button" @click="showRoleModal(person)">Add</button>
+        </li>
+      </ul>
     </div>
   </Authenticated>
   <Modal
@@ -40,18 +61,37 @@
       <button type="button" @click="deleteModalVisible = false">Cancel</button>
     </div>
   </Modal>
+  <Modal :visible="roleModal.visible" @modal-closed="roleModal.visible = false">
+    <form @submit.prevent="confirmAddPerson(roleModal.selectedPerson)">
+      <p>
+        Give {{ roleModal.selectedPerson?.name }} a role in {{ group.name }}?
+        (optional)
+      </p>
+      <label for="role">Role</label>
+      <div class="btn-row">
+        <input type="text" name="role" id="role" v-model="addPersonForm.role" />
+        <span v-if="addPersonForm.errors.role" class="text-danger">{{
+          addPersonForm.errors.role
+        }}</span>
+        <button class="btn-primary">Add to Group</button>
+        <button type="button" @click="roleModal.visible = false">Cancel</button>
+      </div>
+    </form>
+  </Modal>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'
+import Person from '../../Types/Person'
 import Modal from '../../Components/Modal.vue'
 
 const props = defineProps<{
   group: Group
+  ungrouped: Person[]
 }>()
 
 const editForm = useForm({
@@ -62,10 +102,50 @@ const deleteForm = useForm({})
 
 const deleteModalVisible = ref(false)
 
+interface RoleModal {
+  visible: boolean
+  selectedPerson: Person | null
+}
+
+const roleModal: RoleModal = reactive({
+  visible: false,
+  selectedPerson: null,
+})
+
+function showRoleModal(person: Person) {
+  roleModal.visible = true
+  roleModal.selectedPerson = person
+}
+
+const nobodyInGroup = computed(() => props.group.people.length === 0)
+
+const everybodyInGroup = computed(() => props.ungrouped.length === 0)
+
 function confirmDelete() {
   deleteForm.delete(`/groups/${props.group.id}`)
   deleteModalVisible.value = false
 }
+
+const addPersonForm = useForm({
+  personId: 0,
+  role: null,
+})
+
+function confirmAddPerson(person: Person | null) {
+  if (person) {
+    addPersonForm.personId = person.id
+
+    addPersonForm.post(`/groups/${props.group.id}/add_person`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        roleModal.visible = false
+        addPersonForm.reset()
+      },
+    })
+  }
+}
+
+function removePerson(person: Person) {}
 
 const breadcrumb = reactive([
   {
@@ -81,3 +161,26 @@ const breadcrumb = reactive([
   },
 ])
 </script>
+
+<style scoped>
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  background-color: var(--cardBg);
+  border-radius: var(--rounded-sm);
+}
+
+li {
+  list-style-type: none;
+  padding: var(--size-2);
+  border-bottom: 1px solid var(--textColor);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li:last-of-type {
+  border-bottom: none;
+}
+</style>

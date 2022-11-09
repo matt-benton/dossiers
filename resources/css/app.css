@@ -254,6 +254,7 @@ button, .btn {
   font-size: var(--text-base);
   padding: var(--size-px) var(--size-1);
   display: inline-block;
+  white-space: nowrap;
 }
 
 .btn-primary {
