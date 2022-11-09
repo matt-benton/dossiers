@@ -6,6 +6,7 @@ use App\Http\Requests\AddPersonToGroupRequest;
 use App\Http\Requests\SaveGroupRequest;
 use App\Models\Group;
 use Auth;
+use Illuminate\Http\Request;
 use Redirect;
 
 class GroupController extends Controller
@@ -127,5 +128,17 @@ class GroupController extends Controller
           $group->people()->attach($person->id, ['role' => $role]);
 
           return back()->with('message', "{$person->name} added to {$group->name}");
+      }
+
+      /**
+       * Remove a person from the group
+       */
+      public function removePerson(Request $request, Group $group)
+      {
+          $person = Auth::user()->people()->where('id', $request->personId)->first();
+
+          $group->people()->detach($person->id);
+
+          return redirect()->back()->with('message', "{$person->name} removed from {$group->name}");
       }
 }

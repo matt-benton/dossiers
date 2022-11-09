@@ -35,7 +35,9 @@
         <li v-for="person in group.people" :key="person.id">
           <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
           {{ person.pivot?.role }}
-          <button type="button" @click="removePerson(person)">Remove</button>
+          <button type="button" @click="showRemovePersonModal(person)">
+            Remove
+          </button>
         </li>
       </ul>
       <br />
@@ -77,6 +79,26 @@
         <button type="button" @click="roleModal.visible = false">Cancel</button>
       </div>
     </form>
+  </Modal>
+  <Modal
+    :visible="removePersonModal.visible"
+    v-on:modal-closed="removePersonModal.visible = false"
+  >
+    <p>
+      Remove {{ removePersonModal.selectedPerson?.name }} from {{ group.name }}?
+    </p>
+    <div class="btn-row flex justify-end">
+      <button
+        type="button"
+        class="btn-primary"
+        @click="confirmRemovePerson(removePersonModal.selectedPerson)"
+      >
+        Remove
+      </button>
+      <button type="button" @click="removePersonModal.visible = false">
+        Cancel
+      </button>
+    </div>
   </Modal>
 </template>
 
@@ -145,7 +167,37 @@ function confirmAddPerson(person: Person | null) {
   }
 }
 
-function removePerson(person: Person) {}
+const removePersonForm = useForm({
+  personId: 0,
+})
+
+interface RemovePersonModal {
+  visible: boolean
+  selectedPerson: Person | null
+}
+
+const removePersonModal: RemovePersonModal = reactive({
+  visible: false,
+  selectedPerson: null,
+})
+
+function showRemovePersonModal(person: Person) {
+  removePersonModal.visible = true
+  removePersonModal.selectedPerson = person
+}
+
+function confirmRemovePerson(person: Person | null) {
+  if (person) {
+    removePersonForm.personId = person.id
+
+    removePersonForm.post(`/groups/${props.group.id}/remove_person`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        removePersonModal.visible = false
+      },
+    })
+  }
+}
 
 const breadcrumb = reactive([
   {
