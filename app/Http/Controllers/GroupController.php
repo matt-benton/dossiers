@@ -6,6 +6,7 @@ use App\Http\Requests\AddPersonToGroupRequest;
 use App\Http\Requests\SaveGroupRequest;
 use App\Models\Group;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -57,12 +58,43 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        $group->load(['people' => function ($query) {
-            $query->orderBy('name');
-        }]);
+        $group->load([
+            'people' => function ($query) {
+                $query->orderBy('name');
+            },
+        ]);
+
+        // get threads about this group
+        $groupThreads = $group->threads()->select(
+            'threads.id',
+            'threads.created_at',
+            'threads.updated_at',
+            DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+        )
+        ->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name'])
+        ->get();
+
+        // get threads for people in this group
+        $personThreads = $group->people()->with(['threads' => function ($query) {
+            $query->select(
+                'threads.id',
+                'threads.created_at',
+                'threads.updated_at',
+                DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+            );
+            $query->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name']);
+        }])
+        ->get()
+        ->flatMap(function ($interest) {
+            return $interest->threads;
+        });
+
+        $combinedThreads = $groupThreads->concat($personThreads)->sortByDesc('last_development_at')->unique('id');
+        $threads = $combinedThreads->values()->all();
 
         return inertia('Groups/ShowGroup', [
             'group' => $group,
+            'threads' => $threads,
         ]);
     }
 

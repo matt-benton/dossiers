@@ -19,6 +19,7 @@
           :thread="thread"
           :removable-developments="true"
           @development-removed="selectDevelopmentForDelete"
+          :key="thread.id"
         />
       </div>
       <div v-else>
