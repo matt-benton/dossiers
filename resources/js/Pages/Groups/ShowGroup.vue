@@ -8,7 +8,7 @@
         ><Pencil /> Update</Link
       >
     </div>
-    <div>
+    <div class="layout-2-col">
       <div v-if="threads && threads.length > 0">
         <h3 class="text-lg">Events</h3>
         <ThreadList
@@ -22,6 +22,18 @@
       <div v-else>
         <h3 class="text-lg">Events</h3>
         <div class="card">No events have been added yet.</div>
+      </div>
+      <div>
+        <h5>In Group</h5>
+        <div class="card">
+          <span v-if="nobodyInGroup()">No one is in this group.</span>
+          <ul v-else>
+            <li v-for="person in group.people">
+              <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+              <small>{{ person.pivot?.role }}</small>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </Authenticated>
@@ -93,6 +105,10 @@ const confirmDelete = function (development: Development | null) {
   resetModal()
 }
 
+function nobodyInGroup() {
+  return props.group.people.length === 0
+}
+
 const breadcrumb = reactive([
   {
     url: '/groups',
@@ -103,3 +119,23 @@ const breadcrumb = reactive([
   },
 ])
 </script>
+
+<style scoped>
+.layout-2-col {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  gap: var(--size-5);
+}
+
+ul {
+  padding-left: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+  margin-bottom: var(--size-3);
+  display: flex;
+  flex-direction: column;
+}
+</style>
