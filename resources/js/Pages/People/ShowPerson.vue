@@ -64,6 +64,16 @@
             />
             <label for="personal-checkbox">Personal</label>
           </div>
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="groups-checkbox"
+              v-model="toggles.groups"
+              :true-value="true"
+              :false-value="false"
+            />
+            <label for="groups-checkbox">Groups</label>
+          </div>
         </div>
       </div>
     </div>
@@ -134,6 +144,7 @@ let modal: Modal = reactive({
 const toggles = reactive({
   personal: true,
   interests: true,
+  groups: true,
 })
 
 const selectDevelopmentForDelete = function (development: Development) {
@@ -158,15 +169,22 @@ const confirmDelete = function (development: Development | null) {
 }
 
 const showThread = function (thread: Thread, person: Person) {
-  if (toggles.interests && toggles.personal) {
-    return hasInterests(thread) || hasPerson(thread, person)
-  } else if (toggles.interests) {
-    return hasInterests(thread)
-  } else if (toggles.personal) {
-    return hasPerson(thread, person)
+  const has: boolean[] = []
+
+  if (toggles.interests) {
+    has.push(hasInterests(thread))
   }
 
-  return false
+  if (toggles.groups) {
+    has.push(hasGroups(thread))
+  }
+
+  if (toggles.personal) {
+    has.push(hasPerson(thread, person))
+  }
+
+  // we want to show the thread if any elements in the array are true
+  return has.some((val) => val)
 }
 
 const hasInterests = function (thread: Thread) {
@@ -177,6 +195,10 @@ const hasPerson = function (thread: Thread, person: Person) {
   const foundPerson = thread.people.find((per) => per.id === person.id)
 
   return foundPerson ? true : false
+}
+
+function hasGroups(thread: Thread) {
+  return thread.groups.length > 0
 }
 </script>
 

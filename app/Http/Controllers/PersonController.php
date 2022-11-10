@@ -94,7 +94,7 @@ class PersonController extends Controller
             'threads.updated_at',
             DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
         )
-          ->with(['developments', 'people:id,name', 'interests:id,name'])
+          ->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name'])
           ->get();
 
         // get threads for things this person is interested in
@@ -105,15 +105,30 @@ class PersonController extends Controller
                 'threads.updated_at',
                 DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
             );
-            $query->with(['developments', 'people:id,name', 'interests:id,name']);
+            $query->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name']);
         }])
           ->get()
           ->flatMap(function ($interest) {
               return $interest->threads;
           });
 
+        // get threads for groups this person is in
+        $groupThreads = $person->groups()->with(['threads' => function ($query) {
+            $query->select(
+                'threads.id',
+                'threads.created_at',
+                'threads.updated_at',
+                DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+            );
+            $query->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name']);
+        }])
+          ->get()
+          ->flatMap(function ($group) {
+              return $group->threads;
+          });
+
         // combine threads about the person with threads the person is interested in
-        $combinedThreads = $personThreads->concat($interestThreads)->sortByDesc('last_development_at')->unique('id');
+        $combinedThreads = $personThreads->concat($interestThreads)->concat($groupThreads)->sortByDesc('last_development_at')->unique('id');
         $threads = $combinedThreads->values()->all();
 
         return inertia('People/ShowPerson')->with([
