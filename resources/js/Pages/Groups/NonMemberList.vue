@@ -73,7 +73,7 @@ async function searchNonMembers() {
   axios
     .get(`/search/nonmembers/${props.group.id}?name=${search.text}`)
     .then((response) => {
-      search.results = response.data.nonmembers
+      search.results = response.data.nonMembers
     })
 }
 

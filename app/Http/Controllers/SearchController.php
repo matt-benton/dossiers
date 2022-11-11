@@ -83,7 +83,7 @@ class SearchController extends Controller
         return response()->json(['uninterested' => array_values($uninterested->all())]);
     }
 
-    public function ungrouped(Request $request, Group $group)
+    public function nonMembers(Request $request, Group $group)
     {
         $name = $request->query('name', '');
 
@@ -96,12 +96,12 @@ class SearchController extends Controller
             $query->where('name', 'like', "%{$name}%");
         }
 
-        $ungrouped = $query->get()->filter(function ($person) use ($group) {
+        $nonMembers = $query->get()->filter(function ($person) use ($group) {
             return $person->groups->doesntContain(function ($personGroups) use ($group) {
                 return $personGroups->id === $group->id;
             });
         });
 
-        return response()->json(['ungrouped' => array_values($ungrouped->all())]);
+        return response()->json(['nonMembers' => array_values($nonMembers->all())]);
     }
 }
