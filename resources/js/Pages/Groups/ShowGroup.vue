@@ -3,10 +3,14 @@
   <Authenticated>
     <div class="row">
       <Breadcrumb :links="breadcrumb" />
-      <h2>{{ group.name }}</h2>
-      <Link :href="`/groups/${group.id}/edit`" class="btn btn-icon-text"
-        ><Pencil /> Update</Link
-      >
+    </div>
+    <div class="row">
+      <div class="show-page-header">
+        <h2>{{ group.name }}</h2>
+        <Link :href="`/groups/${group.id}/edit`" class="icon-text-link"
+          ><Pencil /> Edit</Link
+        >
+      </div>
     </div>
     <div class="layout-2-col">
       <div v-if="threads && threads.length > 0">

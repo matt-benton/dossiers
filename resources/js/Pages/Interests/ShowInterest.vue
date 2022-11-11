@@ -3,9 +3,11 @@
   <Authenticated>
     <div class="row">
       <Breadcrumb :links="breadcrumb" />
+    </div>
+    <div class="show-page-header">
       <h2>{{ interest.name }}</h2>
-      <Link :href="`/interests/${interest.id}/edit`" class="btn btn-icon-text"
-        ><Pencil /> Update</Link
+      <Link :href="`/interests/${interest.id}/edit`" class="icon-text-link"
+        ><Pencil /> Edit</Link
       >
     </div>
     <div class="layout-2-col">

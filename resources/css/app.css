@@ -174,6 +174,12 @@ a:hover {
   font-weight: bold;
 }
 
+.icon-text-link {
+  display: flex;
+  align-items: center;
+  gap: var(--size-1);
+}
+
 .text-danger {
   color: var(--colorDanger);
 }

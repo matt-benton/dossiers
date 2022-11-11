@@ -19,3 +19,9 @@
   width: 600px;
   margin: 0 auto;
 }
+
+.show-page-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--size-2);
+}

@@ -3,14 +3,18 @@
   <Authenticated>
     <div class="row">
       <Breadcrumb :links="breadcrumb" />
-      <h2>{{ person.name }}</h2>
+    </div>
+    <div class="row">
+      <div class="show-page-header">
+        <h2>{{ person.name }}</h2>
+        <Link :href="`/people/${person.id}/edit`" class="icon-text-link"
+          ><Pencil /> Edit</Link
+        >
+      </div>
       <h3 class="text-xl">{{ person.relationship }}</h3>
       <p v-if="person.birthmonth && person.birthday">
         <Cake /> {{ person.birthmonth_text }} {{ person.birthday }}
       </p>
-      <Link :href="`/people/${person.id}/edit`" class="btn btn-icon-text"
-        ><Pencil /> Update</Link
-      >
     </div>
     <div class="row" v-if="person.interests && person.interests.length > 0">
       <h3 class="text-lg">Interests</h3>
