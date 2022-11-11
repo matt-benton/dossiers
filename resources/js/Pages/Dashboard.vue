@@ -2,12 +2,14 @@
   <Head title="Dashboard" />
 
   <Layout>
-    <div class="row">
-      <DevelopmentInput unique-id="dash" :focus="true" />
-    </div>
-    <div class="row">
-      <div v-if="threads">
-        <ThreadList v-for="thread in threads" :thread="thread" />
+    <div class="center-container-sm">
+      <div class="row">
+        <DevelopmentInput unique-id="dash" :focus="true" />
+      </div>
+      <div class="row">
+        <div v-if="threads">
+          <ThreadList v-for="thread in threads" :thread="thread" />
+        </div>
       </div>
     </div>
   </Layout>

@@ -6,6 +6,7 @@
       @keydown="onKeydown"
       ref="textarea"
       :id="`development-textarea-${uniqueId}`"
+      rows="3"
     ></textarea>
     <Dropdown
       :visible="search.results.length > 0"
