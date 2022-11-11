@@ -1,6 +1,7 @@
 import Thread from "./Thread"
 import Interest from "./Interest"
 import GroupPersonPivot from './GroupPersonPivot'
+import Group from "./Group"
 
 export default interface Person {
   id: number,
@@ -12,5 +13,6 @@ export default interface Person {
   user_id: number,
   threads?: Thread[],
   interests?: Interest[],
+  groups: Group[],
   pivot?: GroupPersonPivot,
 }

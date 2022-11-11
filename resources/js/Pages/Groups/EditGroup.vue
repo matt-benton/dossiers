@@ -27,28 +27,28 @@
         </form>
       </div>
       <br />
-      <h5>In Group</h5>
-      <div class="card" v-if="nobodyInGroup">
+      <h5>Members</h5>
+      <div class="card" v-if="noMembers">
         <span>No one is in this group yet</span>
       </div>
       <ul v-else>
-        <li v-for="person in group.people" :key="person.id">
+        <li v-for="member in group.members" :key="member.id">
           <div>
-            <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
+            <Link :href="`/people/${member.id}`">{{ member.name }}</Link>
             <br />
-            <small>{{ person.pivot?.role }}</small>
+            <small>{{ member.pivot?.role }}</small>
           </div>
-          <button type="button" @click="showRemovePersonModal(person)">
+          <button type="button" @click="showRemoveMemberModal(member)">
             Remove
           </button>
         </li>
       </ul>
       <br />
       <h5>Not In Group</h5>
-      <UngroupedList
+      <NonMemberList
         :group="group"
-        :ungrouped="ungrouped"
-        @addPerson="showRoleModal"
+        :nonMembers="nonMembers"
+        @addMember="showRoleModal"
       />
     </div>
   </Authenticated>
@@ -65,16 +65,16 @@
     </div>
   </Modal>
   <Modal :visible="roleModal.visible" @modal-closed="roleModal.visible = false">
-    <form @submit.prevent="confirmAddPerson(roleModal.selectedPerson)">
+    <form @submit.prevent="confirmAddMember(roleModal.selectedPerson)">
       <p>
         Give {{ roleModal.selectedPerson?.name }} a role in {{ group.name }}?
         (optional)
       </p>
       <label for="role">Role</label>
       <div class="btn-row">
-        <input type="text" name="role" id="role" v-model="addPersonForm.role" />
-        <span v-if="addPersonForm.errors.role" class="text-danger">{{
-          addPersonForm.errors.role
+        <input type="text" name="role" id="role" v-model="addMemberForm.role" />
+        <span v-if="addMemberForm.errors.role" class="text-danger">{{
+          addMemberForm.errors.role
         }}</span>
         <button class="btn-primary">Add to Group</button>
         <button type="button" @click="roleModal.visible = false">Cancel</button>
@@ -92,7 +92,7 @@
       <button
         type="button"
         class="btn-primary"
-        @click="confirmRemovePerson(removePersonModal.selectedPerson)"
+        @click="confirmRemoveMember(removePersonModal.selectedPerson)"
       >
         Remove
       </button>
@@ -111,11 +111,11 @@ import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'
 import Person from '../../Types/Person'
 import Modal from '../../Components/Modal.vue'
-import UngroupedList from './UngroupedList.vue'
+import NonMemberList from './NonMemberList.vue'
 
 const props = defineProps<{
   group: Group
-  ungrouped: Person[]
+  nonMembers: Person[]
 }>()
 
 const editForm = useForm({
@@ -141,56 +141,56 @@ function showRoleModal(person: Person) {
   roleModal.selectedPerson = person
 }
 
-const nobodyInGroup = computed(() => props.group.people.length === 0)
+const noMembers = computed(() => props.group.members.length === 0)
 
 function confirmDelete() {
   deleteForm.delete(`/groups/${props.group.id}`)
   deleteModalVisible.value = false
 }
 
-const addPersonForm = useForm({
+const addMemberForm = useForm({
   personId: 0,
   role: null,
 })
 
-function confirmAddPerson(person: Person | null) {
+function confirmAddMember(person: Person | null) {
   if (person) {
-    addPersonForm.personId = person.id
+    addMemberForm.personId = person.id
 
-    addPersonForm.post(`/groups/${props.group.id}/add_person`, {
+    addMemberForm.post(`/groups/${props.group.id}/add_member`, {
       preserveScroll: true,
       onSuccess: () => {
         roleModal.visible = false
-        addPersonForm.reset()
+        addMemberForm.reset()
       },
     })
   }
 }
 
-const removePersonForm = useForm({
+const removeMemberForm = useForm({
   personId: 0,
 })
 
-interface RemovePersonModal {
+interface RemoveMemberModal {
   visible: boolean
   selectedPerson: Person | null
 }
 
-const removePersonModal: RemovePersonModal = reactive({
+const removePersonModal: RemoveMemberModal = reactive({
   visible: false,
   selectedPerson: null,
 })
 
-function showRemovePersonModal(person: Person) {
+function showRemoveMemberModal(person: Person) {
   removePersonModal.visible = true
   removePersonModal.selectedPerson = person
 }
 
-function confirmRemovePerson(person: Person | null) {
+function confirmRemoveMember(person: Person | null) {
   if (person) {
-    removePersonForm.personId = person.id
+    removeMemberForm.personId = person.id
 
-    removePersonForm.post(`/groups/${props.group.id}/remove_person`, {
+    removeMemberForm.post(`/groups/${props.group.id}/remove_member`, {
       preserveScroll: true,
       onSuccess: () => {
         removePersonModal.visible = false

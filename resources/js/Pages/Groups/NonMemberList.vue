@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!everybodyGrouped()">
+  <div v-if="!everybodyMembers()">
     <div id="search-row">
       <label for="search">Search</label>
       <input
@@ -15,13 +15,13 @@
   <div class="card" v-if="searchResultsEmpty()">
     <span>No results found</span>
   </div>
-  <div class="card" v-else-if="everybodyGrouped()">
+  <div class="card" v-else-if="everybodyMembers()">
     <span>Everyone is in this group</span>
   </div>
   <ul v-else>
-    <li v-for="person in shownUngrouped">
+    <li v-for="person in shownNonMembers">
       <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
-      <button type="button" @click="onAddPerson(person)">Add</button>
+      <button type="button" @click="onAddMember(person)">Add</button>
     </li>
   </ul>
 </template>
@@ -33,16 +33,16 @@ import axios from 'axios'
 import Group from '../../Types/Group'
 
 const props = defineProps<{
-  ungrouped: Person[]
+  nonMembers: Person[]
   group: Group
 }>()
 
-const shownUngrouped = computed(() =>
-  search.text.length > 0 ? search.results : props.ungrouped
+const shownNonMembers = computed(() =>
+  search.text.length > 0 ? search.results : props.nonMembers
 )
 
-function everybodyGrouped() {
-  return props.ungrouped.length === 0
+function everybodyMembers() {
+  return props.nonMembers.length === 0
 }
 
 interface Search {
@@ -66,14 +66,14 @@ function resetSearch() {
 function onSearchKeydown() {
   clearTimeout(search.timeout)
 
-  search.timeout = window.setTimeout(searchUngrouped, 500)
+  search.timeout = window.setTimeout(searchNonMembers, 500)
 }
 
-async function searchUngrouped() {
+async function searchNonMembers() {
   axios
-    .get(`/search/ungrouped/${props.group.id}?name=${search.text}`)
+    .get(`/search/nonmembers/${props.group.id}?name=${search.text}`)
     .then((response) => {
-      search.results = response.data.ungrouped
+      search.results = response.data.nonmembers
     })
 }
 
@@ -82,11 +82,11 @@ function searchResultsEmpty() {
 }
 
 const emit = defineEmits<{
-  (e: 'addPerson', person: Person): void
+  (e: 'addMember', person: Person): void
 }>()
 
-function onAddPerson(person: Person) {
-  emit('addPerson', person)
+function onAddMember(person: Person) {
+  emit('addMember', person)
 
   removeSearchResult(person)
 }

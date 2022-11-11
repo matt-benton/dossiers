@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddPersonToGroupRequest;
+use App\Http\Requests\AddMemberToGroupRequest;
 use App\Http\Requests\SaveGroupRequest;
 use App\Models\Group;
 use Auth;
@@ -59,7 +59,7 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         $group->load([
-            'people' => function ($query) {
+            'members' => function ($query) {
                 $query->orderBy('name');
             },
         ]);
@@ -75,7 +75,7 @@ class GroupController extends Controller
         ->get();
 
         // get threads for people in this group
-        $personThreads = $group->people()->with(['threads' => function ($query) {
+        $memberThreads = $group->members()->with(['threads' => function ($query) {
             $query->select(
                 'threads.id',
                 'threads.created_at',
@@ -89,7 +89,7 @@ class GroupController extends Controller
             return $interest->threads;
         });
 
-        $combinedThreads = $groupThreads->concat($personThreads)->sortByDesc('last_development_at')->unique('id');
+        $combinedThreads = $groupThreads->concat($memberThreads)->sortByDesc('last_development_at')->unique('id');
         $threads = $combinedThreads->values()->all();
 
         return inertia('Groups/ShowGroup', [
@@ -106,17 +106,17 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        $group->load(['people' => function ($query) {
+        $group->load(['members' => function ($query) {
             $query->orderBy('name');
         }]);
 
-        $groupedPeopleIds = $group->people->pluck('id');
+        $groupedPeopleIds = $group->members->pluck('id');
 
-        $ungrouped = Auth::user()->people()->whereNotIn('id', $groupedPeopleIds)->orderBy('name')->get();
+        $nonMembers = Auth::user()->people()->whereNotIn('id', $groupedPeopleIds)->orderBy('name')->get();
 
         return inertia('Groups/EditGroup', [
             'group' => $group,
-            'ungrouped' => $ungrouped,
+            'nonMembers' => $nonMembers,
         ]);
     }
 
@@ -149,28 +149,28 @@ class GroupController extends Controller
     }
 
       /**
-       * Add a person to the group
+       * Add a member to the group
        */
-      public function addPerson(AddPersonToGroupRequest $request, Group $group)
+      public function addMember(AddMemberToGroupRequest $request, Group $group)
       {
-          $person = Auth::user()->people()->where('id', $request->safe()->personId)->first();
+          $member = Auth::user()->people()->where('id', $request->safe()->personId)->first();
 
           $role = $request->safe()->role;
 
-          $group->people()->attach($person->id, ['role' => $role]);
+          $group->members()->attach($member->id, ['role' => $role]);
 
-          return back()->with('message', "{$person->name} added to {$group->name}");
+          return back()->with('message', "{$member->name} added to {$group->name}");
       }
 
       /**
-       * Remove a person from the group
+       * Remove a member from the group
        */
-      public function removePerson(Request $request, Group $group)
+      public function removeMember(Request $request, Group $group)
       {
-          $person = Auth::user()->people()->where('id', $request->personId)->first();
+          $member = Auth::user()->people()->where('id', $request->personId)->first();
 
-          $group->people()->detach($person->id);
+          $group->members()->detach($member->id);
 
-          return redirect()->back()->with('message', "{$person->name} removed from {$group->name}");
+          return redirect()->back()->with('message', "{$member->name} removed from {$group->name}");
       }
 }

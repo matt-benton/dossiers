@@ -74,6 +74,27 @@
             />
             <label for="groups-checkbox">Groups</label>
           </div>
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="grouped-checkbox"
+              v-model="toggles.groupMembers"
+              :true-value="true"
+              :false-value="false"
+            />
+            <label for="grouped-checkbox">Group Members</label>
+          </div>
+        </div>
+        <h5>Groups</h5>
+        <div class="card" v-if="person.groups.length === 0">
+          {{ person.name }} is not in a group.
+        </div>
+        <div class="card" v-else>
+          <ul class="groups-list">
+            <li v-for="group in person.groups" :key="group.id">
+              {{ group.name }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -145,6 +166,7 @@ const toggles = reactive({
   personal: true,
   interests: true,
   groups: true,
+  groupMembers: true,
 })
 
 const selectDevelopmentForDelete = function (development: Development) {
@@ -183,6 +205,10 @@ const showThread = function (thread: Thread, person: Person) {
     has.push(hasPerson(thread, person))
   }
 
+  if (toggles.groupMembers) {
+    has.push(hasGroupMembers(thread))
+  }
+
   // we want to show the thread if any elements in the array are true
   return has.some((val) => val)
 }
@@ -199,6 +225,18 @@ const hasPerson = function (thread: Thread, person: Person) {
 
 function hasGroups(thread: Thread) {
   return thread.groups.length > 0
+}
+
+/**
+ * Return true if thread contains person who is in a group
+ * with the subject person of this page
+ */
+function hasGroupMembers(thread: Thread) {
+  const allOtherGroupMembers = props.person.groups
+    .flatMap((group) => group.members)
+    .filter((member) => member.id !== props.person.id)
+
+  return allOtherGroupMembers.some((member) => hasPerson(thread, member))
 }
 </script>
 
@@ -232,5 +270,15 @@ function hasGroups(thread: Thread) {
   padding: var(--size-1) var(--size-3);
   border-radius: var(--rounded-md);
   white-space: nowrap;
+}
+
+.groups-list {
+  padding-left: 0;
+  margin: 0;
+}
+
+.groups-list li {
+  list-style-type: none;
+  margin-bottom: var(--size-1);
 }
 </style>

@@ -9,7 +9,7 @@ class Group extends Model
 {
     use HasFactory;
 
-    public function people()
+    public function members()
     {
         return $this->belongsToMany(Person::class)->withPivot('role');
     }

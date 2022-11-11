@@ -83,9 +83,14 @@ class PersonController extends Controller
     public function show(Person $person)
     {
         // get the person's interests
-        $person->load(['interests' => function ($query) {
+        $person->load([
+          'interests' => function ($query) {
             $query->orderBy('name');
-        }]);
+          },
+          'groups' => function ($query) {
+            $query->with('members')->orderBy('name');
+          }
+        ]);
 
         // get threads about this person
         $personThreads = $person->threads()->select(
@@ -112,8 +117,28 @@ class PersonController extends Controller
               return $interest->threads;
           });
 
+        $groups = $person->groups()->with(['threads' => function ($query) {
+            $query->select(
+                'threads.id',
+                'threads.created_at',
+                'threads.updated_at',
+                DB::raw("(select max(developments.created_at) from developments where developments.thread_id = threads.id) as 'last_development_at'"),
+            );
+            $query->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name']);
+        }, 'members'])
+          ->get();
+
         // get threads for groups this person is in
-        $groupThreads = $person->groups()->with(['threads' => function ($query) {
+        $groupThreads = $groups->flatMap(function ($group) {
+            return $group->threads;
+        });
+
+        // get threads for people who are in the same groups as this person
+        $groupedIds = $groups->flatMap(function ($group) {
+            return $group->members;
+        })->pluck('id');
+
+        $grouped = Person::whereIn('id', $groupedIds)->with(['threads' => function ($query) {
             $query->select(
                 'threads.id',
                 'threads.created_at',
@@ -122,13 +147,20 @@ class PersonController extends Controller
             );
             $query->with(['developments', 'people:id,name', 'interests:id,name', 'groups:id,name']);
         }])
-          ->get()
-          ->flatMap(function ($group) {
-              return $group->threads;
-          });
+          ->get();
+
+        $groupMemberThreads = $grouped->flatMap(function ($person) {
+            return $person->threads;
+        });
 
         // combine threads about the person with threads the person is interested in
-        $combinedThreads = $personThreads->concat($interestThreads)->concat($groupThreads)->sortByDesc('last_development_at')->unique('id');
+        $combinedThreads = $personThreads
+          ->concat($interestThreads)
+          ->concat($groupThreads)
+          ->concat($groupMemberThreads)
+          ->sortByDesc('last_development_at')
+          ->unique('id');
+
         $threads = $combinedThreads->values()->all();
 
         return inertia('People/ShowPerson')->with([

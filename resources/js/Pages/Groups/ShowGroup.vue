@@ -24,13 +24,13 @@
         <div class="card">No events have been added yet.</div>
       </div>
       <div>
-        <h5>In Group</h5>
+        <h5>Members</h5>
         <div class="card">
-          <span v-if="nobodyInGroup()">No one is in this group.</span>
+          <span v-if="noMembers()">No one is in this group.</span>
           <ul v-else>
-            <li v-for="person in group.people">
-              <Link :href="`/people/${person.id}`">{{ person.name }}</Link>
-              <small>{{ person.pivot?.role }}</small>
+            <li v-for="member in group.members">
+              <Link :href="`/people/${member.id}`">{{ member.name }}</Link>
+              <small>{{ member.pivot?.role }}</small>
             </li>
           </ul>
         </div>
@@ -105,8 +105,8 @@ const confirmDelete = function (development: Development | null) {
   resetModal()
 }
 
-function nobodyInGroup() {
-  return props.group.people.length === 0
+function noMembers() {
+  return props.group.members.length === 0
 }
 
 const breadcrumb = reactive([
