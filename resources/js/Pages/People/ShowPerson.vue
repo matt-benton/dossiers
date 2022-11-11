@@ -16,12 +16,6 @@
         <Cake /> {{ person.birthmonth_text }} {{ person.birthday }}
       </p>
     </div>
-    <div class="row" v-if="person.interests && person.interests.length > 0">
-      <h3 class="text-lg">Interests</h3>
-      <ul class="interests-list">
-        <li v-for="int in person.interests">{{ int.name }}</li>
-      </ul>
-    </div>
     <div class="layout-2-col">
       <div class="events-col">
         <h3 class="text-lg">Events</h3>
@@ -88,6 +82,19 @@
             />
             <label for="grouped-checkbox">Group Members</label>
           </div>
+        </div>
+        <h5>Interests</h5>
+        <div class="card" v-if="person.interests?.length === 0">
+          {{ person.name }} has no added interests.
+        </div>
+        <div class="card" v-else>
+          <ul class="groups-list">
+            <li v-for="interest in person.interests" :key="interest.id">
+              <Link :href="`/interests/${interest.id}`">{{
+                interest.name
+              }}</Link>
+            </li>
+          </ul>
         </div>
         <h5>Groups</h5>
         <div class="card" v-if="person.groups.length === 0">
