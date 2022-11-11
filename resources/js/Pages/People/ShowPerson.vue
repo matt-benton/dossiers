@@ -96,7 +96,7 @@
         <div class="card" v-else>
           <ul class="groups-list">
             <li v-for="group in person.groups" :key="group.id">
-              {{ group.name }}
+              <Link :href="`/groups/${group.id}`">{{ group.name }}</Link>
             </li>
           </ul>
         </div>
