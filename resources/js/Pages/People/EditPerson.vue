@@ -2,9 +2,10 @@
   <Head title="Update Person" />
   <Authenticated>
     <Breadcrumb :links="breadCrumbLinks" />
-    <div class="center-container-xs">
-      <div class="card">
-        <form @submit.prevent="submitEditForm">
+    <form @submit.prevent="submitEditForm">
+      <div class="grid-layout">
+        <div class="card">
+          <h3 class="card-heading">Profile</h3>
           <div class="form-group">
             <label for="name">Name</label>
             <input
@@ -31,61 +32,71 @@
               editForm.errors.relationship
             }}</span>
           </div>
-          <div class="col-2">
-            <div class="form-group">
-              <label for="birthmonth">Birth Month</label>
-              <select
-                v-model="editForm.birthmonth"
-                id="birthmonth"
-                :class="{ 'border-danger': editForm.errors.birthmonth }"
-              >
-                <option></option>
-                <option v-for="(month, index) in months" :value="index + 1">
-                  {{ month }}
-                </option>
-              </select>
-              <span v-if="editForm.errors.birthmonth" class="text-danger">{{
-                editForm.errors.birthmonth
-              }}</span>
-            </div>
-            <div class="form-group">
-              <label for="birthday">Birth Day</label>
-              <select
-                v-model="editForm.birthday"
-                id="birthday"
-                :class="{ 'border-danger': editForm.errors.birthday }"
-              >
-                <option></option>
-                <option v-for="n in 31">{{ n }}</option>
-              </select>
-              <span v-if="editForm.errors.birthday" class="text-danger">{{
-                editForm.errors.birthday
-              }}</span>
-            </div>
+          <div class="form-group">
+            <label for="birthmonth">Birth Month</label>
+            <select
+              v-model="editForm.birthmonth"
+              id="birthmonth"
+              :class="{ 'border-danger': editForm.errors.birthmonth }"
+            >
+              <option></option>
+              <option v-for="(month, index) in months" :value="index + 1">
+                {{ month }}
+              </option>
+            </select>
+            <span v-if="editForm.errors.birthmonth" class="text-danger">{{
+              editForm.errors.birthmonth
+            }}</span>
           </div>
-          <div class="btn-row flex justify-end">
-            <button class="btn-primary">Save</button>
-            <button type="button" @click="deleteModalVisible = true">
-              Delete
-            </button>
+          <div class="form-group">
+            <label for="birthday">Birth Day</label>
+            <select
+              v-model="editForm.birthday"
+              id="birthday"
+              :class="{ 'border-danger': editForm.errors.birthday }"
+            >
+              <option></option>
+              <option v-for="n in 31">{{ n }}</option>
+            </select>
+            <span v-if="editForm.errors.birthday" class="text-danger">{{
+              editForm.errors.birthday
+            }}</span>
           </div>
-        </form>
-      </div>
-      <br />
-      <div class="card">
-        <h3 class="interests-header">Interests</h3>
-        <div v-for="int in interests" class="checkbox-group">
-          <input
-            type="checkbox"
-            :value="int.id"
-            name="interests"
-            :id="`interest-${int.id}`"
-            v-model="editForm.interest_ids"
-          />
-          <label :for="`interest-${int.id}`">{{ int.name }}</label>
+        </div>
+        <div class="card">
+          <h3 class="card-heading">Interests</h3>
+          <div v-for="int in interests" class="checkbox-group">
+            <input
+              type="checkbox"
+              :value="int.id"
+              name="interests"
+              :id="`interest-${int.id}`"
+              v-model="editForm.interest_ids"
+            />
+            <label :for="`interest-${int.id}`">{{ int.name }}</label>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-heading">Groups</h3>
+          <div v-for="group in groups" class="checkbox-group">
+            <input
+              type="checkbox"
+              :value="group.id"
+              name="groups"
+              :id="`group-${group.id}`"
+              v-model="editForm.group_ids"
+            />
+            <label :for="`group-${group.id}`">{{ group.name }}</label>
+          </div>
+        </div>
+        <div class="btn-row flex justify-end">
+          <button class="btn-primary">Save</button>
+          <button type="button" @click="deleteModalVisible = true">
+            Delete
+          </button>
         </div>
       </div>
-    </div>
+    </form>
     <Modal
       :visible="deleteModalVisible"
       v-on:modal-closed="deleteModalVisible = false"
@@ -111,10 +122,12 @@ import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Modal from '../../Components/Modal.vue'
 import Person from '../../Types/Person'
 import Interest from '../../Types/Interest'
+import Group from '../../Types/Group'
 
 let props = defineProps<{
   person: Person
   interests: Interest[]
+  groups: Group[]
 }>()
 
 const editForm = useForm({
@@ -123,6 +136,7 @@ const editForm = useForm({
   birthmonth: props.person.birthmonth,
   birthday: props.person.birthday,
   interest_ids: props.person.interests?.map((int) => int.id),
+  group_ids: props.person.groups?.map((group) => group.id),
 })
 
 const deleteForm = useForm({})
@@ -169,8 +183,18 @@ function confirmDelete() {
 </script>
 
 <style scoped>
-.interests-header {
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--size-6);
+}
+
+.card-heading {
   font-size: var(--text-lg);
   margin-bottom: var(--size-3);
+}
+
+.btn-row {
+  grid-column: span 3;
 }
 </style>
