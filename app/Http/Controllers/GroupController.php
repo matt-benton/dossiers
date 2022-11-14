@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddMemberToGroupRequest;
+use App\Http\Requests\GroupMemberRequest;
 use App\Http\Requests\SaveGroupRequest;
 use App\Models\Group;
+use App\Models\Person;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use Redirect;
 
 class GroupController extends Controller
@@ -151,7 +151,7 @@ class GroupController extends Controller
       /**
        * Add a member to the group
        */
-      public function addMember(AddMemberToGroupRequest $request, Group $group)
+      public function addMember(GroupMemberRequest $request, Group $group)
       {
           $member = Auth::user()->people()->where('id', $request->safe()->personId)->first();
 
@@ -165,12 +165,25 @@ class GroupController extends Controller
       /**
        * Remove a member from the group
        */
-      public function removeMember(Request $request, Group $group)
+      public function removeMember(GroupMemberRequest $request, Group $group)
       {
           $member = Auth::user()->people()->where('id', $request->personId)->first();
 
           $group->members()->detach($member->id);
 
           return redirect()->back()->with('message', "{$member->name} removed from {$group->name}");
+      }
+
+      /**
+       * Change member role
+       */
+      public function updateRole(GroupMemberRequest $request, Group $group)
+      {
+          $role = $request->safe()->role;
+          $member = Person::findOrFail($request->safe()->personId);
+
+          $group->members()->updateExistingPivot($member->id, ['role' => $role]);
+
+          return redirect()->back()->with('message', "{$member->name}'s role changed to {$role}");
       }
 }

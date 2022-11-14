@@ -3,9 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Person;
 
-class AddMemberToGroupRequest extends FormRequest
+class GroupMemberRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return $this->user()->can('update', Person::find($this->personId));
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

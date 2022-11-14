@@ -38,9 +38,14 @@
             <br />
             <small>{{ member.pivot?.role }}</small>
           </div>
-          <button type="button" @click="showRemoveMemberModal(member)">
-            Remove
-          </button>
+          <div class="btn-row">
+            <button type="button" @click="showChangeRoleModal(member)">
+              Change Role
+            </button>
+            <button type="button" @click="showRemoveMemberModal(member)">
+              Remove
+            </button>
+          </div>
         </li>
       </ul>
       <br />
@@ -100,6 +105,33 @@
         Cancel
       </button>
     </div>
+  </Modal>
+  <Modal
+    :visible="changeRoleModal.visible"
+    @modal-closed="changeRoleModal.visible = false"
+  >
+    <form @submit.prevent="confirmChangeRole(changeRoleModal.selectedPerson)">
+      <p>
+        Change role for {{ changeRoleModal.selectedPerson?.name }} in
+        {{ group.name }}?
+      </p>
+      <label for="change-role">Role</label>
+      <div class="btn-row">
+        <input
+          type="text"
+          name="change-role"
+          id="change-role"
+          v-model="changeRoleForm.role"
+        />
+        <span v-if="changeRoleForm.errors.role" class="text-danger">{{
+          changeRoleForm.errors.role
+        }}</span>
+        <button class="btn-primary">Confirm Role Change</button>
+        <button type="button" @click="changeRoleModal.visible = false">
+          Cancel
+        </button>
+      </div>
+    </form>
   </Modal>
 </template>
 
@@ -194,6 +226,40 @@ function confirmRemoveMember(person: Person | null) {
       preserveScroll: true,
       onSuccess: () => {
         removePersonModal.visible = false
+      },
+    })
+  }
+}
+
+const changeRoleForm = useForm({
+  personId: 0,
+  role: '',
+})
+
+interface ChangeRoleModal {
+  visible: boolean
+  selectedPerson: Person | null
+}
+
+const changeRoleModal: ChangeRoleModal = reactive({
+  visible: false,
+  selectedPerson: null,
+})
+
+function showChangeRoleModal(person: Person) {
+  changeRoleModal.visible = true
+  changeRoleModal.selectedPerson = person
+  changeRoleForm.role = person.pivot?.role || ''
+}
+
+function confirmChangeRole(person: Person | null) {
+  if (person) {
+    changeRoleForm.personId = person.id
+
+    changeRoleForm.post(`/groups/${props.group.id}/update_role`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        changeRoleModal.visible = false
       },
     })
   }
