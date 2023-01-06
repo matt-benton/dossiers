@@ -8,7 +8,7 @@
 
         <!-- Scripts -->
         @routes
-        @vite(['resources/css/app.css', 'resources/js/app.ts'])
+        @vite(['resources/js/app.ts'])
     </head>
     <body class="light">
         @inertia
