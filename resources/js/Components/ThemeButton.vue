@@ -2,7 +2,7 @@
   <button type="button" class="btn-icon-text no-border" @click="changeTheme">
     <Sun v-if="theme === 'light'" />
     <Moon v-else-if="theme === 'dark'" />
-    <span v-else>OS</span> Theme
+    <Computer v-else /> Theme
   </button>
 </template>
 
@@ -10,6 +10,7 @@
 import { ref, onBeforeMount, watch } from 'vue'
 import Sun from './Icons/Sun.vue'
 import Moon from './Icons/Moon.vue'
+import Computer from './Icons/Computer.vue'
 
 let theme = ref('')
 
