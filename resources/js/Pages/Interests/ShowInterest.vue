@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { reactive, defineProps } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Pencil from '../../Components/Icons/Pencil.vue'

@@ -69,7 +69,7 @@
 
 <script setup lang="ts">
 import Layout from '../../Layouts/Guest.vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
   email: '',

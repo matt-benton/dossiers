@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { reactive } from 'vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Authenticated from '../../Layouts/Authenticated.vue'

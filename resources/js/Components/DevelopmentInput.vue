@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import axios from 'axios'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { reactive, ref, onMounted } from 'vue'
 import PersonIcon from './Icons/Person.vue'
 import GroupIcon from './Icons/Group.vue'

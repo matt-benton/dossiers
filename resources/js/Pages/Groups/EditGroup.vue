@@ -137,7 +137,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Group from '../../Types/Group'

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage } from '@inertiajs/vue3'
 import Alert from './Alert.vue'
 
 let alertVisible = ref(false)
@@ -23,11 +23,11 @@ const message = computed<string>(() => {
    * and cast in order to not throw an error.
    */
   if (
-    usePage().props.value.flash &&
-    typeof usePage().props.value.flash === 'object' &&
-    Object.hasOwnProperty.call(usePage().props.value.flash, 'message')
+    usePage().props.flash &&
+    typeof usePage().props.flash === 'object' &&
+    Object.hasOwnProperty.call(usePage().props.flash, 'message')
   ) {
-    return (usePage().props.value.flash as { message: string }).message
+    return (usePage().props.flash as { message: string }).message
   }
 
   return ''

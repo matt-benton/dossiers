@@ -140,7 +140,7 @@ import { reactive, ref } from 'vue'
 import TheNavbar from '../Components/TheNavbar.vue'
 import Breadcrumb from '../Components/Breadcrumb.vue'
 import Modal from '../Components/Modal.vue'
-import { Head } from '@inertiajs/inertia-vue3'
+import { Head } from '@inertiajs/vue3'
 
 let breadcrumbLinks = reactive([
   {
