@@ -125,4 +125,10 @@ li {
 .dropdown-menu li a {
   white-space: nowrap;
 }
+
+@media (max-width: 640px) {
+  .navbar-menu {
+    display: none;
+  }
+}
 </style>

@@ -93,6 +93,8 @@ function hasBirthday(person: Person) {
   display: flex;
   justify-content: space-between;
   margin: var(--size-4) 0 var(--size-2) 0;
+  flex-wrap: wrap;
+  gap: var(--size-1);
 }
 
 .menu-row-left {
@@ -128,5 +130,11 @@ li svg {
 .birthday-text {
   display: inline-flex;
   align-items: center;
+}
+
+@media (max-width: 640px) {
+  #search {
+    width: 100%;
+  }
 }
 </style>

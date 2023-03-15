@@ -29,6 +29,8 @@
   --fontBody: 'Roboto Mono', monospace;
   --fontHeader: 'Space Mono', monospace;
 
+  --baseFontSize: 100%;
+
   --text-4xl: 5.653rem;
   --text-3xl: 3.998rem;
   --text-2xl: 2.827rem;
@@ -37,21 +39,21 @@
   --text-base: 1rem;
   --text-sm: 0.707rem;
 
-  --size-px: 1px;
-  --size-1: 4px;
-  --size-2: 8px;
-  --size-3: 12px;
-  --size-4: 16px;
-  --size-5: 20px;
-  --size-6: 24px;
-  --size-7: 28px;
-  --size-8: 32px;
-  --size-9: 36px;
-  --size-10: 40px;
-  --size-11: 44px;
-  --size-12: 48px;
-  --size-14: 56px;
-  --size-16: 64px;
+  --size-px: .063rem;
+  --size-1: .25rem;
+  --size-2: .5rem;
+  --size-3: .75rem;
+  --size-4: 1rem;
+  --size-5: 1.25rem;
+  --size-6: 1.5rem;
+  --size-7: 1.75rem;
+  --size-8: 2rem;
+  --size-9: 2.25rem;
+  --size-10: 2.5rem;
+  --size-11: 2.75rem;
+  --size-12: 3rem;
+  --size-14: 3.5rem;
+  --size-16: 4rem;
 
   /* BORDER RADIUS */
   --rounded-none: 0;
@@ -137,7 +139,7 @@ select {
 
 /* TEXT */
 html {
-  font-size: 100%;
+  font-size: var(--baseFontSize);
 }
 
 h1, h2, h3, h4, h5 {
@@ -188,6 +190,7 @@ a:hover {
 .container {
   max-width: 1000px;
   margin: 0 auto;
+  padding: 0 var(--size-2);
 }
 
 .row {
@@ -286,4 +289,19 @@ button, .btn {
 svg {
   height: var(--size-4);
   width: var(--size-4);
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 640px) {
+  html {
+      font-size: 85%;
+  }
+
+  .container {
+      max-width: 600px;
+  }
+
+  .center-container-sm {
+      width: 100%;
+  }
 }
