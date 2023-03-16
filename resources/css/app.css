@@ -137,6 +137,14 @@ select {
   color: var(--textColor);
 }
 
+/* 
+ * Keep input font size at 16px
+ * to prevent zoom on iOS 
+ */
+input, textarea {
+    font-size: 16px;
+}
+
 /* TEXT */
 html {
   font-size: var(--baseFontSize);
