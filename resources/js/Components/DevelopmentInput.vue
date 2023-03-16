@@ -292,7 +292,7 @@ const getDeletedText = function (
 }
 
 function onSearchResultClick() {
-  if (search.highlightedResultIndex) {
+  if (search.highlightedResultIndex !== null && search.highlightedResultIndex >= 0) {
     selectResult(search.results[search.highlightedResultIndex])
   }
 }
