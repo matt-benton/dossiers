@@ -9,10 +9,8 @@
         aria-label="Dialog"
       >
         <div class="modal">
-          <div class="center-container-sm">
-            <div class="card">
-              <slot></slot>
-            </div>
+          <div class="card">
+            <slot></slot>
           </div>
         </div>
       </div>
@@ -51,6 +49,9 @@ const emit = defineEmits(['modal-closed'])
   top: 50%;
   left: 50%;
   transform: translate(-50%, -70%);
+  width: 100%;
+  max-width: 550px;
+  padding: 0 var(--size-5);
 }
 
 .v-enter-active,
