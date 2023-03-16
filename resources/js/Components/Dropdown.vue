@@ -33,7 +33,7 @@ defineEmits(['dropdown-close'])
 .dropdown {
   position: absolute;
   top: var(--size-8);
-  z-index: 9999;
+  z-index: 9998;
 }
 
 .right {
