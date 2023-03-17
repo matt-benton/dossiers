@@ -3,22 +3,13 @@
   <Authenticated>
     <div class="center-container-sm">
       <h2 class="text-xl">People</h2>
-      <div class="menu-row">
-        <div class="menu-row-left">
-          <label for="search">Search</label>
-          <input
-            type="text"
-            v-model="search.text"
-            id="search"
-            @keydown="onSearchKeydown"
-            placeholder="Name or Relationship"
-          />
-          <button type="button" @click="resetSearch">Reset</button>
-        </div>
-        <div class="menu-row-right">
-          <Link href="/people/create">Add Person</Link>
-        </div>
-      </div>
+      <SearchMenuRow 
+        :search-text="search.text" 
+        :link="{ text: 'Add Person', url: '/people/create' }"
+        @update:search-text="onSearchKeydown"
+        @reset-search="resetSearch"
+        placeholder="Name or Relationship"
+      />
       <ul class="resource-list">
         <li v-for="person in displayedPeople" :key="person.id">
           <p>
@@ -42,6 +33,7 @@ import Cake from '../../Components/Icons/Cake.vue'
 import Person from '../../Types/Person'
 import { reactive, computed } from 'vue'
 import axios from 'axios'
+import SearchMenuRow from '../../Components/SearchMenuRow.vue'
 
 const displayedPeople = computed(() =>
   search.results.length > 0 ? search.results : props.people
@@ -59,7 +51,9 @@ let search: Search = reactive({
   timeout: 0,
 })
 
-function onSearchKeydown() {
+function onSearchKeydown(searchText: string) {
+  search.text = searchText
+
   clearTimeout(search.timeout)
 
   search.timeout = window.setTimeout(getPeople, 500)
@@ -89,28 +83,6 @@ function hasBirthday(person: Person) {
 </script>
 
 <style scoped>
-.menu-row {
-  display: flex;
-  justify-content: space-between;
-  margin: var(--size-4) 0 var(--size-2) 0;
-  flex-wrap: wrap;
-  gap: var(--size-1);
-}
-
-.menu-row-left {
-  display: flex;
-  align-items: center;
-  gap: var(--size-2);
-}
-
-.menu-row-right {
-  display: flex;
-  align-items: flex-end;
-}
-
-#search {
-  width: 250px;
-}
 
 li p {
   margin-bottom: var(--size-1);
@@ -132,9 +104,4 @@ li svg {
   align-items: center;
 }
 
-@media (max-width: 640px) {
-  #search {
-    width: 100%;
-  }
-}
 </style>

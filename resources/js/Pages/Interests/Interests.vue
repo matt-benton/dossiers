@@ -3,22 +3,13 @@
   <Authenticated>
     <div class="center-container-sm">
       <h2 class="text-xl">Interests</h2>
-      <div class="menu-row">
-        <div class="menu-row-left">
-          <label for="search">Search</label>
-          <input
-            type="text"
-            v-model="search.text"
-            id="search"
-            @keydown="onSearchKeydown"
-            placeholder="Search Interests"
-          />
-          <button type="button" @click="resetSearch">Reset</button>
-        </div>
-        <div class="menu-row-right">
-          <Link href="/interests/create">Add Interest</Link>
-        </div>
-      </div>
+      <SearchMenuRow
+        :search-text="search.text"
+        :link="{ text: 'Add Interest', url: '/interests/create' }"
+        @update:search-text="onSearchKeydown"
+        @reset-search="resetSearch"
+        placeholder="Search Interests"
+      />
       <ul class="resource-list">
         <li v-for="interest in displayedInterests" :key="interest.id">
           <Link :href="`/interests/${interest.id}`">{{ interest.name }}</Link>
@@ -33,6 +24,7 @@ import Authenticated from '../../Layouts/Authenticated.vue'
 import { reactive, computed } from 'vue'
 import axios from 'axios'
 import Interest from '../../Types/Interest'
+import SearchMenuRow from '../../Components/SearchMenuRow.vue';
 
 const displayedInterests = computed(() =>
   search.results.length > 0 ? search.results : props.interests
@@ -74,35 +66,10 @@ const props = defineProps<{
 </script>
 
 <style scoped>
-.menu-row {
-  display: flex;
-  justify-content: space-between;
-  margin: var(--size-4) 0 var(--size-2) 0;
-}
-
-.menu-row-left {
-  display: flex;
-  align-items: center;
-  gap: var(--size-2);
-}
-
-.menu-row-right {
-  display: flex;
-  align-items: flex-end;
-}
-
-#search {
-  width: 250px;
-}
 
 li svg {
   margin-right: var(--size-2);
   height: var(--text-sm);
   width: var(--text-sm);
-}
-
-.birthday-text {
-  display: inline-flex;
-  align-items: center;
 }
 </style>
