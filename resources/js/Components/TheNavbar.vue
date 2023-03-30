@@ -39,7 +39,8 @@
         </ul>
       </div>
     </div>
-    <MenuIcon class="mobile-menu-button"/>
+    <MenuIcon class="mobile-menu-button" @click="mobileMenuVisible = true"/>
+    <MobileMenu :visible="mobileMenuVisible" @menu-closed="mobileMenuVisible = false"/>
   </nav>
 </template>
 <script setup lang="ts">
@@ -49,8 +50,10 @@ import { ref } from 'vue'
 import type User from '../types/User'
 import Dropdown from './Dropdown.vue'
 import MenuIcon from './Icons/Menu.vue'
+import MobileMenu from './MobileMenu.vue'
 
 let accountDropDownVisible = ref(false)
+let mobileMenuVisible = ref(false)
 
 function hideAccountDropDown(event: Event) {
   const target = event.target as Element
