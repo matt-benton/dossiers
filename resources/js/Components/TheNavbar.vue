@@ -39,6 +39,7 @@
         </ul>
       </div>
     </div>
+    <MenuIcon class="mobile-menu-button"/>
   </nav>
 </template>
 <script setup lang="ts">
@@ -47,6 +48,7 @@ import ThemeButton from './ThemeButton.vue'
 import { ref } from 'vue'
 import type User from '../types/User'
 import Dropdown from './Dropdown.vue'
+import MenuIcon from './Icons/Menu.vue'
 
 let accountDropDownVisible = ref(false)
 
@@ -65,6 +67,8 @@ defineProps<{
 <style scoped>
 nav {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: var(--size-3) var(--size-5);
 }
 
@@ -126,9 +130,19 @@ li {
   white-space: nowrap;
 }
 
+.mobile-menu-button {
+    display: none;
+    height: var(--size-6);
+    width: var(--size-6);
+}
+
 @media (max-width: 640px) {
   .navbar-menu {
     display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
   }
 }
 </style>
