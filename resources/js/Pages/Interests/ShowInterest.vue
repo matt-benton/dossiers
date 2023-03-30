@@ -5,28 +5,34 @@
       <Breadcrumb :links="breadcrumb" />
     </div>
     <div class="show-page-header">
-      <h2>{{ interest.name }}</h2>
-      <Link :href="`/interests/${interest.id}/edit`" class="icon-text-link"
-        ><Pencil /> Edit</Link
-      >
+      <h2>
+        {{ interest.name }}
+        <small>
+          <Link :href="`/interests/${interest.id}/edit`" class="icon-text-link"
+            ><Pencil /> Edit</Link
+          >
+        </small>
+      </h2>
     </div>
     <div class="layout-2-col">
-      <div
-        v-if="interest.threads && interest.threads.length > 0"
-        id="threads-list"
-      >
-        <h3 class="text-lg">Events</h3>
-        <ThreadList
-          v-for="thread in interest.threads"
-          :thread="thread"
-          :removable-developments="true"
-          @development-removed="selectDevelopmentForDelete"
-          :key="thread.id"
-        />
-      </div>
-      <div v-else>
-        <h3 class="text-lg">Events</h3>
-        <div class="card">No events have been added yet.</div>
+      <div id="threads-container">
+          <div
+            v-if="interest.threads && interest.threads.length > 0"
+            id="threads-list"
+          >
+            <h3 class="text-lg">Events</h3>
+            <ThreadList
+              v-for="thread in interest.threads"
+              :thread="thread"
+              :removable-developments="true"
+              @development-removed="selectDevelopmentForDelete"
+              :key="thread.id"
+            />
+          </div>
+          <div v-else>
+            <h3 class="text-lg">Events</h3>
+            <div class="card">No events have been added yet.</div>
+          </div>
       </div>
       <div>
         <h5>Interested</h5>
@@ -141,5 +147,15 @@ ul {
 li {
   list-style-type: none;
   margin-bottom: var(--size-1);
+}
+
+@media (max-width: 640px) {
+    .layout-2-col {
+        grid-template-columns: 100%;
+    }
+
+    #threads-container {
+        order: 2;
+    }
 }
 </style>

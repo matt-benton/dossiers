@@ -162,6 +162,8 @@ h5, .text-lg { font-size: var(--text-lg); }
 .text-base { font-size: var(--text-base); }
 small, .text-sm { font-size: var(--text-sm); }
 
+h2 small { font-size: var(--text-base); }
+
 p {
   margin-bottom: var(--size-4);
 }
@@ -185,7 +187,7 @@ a:hover {
 }
 
 .icon-text-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--size-1);
 }
@@ -312,4 +314,6 @@ svg {
   .center-container-sm {
       width: 100%;
   }
+
+  h2 { font-size: var(--text-2xl); }
 }
