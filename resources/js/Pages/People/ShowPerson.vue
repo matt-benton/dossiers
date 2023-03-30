@@ -40,49 +40,7 @@
         </div>
       </div>
       <div>
-        <h5>Toggle</h5>
-        <div class="card">
-          <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="interests-checkbox"
-              v-model="toggles.interests"
-              :true-value="true"
-              :false-value="false"
-            />
-            <label for="interests-checkbox">Interests</label>
-          </div>
-          <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="personal-checkbox"
-              v-model="toggles.personal"
-              :true-value="true"
-              :false-value="false"
-            />
-            <label for="personal-checkbox">Personal</label>
-          </div>
-          <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="groups-checkbox"
-              v-model="toggles.groups"
-              :true-value="true"
-              :false-value="false"
-            />
-            <label for="groups-checkbox">Groups</label>
-          </div>
-          <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="grouped-checkbox"
-              v-model="toggles.groupMembers"
-              :true-value="true"
-              :false-value="false"
-            />
-            <label for="grouped-checkbox">Group Members</label>
-          </div>
-        </div>
+        <TogglesMenu :toggles="toggles" />
         <h5>Interests</h5>
         <div class="card" v-if="person.interests?.length === 0">
           {{ person.name }} has no added interests.
@@ -143,6 +101,7 @@ import Development from '../../Types/Development'
 import Thread from '../../Types/Thread'
 import ThreadList from '../../Components/ThreadList.vue'
 import DevelopmentInput from '../../Components/DevelopmentInput.vue'
+import TogglesMenu from '../../Components/TogglesMenu.vue'
 
 let props = defineProps<{
   person: Person
@@ -291,5 +250,15 @@ function hasGroupMembers(thread: Thread) {
 .groups-list li {
   list-style-type: none;
   margin-bottom: var(--size-1);
+}
+
+@media (max-width: 640px) {
+  .layout-2-col {
+    grid-template-columns: 100%;
+  }
+
+  .events-col {
+    order: 2;
+  }
 }
 </style>
