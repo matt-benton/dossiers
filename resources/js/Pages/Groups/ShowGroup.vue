@@ -6,26 +6,32 @@
     </div>
     <div class="row">
       <div class="show-page-header">
-        <h2>{{ group.name }}</h2>
-        <Link :href="`/groups/${group.id}/edit`" class="icon-text-link"
-          ><Pencil /> Edit</Link
-        >
+        <h2>
+          {{ group.name }}
+          <small>
+            <Link :href="`/groups/${group.id}/edit`" class="icon-text-link"
+              ><Pencil /> Edit</Link
+            >
+          </small>
+        </h2>
       </div>
     </div>
     <div class="layout-2-col">
-      <div v-if="threads && threads.length > 0">
-        <h3 class="text-lg">Events</h3>
-        <ThreadList
-          v-for="thread in threads"
-          :thread="thread"
-          :key="thread.id"
-          :removable-developments="true"
-          @development-removed="selectDevelopmentForDelete"
-        />
-      </div>
-      <div v-else>
-        <h3 class="text-lg">Events</h3>
-        <div class="card">No events have been added yet.</div>
+      <div id="threads-container">
+        <div v-if="threads && threads.length > 0">
+          <h3 class="text-lg">Events</h3>
+          <ThreadList
+            v-for="thread in threads"
+            :thread="thread"
+            :key="thread.id"
+            :removable-developments="true"
+            @development-removed="selectDevelopmentForDelete"
+          />
+        </div>
+        <div v-else>
+          <h3 class="text-lg">Events</h3>
+          <div class="card">No events have been added yet.</div>
+        </div>
       </div>
       <div>
         <h5>Members</h5>
@@ -141,5 +147,15 @@ li {
   margin-bottom: var(--size-3);
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 640px) {
+    .layout-2-col {
+        grid-template-columns: 100%;
+    }
+
+    #threads-container {
+        order: 2;
+    }
 }
 </style>
