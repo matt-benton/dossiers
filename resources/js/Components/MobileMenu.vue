@@ -20,7 +20,7 @@
 </template>
 <script setup lang="ts">
 import ThemeButton from './ThemeButton.vue'
-import CloseIcon from './icons/Close.vue'
+import CloseIcon from './Icons/Close.vue'
 
 defineProps<{
     visible: boolean
