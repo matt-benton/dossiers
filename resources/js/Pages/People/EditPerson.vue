@@ -197,4 +197,12 @@ function confirmDelete() {
 .btn-row {
   grid-column: span 3;
 }
+
+@media (max-width: 640px) {
+  .grid-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-3);
+  }
+}
 </style>
