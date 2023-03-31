@@ -55,3 +55,9 @@ defineProps<{
   toggles: Toggles,
 }>()
 </script>
+
+<style scoped>
+label {
+  white-space: nowrap;
+}
+</style>

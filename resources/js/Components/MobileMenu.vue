@@ -4,7 +4,7 @@
             <nav id="mobile-menu" v-if="visible">
                 <div id="top-row">
                   <h2 class="text-lg"><Link href="/">Dossiers</Link></h2>
-                  <CloseIcon @click="onMenuClosed" />
+                  <CloseIcon class="nonresponsive-icon" @click="onMenuClosed" />
                 </div>
                 <ul>
                   <li><Link href="/people">People</Link></li>
@@ -42,11 +42,6 @@ function onMenuClosed() {
     height: 100vh;
     background-color: var(--bgColor);
     padding: var(--size-3) var(--size-5);
-}
-
-svg {
-    width: var(--size-7);
-    height: var(--size-7);
 }
 
 #top-row {

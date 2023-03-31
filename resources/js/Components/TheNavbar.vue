@@ -39,7 +39,7 @@
         </ul>
       </div>
     </div>
-    <MenuIcon class="mobile-menu-button" @click="mobileMenuVisible = true"/>
+    <MenuIcon class="mobile-menu-button nonresponsive-icon" @click="mobileMenuVisible = true"/>
     <MobileMenu :visible="mobileMenuVisible" @menu-closed="mobileMenuVisible = false"/>
   </nav>
 </template>
@@ -135,8 +135,6 @@ li {
 
 .mobile-menu-button {
     display: none;
-    height: var(--size-6);
-    width: var(--size-6);
 }
 
 @media (max-width: 640px) {

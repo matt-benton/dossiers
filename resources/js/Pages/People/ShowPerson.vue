@@ -18,7 +18,22 @@
     </div>
     <div class="layout-2-col">
       <div class="events-col">
-        <h3 class="text-lg">Events</h3>
+        <div class="flex justify-between align-center relative">
+          <h3 class="text-lg">Events</h3>
+          <EllipsesIcon 
+            @click="togglesDropdownVisible = !togglesDropdownVisible"
+            class="nonresponsive-icon"
+          />
+          <Dropdown 
+            :visible="togglesDropdownVisible" 
+            direction="right"
+            @dropdown-close="togglesDropdownVisible = false"
+          >
+            <div class="card">
+              <TogglesMenu :toggles="toggles" />
+            </div>
+          </Dropdown>
+        </div>
         <DevelopmentInput
           unique-id="show-person"
           :label="`What's happening with ${person.name}?`"
@@ -40,7 +55,9 @@
         </div>
       </div>
       <div>
-        <TogglesMenu :toggles="toggles" />
+        <div id="toggles-container">
+          <TogglesMenu :toggles="toggles" />
+        </div>
         <h5>Interests</h5>
         <div class="card" v-if="person.interests?.length === 0">
           {{ person.name }} has no added interests.
@@ -89,12 +106,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, defineProps, computed } from 'vue'
+import { reactive, defineProps, computed, ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import Authenticated from '../../Layouts/Authenticated.vue'
 import Breadcrumb from '../../Components/Breadcrumb.vue'
 import Cake from '../../Components/Icons/Cake.vue'
 import Pencil from '../../Components/Icons/Pencil.vue'
+import EllipsesIcon from '../../Components/Icons/Ellipses.vue'
 import Modal from '../../Components/Modal.vue'
 import Person from '../../Types/Person'
 import Development from '../../Types/Development'
@@ -102,6 +120,7 @@ import Thread from '../../Types/Thread'
 import ThreadList from '../../Components/ThreadList.vue'
 import DevelopmentInput from '../../Components/DevelopmentInput.vue'
 import TogglesMenu from '../../Components/TogglesMenu.vue'
+import Dropdown from '../../Components/Dropdown.vue'
 
 let props = defineProps<{
   person: Person
@@ -138,6 +157,8 @@ const toggles = reactive({
   groups: true,
   groupMembers: true,
 })
+
+let togglesDropdownVisible = ref(false)
 
 const selectDevelopmentForDelete = function (development: Development) {
   modal.visible = true
@@ -259,6 +280,10 @@ function hasGroupMembers(thread: Thread) {
 
   .events-col {
     order: 2;
+  }
+
+  #toggles-container {
+    display: none;
   }
 }
 </style>

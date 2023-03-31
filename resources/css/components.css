@@ -25,3 +25,8 @@
   align-items: baseline;
   gap: var(--size-2);
 }
+
+.nonresponsive-icon {
+  height: var(--size-6);
+  width: var(--size-6);
+}
